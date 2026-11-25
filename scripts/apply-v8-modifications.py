@@ -56,6 +56,30 @@ s = s.replace("x.attachment=await fileToData(fd.get('attachment'));x.amount", "t
 s = s.replace("village:['القرية','المحل','العزلة','village'],phone:", "village:['القرية','المحل','village'],isolation:['العزلة','isolation'],directorate:['المديرية','directorate'],governorate:['المحافظة','governorate'],phone:")
 s = s.replace("!['id','name','village','phone','cardType','cardNumber','membership','status'].includes(field)", "!['id','name','village','isolation','directorate','governorate','phone','cardType','cardNumber','membership','status'].includes(field)")
 s = s.replace("out.cardNumber=String(out.cardNumber??'').trim();out.membership=", "out.cardNumber=String(out.cardNumber??'').trim();out.isolation=String(out.isolation??'').trim();out.directorate=String(out.directorate||'باجل').trim();out.governorate=String(out.governorate||'الحديدة').trim();out.membership=")
+# Mobile-first layout repair: keep login centered and prevent horizontal overflow on phones.
+if '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' not in s:
+    s = s.replace('<meta name="viewport" content="width=device-width,initial-scale=1">', '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">')
+responsive_css = """
+<style id="bajil-mobile-layout-v8">
+html,body{width:100%;max-width:100%;min-width:0;margin:0;overflow-x:hidden}
+*,*::before,*::after{box-sizing:border-box}
+#login{position:fixed!important;inset:0!important;width:100%!important;min-width:0!important;max-width:100%!important;min-height:100vh;min-height:100dvh;display:flex!important;flex-direction:column;align-items:center!important;justify-content:center!important;padding:16px!important;overflow-y:auto!important;overflow-x:hidden!important}
+#login>.loginbox{display:block!important;float:none!important;position:relative!important;inset:auto!important;width:min(100%,440px)!important;max-width:100%!important;min-width:0!important;margin:auto!important;padding:clamp(14px,3.5vw,25px)!important;text-align:center!important}
+#login .brand-logo{width:clamp(82px,20vw,150px)!important;max-height:88px!important;object-fit:contain!important}
+#login .loginbox h2{font-size:clamp(15px,2.4vw,20px)!important;line-height:1.5!important;margin:8px 0!important}
+#login .loginbox p{font-size:clamp(11px,1.8vw,13px)!important;overflow-wrap:anywhere}
+#login .loginbox input,#login .loginbox button{width:100%!important;max-width:100%!important;min-height:44px;font-size:16px!important}
+#app,.wrap,header,.panel,.formbox{min-width:0;max-width:100%}
+.wrap{width:100%;padding-inline:clamp(8px,2vw,18px)}
+img,video,canvas{max-width:100%;height:auto}
+input,select,textarea,button{max-width:100%;min-width:0}
+.tablewrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media(max-width:600px){.grid{grid-template-columns:minmax(0,1fr)!important}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}.tabs{gap:6px}.tabs button,.buttons button{flex:1 1 auto}.panel{padding:10px!important}header{padding:12px 10px!important}header h1{font-size:16px!important}}
+@media(orientation:landscape) and (max-height:520px){#login{justify-content:flex-start!important;padding:8px!important}#login>.loginbox{margin:auto!important;padding:8px 14px!important;width:min(100%,560px)!important}#login .brand-logo{width:64px!important;max-height:46px!important;margin-bottom:2px!important}#login .loginbox h2{font-size:14px!important;margin:2px 0!important}#login .loginbox p{margin:3px 0!important}#login .loginbox .field{margin:5px 0!important}#login .loginbox input,#login .loginbox button{min-height:36px!important;padding:6px 9px!important}}
+</style>
+"""
+if 'id="bajil-mobile-layout-v8"' not in s:
+    s = s.replace("</head>", responsive_css + "\n</head>")
 html.write_text(s, encoding="utf-8")
 
 main = root / "app/src/main/java/ye/org/bajil/association/MainActivity.java"
