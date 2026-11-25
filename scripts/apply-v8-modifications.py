@@ -52,6 +52,7 @@ assert old_submit in s
 s = s.replace(old_submit, new_submit)
 s = s.replace("1400/Math.max(im.width,im.height)", "1200/Math.max(im.width,im.height)")
 s = s.replace("c.toDataURL('image/jpeg',.72)", "c.toDataURL('image/jpeg',.62)")
+s = s.replace("x.attachment=await fileToData(fd.get('attachment'));x.amount", "try{x.attachment=await fileToData(fd.get('attachment'))}catch(err){return alert(err.message)}x.amount")
 s = s.replace("village:['القرية','المحل','العزلة','village'],phone:", "village:['القرية','المحل','village'],isolation:['العزلة','isolation'],directorate:['المديرية','directorate'],governorate:['المحافظة','governorate'],phone:")
 s = s.replace("!['id','name','village','phone','cardType','cardNumber','membership','status'].includes(field)", "!['id','name','village','isolation','directorate','governorate','phone','cardType','cardNumber','membership','status'].includes(field)")
 s = s.replace("out.cardNumber=String(out.cardNumber??'').trim();out.membership=", "out.cardNumber=String(out.cardNumber??'').trim();out.isolation=String(out.isolation??'').trim();out.directorate=String(out.directorate||'باجل').trim();out.governorate=String(out.governorate||'الحديدة').trim();out.membership=")
