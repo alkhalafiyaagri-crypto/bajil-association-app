@@ -145,6 +145,9 @@ jobs:
       - name: Apply v8 farmer, invoice and local-storage updates
         run: python3 scripts/apply-v8-modifications.py
 
+      - name: Repair login initialization and add safe administrator recovery
+        run: python3 scripts/fix-login-recovery.py
+
       - name: Validate bundled JavaScript syntax
         run: python3 scripts/validate-web-assets.py
 
