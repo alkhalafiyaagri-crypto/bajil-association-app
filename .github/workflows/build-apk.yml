@@ -72,6 +72,21 @@ jobs:
           import re
           p=Path("bajil_android_project/app/src/main/assets/index.html")
           s=p.read_text(encoding="utf-8")
+          login_css = """<style id="bajil-login-fit">
+          *{box-sizing:border-box}
+          html,body{min-height:100%;height:auto}
+          body:has(input[type=password]){min-height:100dvh!important;height:auto!important;overflow-y:auto!important;overflow-x:hidden!important;padding:12px 12px max(24px,env(safe-area-inset-bottom))!important;align-items:flex-start!important}
+          body:has(input[type=password]) img{max-width:min(70vw,340px)!important;max-height:clamp(64px,17vh,118px)!important;object-fit:contain!important}
+          body:has(input[type=password]) form:has(input[type=password]){width:min(100%,620px)!important;max-width:620px!important;margin:12px auto!important;padding:clamp(12px,2.2vh,22px)!important;max-height:none!important;overflow:visible!important}
+          body:has(input[type=password]) div:has(> form input[type=password]),body:has(input[type=password]) section:has(input[type=password]),body:has(input[type=password]) main:has(input[type=password]),body:has(input[type=password]) .login-card,body:has(input[type=password]) .login-container,body:has(input[type=password]) .login-box,body:has(input[type=password]) .login-wrapper,body:has(input[type=password]) .auth-card{width:min(100%,760px)!important;max-width:760px!important;max-height:calc(100dvh - 24px)!important;overflow-y:auto!important;margin:0 auto!important;padding:clamp(12px,2.4vh,24px)!important}
+          body:has(input[type=password]) input,body:has(input[type=password]) button{max-width:100%;min-height:46px}
+          body:has(input[type=password]) h1,body:has(input[type=password]) h2{font-size:clamp(20px,3.2vw,30px)!important;line-height:1.35!important;margin:8px auto!important}
+          @media(max-height:520px){body:has(input[type=password]) img{max-height:64px!important}body:has(input[type=password]) form:has(input[type=password]){margin:4px auto!important;padding:8px!important}body:has(input[type=password]) div:has(> form input[type=password]),body:has(input[type=password]) .login-card,body:has(input[type=password]) .login-container,body:has(input[type=password]) .login-box{padding:8px!important}}
+          </style>"""
+          if "</head>" in s:
+              s=s.replace("</head>",login_css+"\\n</head>",1)
+          else:
+              s=login_css+"\\n"+s
           s=s.replace('<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>','<script src="./xlsx.full.min.js"></script>')
           s=s.replace('<script src="https://accounts.google.com/gsi/client" async defer></script>','')
           s=s.replace('function downloadCSV(rows,name){',"""function savePhoneFile(blob,name,mime){
