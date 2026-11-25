@@ -65,6 +65,27 @@ jobs:
           test -f bajil_android_project/app/build.gradle
           test -f bajil_android_project/settings.gradle
 
+      - name: Set application display to landscape
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          p = 'bajil_android_project/app/src/main/AndroidManifest.xml'
+          tree = ET.parse(p)
+          root = tree.getroot()
+          ns = '{http://schemas.android.com/apk/res/android}'
+          changed = False
+          for activity in root.findall('.//activity'):
+              if activity.find('.//intent-filter') is not None:
+                  activity.set(ns + 'screenOrientation', 'landscape')
+                  changed = True
+          if not changed:
+              raise SystemExit('Launcher activity not found in AndroidManifest.xml')
+          ET.register_namespace('android', 'http://schemas.android.com/apk/res/android')
+          tree.write(p, encoding='utf-8', xml_declaration=True)
+          print('Launcher activity forced to landscape orientation')
+          PY
+
       - name: Build installable APK
         working-directory: bajil_android_project
         run: gradle --no-daemon --stacktrace :app:assembleDebug
