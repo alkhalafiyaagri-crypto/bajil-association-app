@@ -1,4 +1,5 @@
 name: Build Android APK
+# Trigger a fresh build after the v8 JavaScript syntax repair.
 
 on:
   workflow_dispatch:
