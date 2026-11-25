@@ -145,6 +145,9 @@ jobs:
       - name: Apply v8 farmer, invoice and local-storage updates
         run: python3 scripts/apply-v8-modifications.py
 
+      - name: Validate bundled JavaScript syntax
+        run: python3 scripts/validate-web-assets.py
+
       - name: Locate Android project
         run: |
           test -f bajil_android_project/app/build.gradle
