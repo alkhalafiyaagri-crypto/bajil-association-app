@@ -132,58 +132,7 @@ jobs:
           p.write_text(s,encoding="utf-8")
           print("Offline XLSX, native file handoff, and landscape UI patched")
           PY
-          cat > "$APP/java/ye/org/bajil/association/MainActivity.java" <<'JAVA'
-          package ye.org.bajil.association;
-          import android.app.Activity;
-          import android.content.Intent;
-          import android.net.Uri;
-          import android.os.Bundle;
-          import android.provider.MediaStore;
-          import android.content.ContentValues;
-          import android.webkit.*;
-          import androidx.webkit.WebViewAssetLoader;
-          import android.util.Base64;
-          import java.io.*;
-          import java.util.Locale;
-          public class MainActivity extends Activity {
-            private WebView webView; private ValueCallback<Uri[]> fileCallback; private static final int PICK_FILE=8124;
-            @Override public void onCreate(Bundle state){super.onCreate(state);
-              WebView.setWebContentsDebuggingEnabled(false);
-              WebViewAssetLoader loader=new WebViewAssetLoader.Builder().addPathHandler("/assets/",new WebViewAssetLoader.AssetsPathHandler(this)).build();
-              webView=new WebView(this);setContentView(webView);WebSettings s=webView.getSettings();
-              s.setJavaScriptEnabled(true);s.setDomStorageEnabled(true);s.setDatabaseEnabled(true);s.setAllowFileAccess(false);s.setAllowContentAccess(true);s.setLoadsImagesAutomatically(true);
-              s.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);webView.addJavascriptInterface(new PhoneFiles(),"AndroidBridge");
-              webView.setWebChromeClient(new WebChromeClient(){@Override public boolean onShowFileChooser(WebView v,ValueCallback<Uri[]> cb,FileChooserParams params){
-                if(fileCallback!=null)fileCallback.onReceiveValue(null);fileCallback=cb;
-                Intent i=new Intent(Intent.ACTION_OPEN_DOCUMENT);i.addCategory(Intent.CATEGORY_OPENABLE);i.setType("*/*");
-                i.putExtra(Intent.EXTRA_MIME_TYPES,new String[]{"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","application/vnd.ms-excel","text/csv","application/json","text/plain"});
-                startActivityForResult(i,PICK_FILE);return true;
-              }});
-              webView.setWebViewClient(new WebViewClient(){@Override public WebResourceResponse shouldInterceptRequest(WebView v,android.webkit.WebResourceRequest r){return loader.shouldInterceptRequest(r.getUrl());}});
-              webView.loadUrl("https://appassets.androidplatform.net/assets/index.html");
-            }
-            private class PhoneFiles {
-              @JavascriptInterface public void saveBase64(String name,String mime,String data){
-                try{byte[] bytes=Base64.decode(data,Base64.DEFAULT);String safe=name.replaceAll("[^\\p{L}\\p{N}._ -]","_");
-                  ContentValues values=new ContentValues();values.put(MediaStore.Downloads.DISPLAY_NAME,safe);values.put(MediaStore.Downloads.MIME_TYPE,mime);values.put(MediaStore.Downloads.RELATIVE_PATH,android.os.Environment.DIRECTORY_DOWNLOADS+"/Bajil Association");values.put(MediaStore.Downloads.IS_PENDING,1);
-                  Uri uri=getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI,values);if(uri==null)throw new IOException("تعذر إنشاء الملف");
-                  try(OutputStream out=getContentResolver().openOutputStream(uri)){out.write(bytes);}
-                  values.clear();values.put(MediaStore.Downloads.IS_PENDING,0);getContentResolver().update(uri,values,null,null);
-                  webView.post(()->webView.evaluateJavascript("alert('تم حفظ الملف في مجلد التنزيلات داخل مجلد Bajil Association')",null));
-                }catch(Exception e){String msg=e.getMessage()==null?"تعذر حفظ الملف":e.getMessage();webView.post(()->webView.evaluateJavascript("alert("+org.json.JSONObject.quote(msg)+")",null));}
-              }
-            }
-            @Override protected void onActivityResult(int req,int res,Intent data){super.onActivityResult(req,res,data);
-              if(req==PICK_FILE){if(fileCallback!=null){Uri[] result=null;if(res==RESULT_OK&&data!=null&&data.getData()!=null)result=new Uri[]{data.getData()};fileCallback.onReceiveValue(result);fileCallback=null;}
-                if(res==RESULT_OK&&data!=null&&data.getData()!=null)sendFileToPage(data.getData());}
-            }
-            private void sendFileToPage(Uri uri){try(InputStream in=getContentResolver().openInputStream(uri);ByteArrayOutputStream out=new ByteArrayOutputStream()){
-              byte[] buf=new byte[8192];int n;while((n=in.read(buf))>0)out.write(buf,0,n);String b64=Base64.encodeToString(out.toByteArray(),Base64.NO_WRAP);
-              String name="import.xlsx";try(android.database.Cursor c=getContentResolver().query(uri,null,null,null,null)){if(c!=null&&c.moveToFirst()){int ix=c.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME);if(ix>=0)name=c.getString(ix);}}
-              final String selectedName=name; final String selectedData=b64; webView.post(()->webView.evaluateJavascript("window.onNativeFileSelected("+org.json.JSONObject.quote(selectedName)+","+org.json.JSONObject.quote(selectedData)+")",null));
-            }catch(Exception e){webView.post(()->webView.evaluateJavascript("alert('تعذرت قراءة الملف من الهاتف')",null));}}
-            @Override public void onBackPressed(){if(webView!=null&&webView.canGoBack())webView.goBack();else super.onBackPressed();}
-          }
+          # MainActivity, camera/gallery chooser, FileProvider and AndroidBridge are maintained in source-project.zip.
           JAVA
           python3 - <<'PY'
           from pathlib import Path
