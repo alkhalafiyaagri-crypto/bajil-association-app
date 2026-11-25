@@ -133,7 +133,6 @@ jobs:
           print("Offline XLSX, native file handoff, and landscape UI patched")
           PY
           # MainActivity, camera/gallery chooser, FileProvider and AndroidBridge are maintained in source-project.zip.
-          JAVA
           python3 - <<'PY'
           from pathlib import Path
           p=Path("bajil_android_project/app/src/main/AndroidManifest.xml")
