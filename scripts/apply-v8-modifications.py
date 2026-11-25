@@ -80,7 +80,9 @@ input,select,textarea,button{max-width:100%;min-width:0}
 """
 if 'id="bajil-mobile-layout-v8"' not in s:
     s = s.replace("</head>", responsive_css + "\n</head>")
-# Normalize escaped line-break sequences from the bundled HTML before packaging; otherwise browsers render \\n literally and scripts/styles fail.\ns = s.replace("\\\\n", "\\n")\nhtml.write_text(s, encoding="utf-8")
+# Normalize escaped line-break sequences from the bundled HTML before packaging; browsers must receive real line breaks.
+s = s.replace("\\n", "\n")
+html.write_text(s, encoding="utf-8")
 
 main = root / "app/src/main/java/ye/org/bajil/association/MainActivity.java"
 main.write_text(r'''package ye.org.bajil.association;
