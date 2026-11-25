@@ -81,6 +81,13 @@ input,select,textarea,button{max-width:100%;min-width:0}
 if 'id="bajil-mobile-layout-v8"' not in s:
     s = s.replace("</head>", responsive_css + "\n</head>")
 # Normalize escaped line-break sequences from the bundled HTML before packaging; browsers must receive real line breaks.
+# Repair the CSV line-splitting regex if an earlier text transformation split its escape sequence.
+bad_csv_regex = "split(/" + chr(92) + "r?" + chr(10) + "/)"
+good_csv_regex = "split(/" + chr(92) + "r?" + chr(92) + "n/)"
+s = s.replace(bad_csv_regex, good_csv_regex)
+if "split(/" + chr(92) + "r?" + chr(10) + "/)" in s:
+    raise SystemExit("CSV parser regex still contains a literal newline")
+
 html.write_text(s, encoding="utf-8")
 
 main = root / "app/src/main/java/ye/org/bajil/association/MainActivity.java"
