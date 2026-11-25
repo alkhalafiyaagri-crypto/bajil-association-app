@@ -180,7 +180,7 @@ jobs:
             private void sendFileToPage(Uri uri){try(InputStream in=getContentResolver().openInputStream(uri);ByteArrayOutputStream out=new ByteArrayOutputStream()){
               byte[] buf=new byte[8192];int n;while((n=in.read(buf))>0)out.write(buf,0,n);String b64=Base64.encodeToString(out.toByteArray(),Base64.NO_WRAP);
               String name="import.xlsx";try(android.database.Cursor c=getContentResolver().query(uri,null,null,null,null)){if(c!=null&&c.moveToFirst()){int ix=c.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME);if(ix>=0)name=c.getString(ix);}}
-              webView.post(()->webView.evaluateJavascript("window.onNativeFileSelected("+org.json.JSONObject.quote(name)+","+org.json.JSONObject.quote(b64)+")",null));
+              final String selectedName=name; final String selectedData=b64; webView.post(()->webView.evaluateJavascript("window.onNativeFileSelected("+org.json.JSONObject.quote(selectedName)+","+org.json.JSONObject.quote(selectedData)+")",null));
             }catch(Exception e){webView.post(()->webView.evaluateJavascript("alert('تعذرت قراءة الملف من الهاتف')",null));}}
             @Override public void onBackPressed(){if(webView!=null&&webView.canGoBack())webView.goBack();else super.onBackPressed();}
           }
