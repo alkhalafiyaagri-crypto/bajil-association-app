@@ -132,7 +132,7 @@ jobs:
           p.write_text(s,encoding="utf-8")
           print("Offline XLSX, native file handoff, and landscape UI patched")
           PY
-          cat > "$APP/../java/ye/org/bajil/association/MainActivity.java" <<'JAVA'
+          cat > "$APP/java/ye/org/bajil/association/MainActivity.java" <<'JAVA'
           package ye.org.bajil.association;
           import android.app.Activity;
           import android.content.Intent;
