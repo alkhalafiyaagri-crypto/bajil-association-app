@@ -44,7 +44,7 @@ for i, line in enumerate(lines):
         break
 else:
     raise SystemExit("Farmer renderer not found")
-s = "\\n".join(lines) + "\\n"
+s = "\n".join(lines) + "\n"
 
 old_submit = "$('farmerForm').onsubmit=e=>{e.preventDefault();if(currentUser.role==='viewer')return;let x=Object.fromEntries(new FormData(e.target)),old=x.oldId;if(db.farmers.some(f=>f.id===x.id&&f.id!==old))return alert('رقم العضوية مستخدم');if(old){let f=db.farmers.find(f=>f.id===old);Object.assign(f,x);if(old!==x.id){db.crops.forEach(c=>{if(c.farmerId===old)c.farmerId=x.id});db.finance.forEach(c=>{if(c.farmerId===old)c.farmerId=x.id})}}else db.farmers.push(x);resetForm('farmerForm');save()};"
 new_submit = "$('farmerForm').onsubmit=e=>{e.preventDefault();if(currentUser.role==='viewer')return;let x=Object.fromEntries(new FormData(e.target)),old=x.oldId;delete x.oldId;if(old){let f=db.farmers.find(f=>f.id===old);if(!f)return alert('تعذر العثور على سجل المزارع');x.id=old;Object.assign(f,x)}else{x.id=uid();db.farmers.push(x)}resetForm('farmerForm');save()};"
@@ -81,7 +81,6 @@ input,select,textarea,button{max-width:100%;min-width:0}
 if 'id="bajil-mobile-layout-v8"' not in s:
     s = s.replace("</head>", responsive_css + "\n</head>")
 # Normalize escaped line-break sequences from the bundled HTML before packaging; browsers must receive real line breaks.
-s = s.replace("\\n", "\n")
 html.write_text(s, encoding="utf-8")
 
 main = root / "app/src/main/java/ye/org/bajil/association/MainActivity.java"
