@@ -142,6 +142,9 @@ jobs:
           p.write_text(s,encoding="utf-8")
           PY
 
+      - name: Apply v8 farmer, invoice and local-storage updates
+        run: python3 scripts/apply-v8-modifications.py
+
       - name: Locate Android project
         run: |
           test -f bajil_android_project/app/build.gradle
