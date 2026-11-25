@@ -162,11 +162,12 @@ manifest = root / "app/src/main/AndroidManifest.xml"
 ms = manifest.read_text(encoding="utf-8")
 if "androidx.core.content.FileProvider" not in ms:
   provider = '''        <provider android:name="androidx.core.content.FileProvider"
-            android:authorities="\${applicationId}.fileprovider" android:exported="false"
+            android:authorities="APPID_TOKEN.fileprovider" android:exported="false"
             android:grantUriPermissions="true">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths" />
         </provider>
 '''
+  provider = provider.replace("APPID_TOKEN", chr(36) + "{applicationId}")
   ms = ms.replace("    </application>", provider + "    </application>")
 manifest.write_text(ms, encoding="utf-8")
 res = root / "app/src/main/res/xml"; res.mkdir(parents=True, exist_ok=True)
@@ -175,6 +176,6 @@ res = root / "app/src/main/res/xml"; res.mkdir(parents=True, exist_ok=True)
 ''', encoding="utf-8")
 gradle = root / "app/build.gradle"; gs = gradle.read_text(encoding="utf-8")
 if "androidx.core:core" not in gs:
-  gs = gs.replace("dependencies {", "dependencies {\\n    implementation 'androidx.core:core:1.13.1'")
+  gs = gs.replace("dependencies {", "dependencies {" + chr(10) + "    implementation 'androidx.core:core:1.13.1'")
 gradle.write_text(gs, encoding="utf-8")
 print("Applied v8 farmer fields, IndexedDB persistence, invoice camera/gallery and Android file storage.")
