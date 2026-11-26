@@ -797,6 +797,57 @@ jobs:
           print("Applied elegant warm gold background while retaining agricultural button colors.")
           PY
 
+      - name: Enlarge association logo and remove stray escape marks
+        shell: bash
+        run: |
+          set -e
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path("bajil_android_project/app/src/main/assets/index.html")
+          s=p.read_text(encoding="utf-8")
+          # Remove accidental escape-only preamble before the HTML document.
+          s=re.sub(r'^(?:\\ufeff)?(?:[ \\t\\r\\n]|n|\\\\n|\\\\\\\\n)+(?=<!doctype\\b|<html\\b)', '', s, flags=re.I)
+          css=r"""<style id="bajil-header-logo-and-clean-top">
+          header{padding:8px 14px!important}
+          header>div:first-child{gap:12px!important;align-items:center!important}
+          header img[alt="شعار الجمعية"]{width:58px!important;height:54px!important;min-width:58px!important;max-width:58px!important;flex:0 0 58px!important;object-fit:contain!important;padding:3px!important;background:rgba(255,255,255,.13)!important;border:1px solid rgba(255,255,255,.30)!important;border-radius:10px!important}
+          header h1{font-size:clamp(13px,2vw,18px)!important;line-height:1.4!important}
+          @media(max-width:560px){
+            header{padding:6px 9px!important}
+            header>div:first-child{gap:9px!important}
+            header img[alt="شعار الجمعية"]{width:50px!important;height:48px!important;min-width:50px!important;max-width:50px!important;flex-basis:50px!important}
+            header h1{font-size:clamp(11px,3vw,14px)!important}
+          }
+          </style>"""
+          if 'id="bajil-header-logo-and-clean-top"' in s:
+              s=re.sub(r'<style id="bajil-header-logo-and-clean-top">.*?</style>',css,s,flags=re.S)
+          else:
+              s=s.replace("</head>",css+"\n</head>",1)
+          # Clean only standalone text nodes consisting solely of stray escape markers.
+          cleanup=r"""<script id="bajil-remove-stray-escape-marks">
+          (function(){
+            function clean(){
+              var walker=document.createTreeWalker(document.body||document.documentElement,NodeFilter.SHOW_TEXT),node,remove=[];
+              var stray=/^\\s*(?:(?:n|\\\\n|\\\\\\\\n)\\s*)+$/;
+              while((node=walker.nextNode())){if(stray.test(node.nodeValue||''))remove.push(node);}
+              remove.forEach(function(n){if(n.parentNode)n.parentNode.removeChild(n);});
+            }
+            if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',clean,{once:true});else clean();
+          })();
+          </script>"""
+          if 'id="bajil-remove-stray-escape-marks"' in s:
+              s=re.sub(r'<script id="bajil-remove-stray-escape-marks">.*?</script>',cleanup,s,flags=re.S)
+          else:
+              s=s.replace("</body>",cleanup+"\n</body>",1)
+          if 'id="bajil-header-logo-and-clean-top"' not in s or 'id="bajil-remove-stray-escape-marks"' not in s:
+              raise SystemExit("فشل تطبيق إصلاح الشعار والتنظيف")
+          p.write_text(s,encoding="utf-8")
+          print("Association header logo enlarged and standalone stray escape text cleanup installed.")
+          PY
+          grep -q 'id="bajil-header-logo-and-clean-top"' bajil_android_project/app/src/main/assets/index.html
+          grep -q 'id="bajil-remove-stray-escape-marks"' bajil_android_project/app/src/main/assets/index.html
+
       - name: Validate app HTML and JavaScript
         shell: bash
         run: |
