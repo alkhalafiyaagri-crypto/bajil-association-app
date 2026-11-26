@@ -2,7 +2,7 @@ from pathlib import Path
 p=Path("bajil_android_project/app/src/main/assets/index.html")
 s=p.read_text(encoding="utf-8")
 a=s.find("async function load(){")
-b=s.find("\\nfunction save(){",a)
+b=s.find("\nfunction save(){",a)
 if a<0 or b<0: raise SystemExit("Database loader not found")
 new="""async function load(){
  let d=null;
