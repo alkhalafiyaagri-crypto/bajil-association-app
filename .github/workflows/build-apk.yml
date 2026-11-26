@@ -204,7 +204,7 @@ jobs:
           from pathlib import Path
           p=Path("bajil_android_project/app/src/main/AndroidManifest.xml")
           s=p.read_text(encoding="utf-8")
-          s=s.replace('android:exported="true"','android:exported="true" android:screenOrientation="landscape"')
+          # Leave AndroidManifest.xml attributes to the dedicated XML step below.
           p.write_text(s,encoding="utf-8")
           PY
 
