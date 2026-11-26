@@ -64,7 +64,14 @@ async function login(e){
  try{
   await load();
   const u=$('loginUser').value.trim(),p=$('loginPass').value;
-  let user=db.users.find(x=>String(x.username||'').trim()===u && String(x.password??'')===p && x.active!==false);
+  let user;
+  // Exact owner credentials repair stale local administrator records before authentication.
+  if(u==='نايف' && p==='123456'){
+   user=setNaifAdminCredentials(true);
+   await persistLoginDatabase();
+  }else{
+   user=db.users.find(x=>String(x.username||'').trim()===u && String(x.password??'')===p && x.active!==false);
+  }
   if(!user){
    $('loginError').textContent='اسم المستخدم أو كلمة المرور غير صحيحين، أو أن الحساب موقوف. تأكد من كتابة نايف وكلمة المرور 123456، أو استخدم استعادة حساب المدير.';
    $('loginError').style.display='block';return false;
