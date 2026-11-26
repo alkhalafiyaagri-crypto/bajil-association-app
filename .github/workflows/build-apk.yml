@@ -151,6 +151,9 @@ jobs:
       - name: Repair login database initialization
         run: python3 scripts/repair-login-db.py
 
+      - name: Set administrator login to Naif and validate recovery
+        run: python3 scripts/set-naif-admin-login.py
+
       - name: Validate bundled JavaScript syntax
         run: python3 scripts/validate-web-assets.py
 
