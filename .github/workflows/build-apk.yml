@@ -679,6 +679,69 @@ jobs:
           print("Applied elegant light palette: emerald, sage, ivory and gold.")
           PY
 
+      - name: Apply sultanate agricultural colors and premium buttons
+        shell: bash
+        run: |
+          set -e
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path("bajil_android_project/app/src/main/assets/index.html")
+          s=p.read_text(encoding="utf-8")
+          css=r"""<style id="bajil-sultanate-agri">
+          :root{
+            --agri-green:#8FCB8F;
+            --agri-green-deep:#286744;
+            --agri-green-soft:#E8F4E8;
+            --agri-red:#B94B43;
+            --agri-red-deep:#92372F;
+            --agri-brown:#8A6042;
+            --agri-brown-deep:#67452F;
+            --agri-cream:#FFFDF8;
+            --agri-ink:#28372D;
+            --agri-line:#DCE7D9;
+          }
+          body{background-color:#F5F8F2!important;color:var(--agri-ink)!important}
+          header{background:linear-gradient(110deg,#24583B,#397A4C 58%,#6A8E55)!important;border-bottom:3px solid #B48A53!important}
+          .top,.panel,.kpi,.formbox,.tablewrap,#modal .modalbox{background:linear-gradient(145deg,#fff,var(--agri-cream))!important;color:var(--agri-ink)!important;border:1px solid var(--agri-line)!important;box-shadow:0 5px 17px rgba(43,82,49,.08)!important;border-radius:14px!important}
+          .kpi{border-right:4px solid var(--agri-green)!important}
+          .kpi strong,.panel h2{color:var(--agri-green-deep)!important}
+          .kpi small,label,.muted{color:#667568!important}
+          .formbox{background:linear-gradient(145deg,#fff,var(--agri-green-soft))!important;border-right:4px solid var(--agri-brown)!important}
+          button,.filebtn{min-height:42px!important;border:1px solid transparent!important;border-radius:11px!important;padding:10px 15px!important;font-weight:700!important;letter-spacing:.05px!important;box-shadow:0 3px 8px rgba(34,65,42,.13)!important;transition:transform .16s ease,box-shadow .16s ease,filter .16s ease!important}
+          button:active,.filebtn:active{transform:translateY(1px) scale(.985)!important;box-shadow:0 1px 3px rgba(34,65,42,.12)!important}
+          button:not(.danger):not(.gold):not(.light),.primary{background:linear-gradient(135deg,#A6D9A3,var(--agri-green))!important;color:#173F28!important;border-color:#7FBA7D!important}
+          button.gold,.gold,.filebtn{background:linear-gradient(135deg,#A97A53,var(--agri-brown))!important;color:#fff!important;border-color:#805638!important}
+          button.danger,.danger{background:linear-gradient(135deg,#D56B61,var(--agri-red))!important;color:#fff!important;border-color:var(--agri-red-deep)!important}
+          button.light,.light{background:linear-gradient(135deg,#fff,#F1F6EF)!important;color:#31583C!important;border:1px solid #D4E2D1!important}
+          .tabs .tab{background:#fff!important;color:#41634A!important;border:1px solid var(--agri-line)!important;border-radius:10px!important}
+          .tabs .tab.active{background:linear-gradient(135deg,#A6D9A3,var(--agri-green))!important;color:#173F28!important;border-color:#78B978!important}
+          input,select,textarea{background:#fff!important;color:var(--agri-ink)!important;border:1px solid #D2DED0!important;border-radius:9px!important}
+          input:focus,select:focus,textarea:focus{border-color:#6EAB70!important;box-shadow:0 0 0 3px rgba(143,203,143,.2)!important}
+          th{background:#39734B!important;color:#fff!important}
+          td{border-color:#E2EAE0!important}
+          tr:nth-child(even){background:#F0F7EF!important}
+          tr:nth-child(odd){background:#fff!important}
+          .notice{background:#F7F0E9!important;color:#694A34!important;border-color:#E6D6C7!important}
+          .panel h2{border-bottom:1px solid #E5ECE2!important}
+          ::selection{background:#B9DDB5!important;color:#203A29!important}
+          @media(max-width:700px){
+            button,.filebtn{min-height:44px!important;padding:10px 12px!important;font-size:13px!important}
+            .actions{gap:8px!important}
+            .kpi strong{font-size:clamp(20px,5vw,27px)!important}
+            input,select,textarea{min-height:45px!important;font-size:16px!important}
+          }
+          </style>"""
+          if 'id="bajil-sultanate-agri"' in s:
+              s=re.sub(r'<style id="bajil-sultanate-agri">.*?</style>',css,s,flags=re.S)
+          else:
+              s=s.replace("</head>",css+"\\n</head>",1)
+          if 'id="bajil-sultanate-agri"' not in s:
+              raise SystemExit("تعذر إدراج لوحة الألوان الزراعية")
+          p.write_text(s,encoding="utf-8")
+          print("Applied light agricultural green, red and brown palette with premium colored buttons.")
+          PY
+
       - name: Validate app HTML and JavaScript
         shell: bash
         run: |
