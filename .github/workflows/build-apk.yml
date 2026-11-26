@@ -64,33 +64,44 @@ jobs:
         shell: bash
         run: |
           set -e
-          APP="bajil_android_project/app/src/main"
-          LOGO="$APP/assets/logo.png"
-          test -s "$LOGO" || { echo "Association logo not found at $LOGO"; exit 1; }
           python3 - <<'PY'
           from pathlib import Path
-          import shutil
-          import xml.etree.ElementTree as ET
-          app=Path("bajil_android_project/app/src/main")
-          logo=app/"assets/logo.png"
-          manifest=app/"AndroidManifest.xml"
-          if not logo.is_file() or logo.stat().st_size < 100:
-              raise SystemExit("Valid association logo image is missing")
-          for density in ("mdpi","hdpi","xhdpi","xxhdpi","xxxhdpi"):
-              folder=app/"res"/("mipmap-"+density)
-              folder.mkdir(parents=True,exist_ok=True)
-              shutil.copy2(logo,folder/"ic_launcher.png")
-          ET.register_namespace("android","http://schemas.android.com/apk/res/android")
-          tree=ET.parse(manifest)
-          root=tree.getroot()
-          ns="{http://schemas.android.com/apk/res/android}"
-          application=root.find("application")
+          import shutil, xml.etree.ElementTree as ET
+          app = Path("bajil_android_project/app/src/main")
+          manifest = app / "AndroidManifest.xml"
+          roots = [app / "assets", app / "res", Path("bajil_android_project")]
+          exts = {".png", ".jpg", ".jpeg", ".webp"}
+          files = []
+          for root in roots:
+              if root.exists():
+                  files.extend(p for p in root.rglob("*") if p.is_file() and p.suffix.lower() in exts)
+          files = list(dict.fromkeys(files))
+          print("Image assets found:")
+          for p in files:
+              print(f" - {p} ({p.stat().st_size} bytes)")
+          keywords = ("logo", "emblem", "crest", "seal", "association", "jameya", "jamia")
+          candidates = [p for p in files if any(k in p.stem.lower() for k in keywords) and p.stat().st_size > 100]
+          if not candidates:
+              print("WARNING: No clearly named association logo found; leaving launcher icon unchanged.")
+              raise SystemExit(0)
+          logo = sorted(candidates, key=lambda p: (0 if "logo" in p.stem.lower() else 1, len(p.name)))[0]
+          print(f"Using association logo: {logo}")
+          ET.register_namespace("android", "http://schemas.android.com/apk/res/android")
+          tree = ET.parse(manifest)
+          application = tree.getroot().find("application")
           if application is None:
               raise SystemExit("AndroidManifest.xml has no application element")
-          application.set(ns+"icon","@mipmap/ic_launcher")
-          application.set(ns+"roundIcon","@mipmap/ic_launcher")
-          tree.write(manifest,encoding="utf-8",xml_declaration=True)
-          print("Association logo configured as Android launcher and round icon")
+          ns = "{http://schemas.android.com/apk/res/android}"
+          ext = logo.suffix.lower()
+          resource_name = "ic_launcher" + ext
+          for density in ("mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi"):
+              folder = app / "res" / ("mipmap-" + density)
+              folder.mkdir(parents=True, exist_ok=True)
+              shutil.copy2(logo, folder / resource_name)
+          application.set(ns + "icon", "@mipmap/ic_launcher")
+          application.set(ns + "roundIcon", "@mipmap/ic_launcher")
+          tree.write(manifest, encoding="utf-8", xml_declaration=True)
+          print("Association launcher icon configured.")
           PY
 
       - name: Capture original interface for precise repair
