@@ -613,6 +613,72 @@ jobs:
           print("Applied four official royal dark colors: emerald, navy, plum and antique gold.")
           PY
 
+      - name: Apply elegant light four-color association theme
+        shell: bash
+        run: |
+          set -e
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path("bajil_android_project/app/src/main/assets/index.html")
+          s=p.read_text(encoding="utf-8")
+          css=r"""<style id="bajil-light-four-color">
+          :root{
+            --light-emerald:#176B50;
+            --light-sage:#DDEDE4;
+            --light-ivory:#FFFDF7;
+            --light-gold:#C69A45;
+            --page:#F4F7F3;
+            --surface:#FFFFFF;
+            --surface-2:#F8FBF8;
+            --text:#20372D;
+            --muted:#64766C;
+            --line:#DCE7DF;
+          }
+          body{background-color:var(--page)!important;color:var(--text)!important}
+          header{background:linear-gradient(112deg,#104B39,var(--light-emerald) 65%,#347D60)!important;border-bottom:3px solid var(--light-gold)!important;box-shadow:0 5px 18px rgba(25,74,52,.15)!important}
+          header h1,header p{color:#fff!important}
+          .top,.panel,.kpi,.formbox,.tablewrap,#modal .modalbox{background:linear-gradient(145deg,#fff,var(--surface-2))!important;color:var(--text)!important;border:1px solid var(--line)!important;box-shadow:0 4px 15px rgba(27,76,52,.07)!important}
+          .kpi{border-right:4px solid var(--light-gold)!important}
+          .kpi small,.muted,label,.panel label{color:var(--muted)!important}
+          .kpi strong,.panel h2{color:var(--light-emerald)!important}
+          .panel h2{border-bottom:1px solid var(--line)!important}
+          .formbox{background:linear-gradient(145deg,#fff,var(--light-sage))!important;border-right:4px solid var(--light-gold)!important}
+          button,.filebtn{border:1px solid rgba(198,154,69,.36)!important}
+          button:not(.danger):not(.gold),.light,.tabs .tab{background:#fff!important;color:#24543F!important;border-color:var(--line)!important}
+          button:not(.danger):not(.gold):hover,.tabs .tab.active{background:var(--light-emerald)!important;color:#fff!important;border-color:var(--light-emerald)!important}
+          .gold,.top .gold{background:linear-gradient(135deg,#D7B56F,var(--light-gold))!important;color:#25372D!important;border-color:var(--light-gold)!important}
+          .danger{background:#8F3F46!important;color:#fff!important;border-color:#8F3F46!important}
+          input,select,textarea{background:#fff!important;color:var(--text)!important;border:1px solid #CCDCD1!important}
+          input::placeholder,textarea::placeholder{color:#87958C!important}
+          input:focus,select:focus,textarea:focus{border-color:var(--light-emerald)!important;box-shadow:0 0 0 3px rgba(23,107,80,.12)!important}
+          table{color:var(--text)!important}
+          th{background:var(--light-emerald)!important;color:#fff!important;border-color:#D2E0D6!important}
+          td{border-color:var(--line)!important}
+          tr:nth-child(even){background:#F0F6F1!important}
+          tr:nth-child(odd){background:#fff!important}
+          .tabs{border-bottom-color:var(--light-gold)!important}
+          .tabs .tab{border-color:var(--line)!important}
+          .notice{background:var(--light-sage)!important;color:#234C39!important;border-color:#C8DDD0!important}
+          ::-webkit-scrollbar-thumb{background:var(--light-gold)!important;border-radius:8px}
+          ::selection{background:var(--light-sage)!important;color:#183B2B!important}
+          @media(max-width:700px){
+            body{background-image:linear-gradient(rgba(244,247,243,.91),rgba(244,247,243,.94)),url('./assets/logo-watermark.png')!important}
+            .top,.panel,.kpi,.formbox{border-radius:13px!important}
+            .kpi strong{font-size:clamp(20px,5vw,27px)!important}
+            input,select,textarea{font-size:16px!important;min-height:45px!important}
+          }
+          </style>"""
+          if 'id="bajil-light-four-color"' in s:
+              s=re.sub(r'<style id="bajil-light-four-color">.*?</style>',css,s,flags=re.S)
+          else:
+              s=s.replace("</head>",css+"\n</head>",1)
+          if 'id="bajil-light-four-color"' not in s:
+              raise SystemExit("تعذر إدراج لوحة الألوان الفاتحة")
+          p.write_text(s,encoding="utf-8")
+          print("Applied elegant light palette: emerald, sage, ivory and gold.")
+          PY
+
       - name: Validate app HTML and JavaScript
         shell: bash
         run: |
