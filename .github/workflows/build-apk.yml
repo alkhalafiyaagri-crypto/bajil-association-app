@@ -192,15 +192,13 @@ jobs:
           p.write_text(source,encoding="utf-8")
           html=root/"assets"/"index.html"
           page=html.read_text(encoding="utf-8")
-          # Make every image attachment explicitly use the image gallery picker; never force camera capture.
+          # Keep image/* inputs as gallery requests and remove any camera-only capture hint.
           def normalize(match):
               tag=match.group(0)
-              if not re.search(r'\\btype\\s*=\\s*["\\']?file',tag,re.I):
+              if not re.search(r"\\btype\\s*=\\s*['\\\"]?file",tag,re.I):
                   return tag
-              if re.search(r'\\baccept\\s*=',tag,re.I):
-                  tag=re.sub(r'\\baccept\\s*=\\s*(["\\']).*?\\1', 'accept="image/*"', tag, count=1, flags=re.I) if re.search(r'accept\\s*=\\s*["\\'][^"\\']*image',tag,re.I) else tag
-              return re.sub(r'\\s+capture(?:\\s*=\\s*(?:"[^"]*"|\\'[^\\']*\\'|[^\\s>]+))?', '', tag, flags=re.I)
-          page=re.sub(r'<input\\b[^>]*>',normalize,page,flags=re.I)
+              return re.sub(r"""\\s+capture(?:\\s*=\\s*(?:"[^"]*"|'[^']*'|[^\\s>]+))?""", "", tag, flags=re.I)
+          page=re.sub(r"<input\\b[^>]*>",normalize,page,flags=re.I)
           html.write_text(page,encoding="utf-8")
           print("Installed Android WebChromeClient gallery picker and normalized file input capture behavior.")
           PY
