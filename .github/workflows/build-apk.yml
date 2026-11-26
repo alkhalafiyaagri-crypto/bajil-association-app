@@ -807,7 +807,7 @@ jobs:
           p=Path("bajil_android_project/app/src/main/assets/index.html")
           s=p.read_text(encoding="utf-8")
           # Remove accidental escape-only preamble before the HTML document.
-          s=re.sub(r'^(?:\\ufeff)?(?:[ \\t\\r\\n]|n|\\\\n|\\\\\\\\n)+(?=<!doctype\\b|<html\\b)', '', s, flags=re.I)
+          s=re.sub(r'^(?:\ufeff)?(?:[ \t\r\n]|n|\\n|\\\\n)+(?=<!doctype\b|<html\b)', '', s, flags=re.I)
           css=r"""<style id="bajil-header-logo-and-clean-top">
           header{padding:8px 14px!important}
           header>div:first-child{gap:12px!important;align-items:center!important}
@@ -829,7 +829,7 @@ jobs:
           (function(){
             function clean(){
               var walker=document.createTreeWalker(document.body||document.documentElement,NodeFilter.SHOW_TEXT),node,remove=[];
-              var stray=/^\\s*(?:(?:n|\\\\n|\\\\\\\\n)\\s*)+$/;
+              var stray=/^\s*(?:(?:n|\\n)\s*)+$/;
               while((node=walker.nextNode())){if(stray.test(node.nodeValue||''))remove.push(node);}
               remove.forEach(function(n){if(n.parentNode)n.parentNode.removeChild(n);});
             }
