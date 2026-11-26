@@ -808,8 +808,8 @@ jobs:
           s=p.read_text(encoding="utf-8")
           # Move the branch label out of the association title into its own line.
           if 'class="association-branch"' not in s:
-              s,n=re.subn(r'(<h1>)([^<]*?)\\s*[–-]\\s*فرع عزلة الخلفية(</h1>)',
-                          r'\\1\\2\\3<div class="association-branch">فرع عزلة الخلفية</div>',s,count=1)
+              s,n=re.subn(r'(<h1>)([^<]*?)\s*[–-]\s*فرع عزلة الخلفية(</h1>)',
+                          r'\1\2\3<div class="association-branch">فرع عزلة الخلفية</div>',s,count=1)
               if n!=1:
                   raise SystemExit("تعذر فصل عبارة فرع عزلة الخلفية من اسم الجمعية")
           # Remove accidental escape-only preamble before the HTML document.
