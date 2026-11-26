@@ -144,7 +144,6 @@ jobs:
           s=s.replace("load(); if($('reportYear'))",insert+"\nload(); if($('reportYear'))")
           # Landscape dashboard spacing and more usable wide-screen tables.
           s=s.replace("</style>\n<meta name=\"theme-color\"","@media (orientation:landscape) and (min-width:700px){.wrap{max-width:1800px;padding:0 22px}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.kpis{grid-template-columns:repeat(5,minmax(0,1fr))}.tabs{gap:9px}.panel{padding:22px}.tablewrap{max-height:62vh}.top{gap:18px}}\n</style>\n<meta name=\"theme-color\"")
-          p.write_text(s,encoding="utf-8")
           # Compact, persistent association header for mobile and desktop.
           header_css = """<style id="bajil-compact-sticky-header">
           header{position:sticky!important;top:0!important;z-index:30!important;padding:6px 10px!important;box-shadow:0 2px 8px rgba(0,0,0,.12)}
@@ -157,7 +156,15 @@ jobs:
           @media(max-width:420px){header{padding:5px 7px!important}header img[alt="شعار الجمعية"]{width:38px!important;height:32px!important;max-width:38px!important;flex-basis:38px!important}header h1{font-size:11px!important}header p{font-size:9px!important}}
           </style>"""
           if 'id="bajil-compact-sticky-header"' not in s:
-              s=s.replace("</head>",header_css+"\\n</head>",1)
+              import re
+              match=re.search(r"</head\\s*>",s,re.IGNORECASE)
+              if match:
+                  s=s[:match.start()]+header_css+"\\n"+s[match.start():]
+              else:
+                  s=header_css+"\\n"+s
+          if 'id="bajil-compact-sticky-header"' not in s:
+              raise SystemExit("Could not inject compact sticky header CSS")
+          p.write_text(s,encoding="utf-8")
           print("Offline XLSX, native file handoff, landscape UI, and compact sticky header patched")
           PY
           cat > "$APP/java/ye/org/bajil/association/MainActivity.java" <<'JAVA'
