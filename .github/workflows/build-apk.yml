@@ -1,5 +1,6 @@
 name: Build Android APK
 # Trigger a fresh build after the v8 JavaScript syntax repair.
+# Rebuild after deterministic Naif administrator login recovery and strict login assertions.
 
 on:
   workflow_dispatch:
