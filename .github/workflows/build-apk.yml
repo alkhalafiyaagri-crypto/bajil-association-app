@@ -60,13 +60,150 @@ jobs:
       - name: Extract Android project
         run: unzip -q source-project.zip
 
-      - name: Upload native picker source for repair
-        uses: actions/upload-artifact@v4
-        with:
-          name: Bajil-Native-Picker-Source
-          path: bajil_android_project/app/src/main/java/ye/org/bajil/association/MainActivity.java
-          if-no-files-found: error
-          retention-days: 3
+      - name: Enable Android gallery picker for image attachments
+        shell: bash
+        run: |
+          set -e
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          root=Path("bajil_android_project/app/src/main")
+          candidates=list(root.rglob("MainActivity.java"))
+          if len(candidates)!=1:
+              raise SystemExit(f"Expected one MainActivity.java, found {len(candidates)}")
+          p=candidates[0]
+          source="""package ye.org.bajil.association;
+
+          import android.app.Activity;
+          import android.content.ActivityNotFoundException;
+          import android.content.Intent;
+          import android.net.Uri;
+          import android.os.Bundle;
+          import android.webkit.ValueCallback;
+          import android.webkit.WebChromeClient;
+          import android.webkit.WebResourceRequest;
+          import android.webkit.WebResourceResponse;
+          import android.webkit.WebSettings;
+          import android.webkit.WebView;
+          import android.webkit.WebViewClient;
+          import androidx.webkit.WebViewAssetLoader;
+          import java.util.Locale;
+
+          public class MainActivity extends Activity {
+              private WebView web;
+              private ValueCallback<Uri[]> pendingFileCallback;
+              private static final int FILE_CHOOSER_REQUEST_CODE = 1301;
+
+              @Override
+              public void onCreate(Bundle b) {
+                  super.onCreate(b);
+                  web = new WebView(this);
+                  setContentView(web);
+                  WebSettings settings = web.getSettings();
+                  settings.setJavaScriptEnabled(true);
+                  settings.setDomStorageEnabled(true);
+                  settings.setDatabaseEnabled(true);
+                  settings.setAllowFileAccess(false);
+                  settings.setAllowContentAccess(true);
+
+                  WebViewAssetLoader loader = new WebViewAssetLoader.Builder()
+                      .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
+                      .build();
+
+                  web.setWebViewClient(new WebViewClient() {
+                      @Override
+                      public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                          return loader.shouldInterceptRequest(request.getUrl());
+                      }
+                  });
+
+                  // Image inputs open Android's image picker (Gallery/Photos), not the camera.
+                  web.setWebChromeClient(new WebChromeClient() {
+                      @Override
+                      public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> callback,
+                              FileChooserParams params) {
+                          if (pendingFileCallback != null) {
+                              pendingFileCallback.onReceiveValue(null);
+                          }
+                          pendingFileCallback = callback;
+
+                          boolean imageOnly = isImageOnly(params == null ? null : params.getAcceptTypes());
+                          Intent picker;
+                          if (imageOnly) {
+                              picker = new Intent(Intent.ACTION_GET_CONTENT);
+                              picker.addCategory(Intent.CATEGORY_OPENABLE);
+                              picker.setType("image/*");
+                          } else {
+                              try {
+                                  picker = params != null ? params.createIntent()
+                                      : new Intent(Intent.ACTION_GET_CONTENT);
+                              } catch (Exception error) {
+                                  picker = new Intent(Intent.ACTION_GET_CONTENT);
+                                  picker.addCategory(Intent.CATEGORY_OPENABLE);
+                                  picker.setType("*/*");
+                              }
+                          }
+
+                          try {
+                              String title = imageOnly ? "اختر صورة من المعرض" : "اختر ملفاً";
+                              startActivityForResult(Intent.createChooser(picker, title), FILE_CHOOSER_REQUEST_CODE);
+                              return true;
+                          } catch (ActivityNotFoundException error) {
+                              pendingFileCallback = null;
+                              callback.onReceiveValue(null);
+                              return false;
+                          }
+                      }
+                  });
+
+                  web.loadUrl("https://appassets.androidplatform.net/assets/index.html");
+              }
+
+              private boolean isImageOnly(String[] types) {
+                  if (types == null || types.length == 0) return false;
+                  boolean found = false;
+                  for (String type : types) {
+                      if (type == null || type.trim().isEmpty()) continue;
+                      found = true;
+                      String normalized = type.trim().toLowerCase(Locale.ROOT);
+                      if (!normalized.startsWith("image/")) return false;
+                  }
+                  return found;
+              }
+
+              @Override
+              protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+                  super.onActivityResult(requestCode, resultCode, data);
+                  if (requestCode == FILE_CHOOSER_REQUEST_CODE && pendingFileCallback != null) {
+                      Uri[] results = WebChromeClient.FileChooserParams.parseResult(resultCode, data);
+                      pendingFileCallback.onReceiveValue(results);
+                      pendingFileCallback = null;
+                  }
+              }
+
+              @Override
+              public void onBackPressed() {
+                  if (web != null && web.canGoBack()) web.goBack();
+                  else super.onBackPressed();
+              }
+          }
+          """
+          # Keep the Java source's package path and replace only the activity implementation.
+          p.write_text(source,encoding="utf-8")
+          html=root/"assets"/"index.html"
+          page=html.read_text(encoding="utf-8")
+          # Make every image attachment explicitly use the image gallery picker; never force camera capture.
+          def normalize(match):
+              tag=match.group(0)
+              if not re.search(r'\\btype\\s*=\\s*["\\']?file',tag,re.I):
+                  return tag
+              if re.search(r'\\baccept\\s*=',tag,re.I):
+                  tag=re.sub(r'\\baccept\\s*=\\s*(["\\']).*?\\1', 'accept="image/*"', tag, count=1, flags=re.I) if re.search(r'accept\\s*=\\s*["\\'][^"\\']*image',tag,re.I) else tag
+              return re.sub(r'\\s+capture(?:\\s*=\\s*(?:"[^"]*"|\\'[^\\']*\\'|[^\\s>]+))?', '', tag, flags=re.I)
+          page=re.sub(r'<input\\b[^>]*>',normalize,page,flags=re.I)
+          html.write_text(page,encoding="utf-8")
+          print("Installed Android WebChromeClient gallery picker and normalized file input capture behavior.")
+          PY
 
       - name: Set association logo as Android launcher icon
         shell: bash
