@@ -60,6 +60,39 @@ jobs:
       - name: Extract Android project
         run: unzip -q source-project.zip
 
+      - name: Set association logo as Android launcher icon
+        shell: bash
+        run: |
+          set -e
+          APP="bajil_android_project/app/src/main"
+          LOGO="$APP/assets/logo.png"
+          test -s "$LOGO" || { echo "Association logo not found at $LOGO"; exit 1; }
+          python3 - <<'PY'
+          from pathlib import Path
+          import shutil
+          import xml.etree.ElementTree as ET
+          app=Path("bajil_android_project/app/src/main")
+          logo=app/"assets/logo.png"
+          manifest=app/"AndroidManifest.xml"
+          if not logo.is_file() or logo.stat().st_size < 100:
+              raise SystemExit("Valid association logo image is missing")
+          for density in ("mdpi","hdpi","xhdpi","xxhdpi","xxxhdpi"):
+              folder=app/"res"/("mipmap-"+density)
+              folder.mkdir(parents=True,exist_ok=True)
+              shutil.copy2(logo,folder/"ic_launcher.png")
+          ET.register_namespace("android","http://schemas.android.com/apk/res/android")
+          tree=ET.parse(manifest)
+          root=tree.getroot()
+          ns="{http://schemas.android.com/apk/res/android}"
+          application=root.find("application")
+          if application is None:
+              raise SystemExit("AndroidManifest.xml has no application element")
+          application.set(ns+"icon","@mipmap/ic_launcher")
+          application.set(ns+"roundIcon","@mipmap/ic_launcher")
+          tree.write(manifest,encoding="utf-8",xml_declaration=True)
+          print("Association logo configured as Android launcher and round icon")
+          PY
+
       - name: Capture original interface for precise repair
         uses: actions/upload-artifact@v4
         with:
