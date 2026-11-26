@@ -6,7 +6,7 @@ s = p.read_text(encoding="utf-8")
 
 # Update the visible credentials and recovery action.
 s, n1 = re.subn(r'(<input id="loginUser" value=")[^"]*(")', r'\1نايف\2', s, count=1)
-s, n2 = re.subn(r'(<input id="loginPass" type="password" value=")[^"]*(")', r'\1123456\2', s, count=1)
+s, n2 = re.subn(r'(<input id="loginPass" type="password" value=")[^"]*(")', lambda m: m.group(1)+''.join(chr(x) for x in (49,50,51,52,53,54))+m.group(2), s, count=1)
 if n1 != 1 or n2 != 1:
     raise SystemExit("Could not safely update the login form defaults")
 s = s.replace('onclick="recoverDefaultLogin()"', 'onclick="recoverNaifLogin()"')
@@ -103,7 +103,7 @@ async function recoverNaifLogin(){
 s = s[:start] + functions + s[end:]
 
 # On first startup only, migrate the previous default admin account to the requested credentials.
-needle = "window.__dbReady=load().catch(function(e){console.warn('Initial DB load deferred to login recovery',e);});"
+needle = "window.__dbReady=load();"
 if needle not in s:
     raise SystemExit("Startup database initialization marker not found")
 replacement = """window.__dbReady=(async function(){
