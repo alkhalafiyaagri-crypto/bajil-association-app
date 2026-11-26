@@ -358,6 +358,29 @@ jobs:
           test -f bajil_android_project/app/build.gradle
           test -f bajil_android_project/settings.gradle
 
+      - name: Remove stray escaped newline text above app header
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path("bajil_android_project/app/src/main/assets/index.html")
+          s=p.read_text(encoding="utf-8")
+          before=s
+          # Earlier workflow injection accidentally wrote the two characters backslash+n into HTML.
+          s=s.replace(r"</style>\\n</head>", "</style>\n</head>")
+          s=s.replace(r"</style>\\n</head>", "</style>\n</head>")
+          # Also remove escaped newline tokens immediately before the document body/head boundary.
+          s=s.replace(r"\\n</head>", "\n</head>")
+          if s==before:
+              print("No escaped newline token remained at the document head boundary.")
+          else:
+              p.write_text(s,encoding="utf-8")
+              print("Removed literal escaped newline text from the document head.")
+          if r"\\n</head>" in s or r"</style>\\n</head>" in s:
+              raise SystemExit("Stray escaped newline token still remains.")
+          PY
+          grep -nF '</style>' bajil_android_project/app/src/main/assets/index.html | tail -3
+
       - name: Validate app HTML and JavaScript
         shell: bash
         run: |
