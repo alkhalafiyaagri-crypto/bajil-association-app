@@ -148,6 +148,9 @@ jobs:
       - name: Repair login initialization and add safe administrator recovery
         run: python3 scripts/fix-login-recovery.py
 
+      - name: Repair login database initialization
+        run: python3 scripts/repair-login-db.py
+
       - name: Validate bundled JavaScript syntax
         run: python3 scripts/validate-web-assets.py
 
