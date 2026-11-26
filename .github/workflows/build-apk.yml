@@ -195,10 +195,10 @@ jobs:
           # Keep image/* inputs as gallery requests and remove any camera-only capture hint.
           def normalize(match):
               tag=match.group(0)
-              if not re.search(r"\\btype\\s*=\\s*['\\\"]?file",tag,re.I):
+              if not re.search(r"\btype\s*=\s*['\"]?file",tag,re.I):
                   return tag
-              return re.sub(r"""\\s+capture(?:\\s*=\\s*(?:"[^"]*"|'[^']*'|[^\\s>]+))?""", "", tag, flags=re.I)
-          page=re.sub(r"<input\\b[^>]*>",normalize,page,flags=re.I)
+              return re.sub(r"""\s+capture(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?""", "", tag, flags=re.I)
+          page=re.sub(r"<input\b[^>]*>",normalize,page,flags=re.I)
           html.write_text(page,encoding="utf-8")
           print("Installed Android WebChromeClient gallery picker and normalized file input capture behavior.")
           PY
