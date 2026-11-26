@@ -60,6 +60,14 @@ jobs:
       - name: Extract Android project
         run: unzip -q source-project.zip
 
+      - name: Capture original interface for precise repair
+        uses: actions/upload-artifact@v4
+        with:
+          name: Bajil-UI-Source-Diagnostic
+          path: bajil_android_project/app/src/main/assets/index.html
+          if-no-files-found: error
+          retention-days: 3
+
       - name: Make app fully offline and enable phone file storage
         shell: bash
         run: |
