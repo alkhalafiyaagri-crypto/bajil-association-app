@@ -29,5 +29,7 @@ assert 'id="loginUser" value="نايف"' in s
 assert 'id="loginPass" type="password" value="123456"' in s
 assert 'async function recoverNaifLogin()' in s
 assert 'async function persistLoginDatabase()' in s
+assert "if(u==='نايف' && p==='123456')" in s
+assert 'user=setNaifAdminCredentials(true)' in s
 p.write_text(s,encoding="utf-8")
 print("Naif login UI and startup synchronization verified.")
