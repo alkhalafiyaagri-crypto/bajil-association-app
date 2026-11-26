@@ -210,3 +210,5 @@ jobs:
           path: source-project.zip
           if-no-files-found: error
           retention-days: 7
+
+# Rebuild after decoupling administrator authentication from local persistence success.
