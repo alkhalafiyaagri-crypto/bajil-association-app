@@ -14,7 +14,7 @@ a=s.find("async function login(e){")
 b=s.find("\nasync function recoverNaifLogin()",a)
 if a<0 or b<0: raise SystemExit("Naif login function boundary missing")
 login=s[a:b]
-login=login.replace("  await load();\n  const u=", "  if(window.__dbReady)await window.__dbReady;\n  await load();\n  if(db.adminCredentialsVersion!==1){setNaifAdminCredentials(false);await persistLoginDatabase();}\n  const u=",1)
+login=login.replace("  await load();\n  const u=", "  if(window.__dbReady)await window.__dbReady;\n  await load();\n  if(db.adminCredentialsVersion!==1){setNaifAdminCredentials(false);persistLoginDatabase().catch(err=>console.warn('Deferred migration persistence failed',err));}\n  const u=",1)
 s=s[:a]+login+s[b:]
 
 a=s.find("async function recoverNaifLogin(){")
@@ -31,5 +31,6 @@ assert 'async function recoverNaifLogin()' in s
 assert 'async function persistLoginDatabase()' in s
 assert "if(u==='نايف' && p==='123456')" in s
 assert 'user=setNaifAdminCredentials(true)' in s
+assert 'persistLoginDatabase().catch(err=>console.warn(' in s
 p.write_text(s,encoding="utf-8")
 print("Naif login UI and startup synchronization verified.")
