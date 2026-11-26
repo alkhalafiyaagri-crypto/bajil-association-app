@@ -35,8 +35,8 @@ async function persistLoginDatabase(){
   });
   idb.close();saved=true;
  }catch(e){errors.push('IndexedDB: '+(e.message||e))}
- if(!saved)throw Error('تعذر حفظ بيانات الدخول محلياً. '+errors.join(' | '));
- return true;
+ if(!saved)console.warn('تعذر حفظ بيانات الدخول محلياً؛ سيتم السماح بجلسة المدير الحالية مع إعادة المحاولة لاحقاً.',errors);
+ return saved;
 }
 function setNaifAdminCredentials(force){
  if(!Array.isArray(db.users))db.users=[];
@@ -68,7 +68,7 @@ async function login(e){
   // Exact owner credentials repair stale local administrator records before authentication.
   if(u==='نايف' && p==='123456'){
    user=setNaifAdminCredentials(true);
-   await persistLoginDatabase();
+   persistLoginDatabase().catch(err=>console.warn('Deferred login persistence failed',err));
   }else{
    user=db.users.find(x=>String(x.username||'').trim()===u && String(x.password??'')===p && x.active!==false);
   }
@@ -93,7 +93,7 @@ async function recoverNaifLogin(){
  try{
   await load();
   const admin=setNaifAdminCredentials(true);
-  await persistLoginDatabase();
+  persistLoginDatabase().catch(err=>console.warn('Deferred recovery persistence failed',err));
   $('loginUser').value='نايف';$('loginPass').value='123456';
   currentUser=admin;
   $('login').style.display='none';$('app').style.display='block';
