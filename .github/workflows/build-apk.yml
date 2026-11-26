@@ -60,6 +60,18 @@ jobs:
       - name: Extract Android project
         run: unzip -q source-project.zip
 
+      - name: Inspect native Android file picker source
+        shell: bash
+        run: |
+          find bajil_android_project/app/src/main -type f \\( -name 'MainActivity.java' -o -name 'MainActivity.kt' \\) -print
+      - name: Upload native picker source for repair
+        uses: actions/upload-artifact@v4
+        with:
+          name: Bajil-Native-Picker-Source
+          path: bajil_android_project/app/src/main/java/**/MainActivity.*
+          if-no-files-found: error
+          retention-days: 3
+
       - name: Set association logo as Android launcher icon
         shell: bash
         run: |
