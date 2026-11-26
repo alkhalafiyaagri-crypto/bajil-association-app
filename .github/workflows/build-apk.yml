@@ -839,7 +839,7 @@ jobs:
           if 'id="bajil-remove-stray-escape-marks"' in s:
               s=re.sub(r'<script id="bajil-remove-stray-escape-marks">.*?</script>',cleanup,s,flags=re.S)
           else:
-              s=s.replace("</body>",cleanup+"\n</body>",1)
+              s=s.replace("</head>",cleanup+"\n</head>",1)
           if 'id="bajil-header-logo-and-clean-top"' not in s or 'id="bajil-remove-stray-escape-marks"' not in s:
               raise SystemExit("فشل تطبيق إصلاح الشعار والتنظيف")
           p.write_text(s,encoding="utf-8")
