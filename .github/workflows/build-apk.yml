@@ -381,6 +381,25 @@ jobs:
           PY
           grep -nF '</style>' bajil_android_project/app/src/main/assets/index.html | tail -3
 
+      - name: Clean literal backslash-n from HTML head boundary
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path("bajil_android_project/app/src/main/assets/index.html")
+          s=p.read_text(encoding="utf-8")
+          slash=chr(92)
+          bad="</style>"+slash+"n</head>"
+          if bad in s:
+              s=s.replace(bad,"</style>\n</head>")
+              p.write_text(s,encoding="utf-8")
+              print("Removed literal backslash-n text that was appearing above the page.")
+          else:
+              print("No literal backslash-n found at style/head boundary.")
+          if bad in p.read_text(encoding="utf-8"):
+              raise SystemExit("Escaped newline artifact remains.")
+          PY
+
       - name: Validate app HTML and JavaScript
         shell: bash
         run: |
