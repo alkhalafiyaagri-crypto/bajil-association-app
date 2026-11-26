@@ -353,6 +353,53 @@ jobs:
           p.write_text(s,encoding="utf-8")
           PY
 
+      - name: Remove visible escape artifacts and enable immersive top layout
+        shell: bash
+        run: |
+          set -e
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path("bajil_android_project/app/src/main/assets/index.html")
+          s=p.read_text(encoding="utf-8")
+          # Remove the literal two-character escape sequence only from the document's
+          # head/body preamble, where previous workflow edits accidentally emitted it.
+          body=re.search(r"<body\\b[^>]*>",s,re.I)
+          if body:
+              prefix=s[:body.end()]
+              tail=s[body.end():]
+              prefix=prefix.replace(chr(92)+"n","")
+              prefix=re.sub(r"(?is)(<body\\b[^>]*>)\\s*n\\s*"+re.escape(chr(92))+r"\\n(?:\\s*"+re.escape(chr(92))+r"\\n)*\\s*"+re.escape(chr(92))+r"?","\\1",prefix)
+              s=prefix+tail
+          # Remove a stray literal marker if it was emitted as the first visible body text.
+          s=re.sub(r"(?is)(<body\\b[^>]*>)\\s*n\\s*(?:"+re.escape(chr(92))+r"n\\s*){1,4}"+re.escape(chr(92))+r"?","\\1",s,count=1)
+          # The prior build inserted a literal slash-n before </head>; remove it safely.
+          s=s.replace("</style>"+chr(92)+"n</head>","</style>\\n</head>")
+          p.write_text(s,encoding="utf-8")
+          if re.search(r"(?is)<body[^>]*>\\s*n\\s*"+re.escape(chr(92))+r"n",s):
+              raise SystemExit("Visible escape artifact still detected before body content")
+          print("Removed visible escape artifact from HTML preamble.")
+          PY
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path("bajil_android_project/app/src/main/java/ye/org/bajil/association/MainActivity.java")
+          s=p.read_text(encoding="utf-8")
+          needle="super.onCreate(state);"
+          if needle not in s:
+              raise SystemExit("Could not locate MainActivity onCreate insertion point")
+          code="""super.onCreate(state);
+              getWindow().getDecorView().setSystemUiVisibility(
+                  android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
+                  | android.view.View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                  | android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                  | android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);"""
+          if "SYSTEM_UI_FLAG_FULLSCREEN" not in s:
+              s=s.replace(needle,code,1)
+          p.write_text(s,encoding="utf-8")
+          print("Enabled immersive fullscreen to hide Android status bar icons and reclaim top space.")
+          PY
+          grep -q 'SYSTEM_UI_FLAG_FULLSCREEN' bajil_android_project/app/src/main/java/ye/org/bajil/association/MainActivity.java
+
       - name: Locate Android project
         run: |
           test -f bajil_android_project/app/build.gradle
