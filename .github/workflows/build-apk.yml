@@ -218,20 +218,20 @@ jobs:
         run: |
           python3 - <<'PY'
           import xml.etree.ElementTree as ET
-          p = 'bajil_android_project/app/src/main/AndroidManifest.xml'
+          from pathlib import Path
+          p = Path('bajil_android_project/app/src/main/AndroidManifest.xml')
           tree = ET.parse(p)
           root = tree.getroot()
           ns = '{http://schemas.android.com/apk/res/android}'
-          changed = False
-          for activity in root.findall('.//activity'):
-              if activity.find('.//intent-filter') is not None:
-                  activity.set(ns + 'screenOrientation', 'landscape')
-                  changed = True
-          if not changed:
-              raise SystemExit('Launcher activity not found in AndroidManifest.xml')
+          app = root.find('application')
+          if app is None:
+              raise SystemExit('AndroidManifest.xml has no application element')
+          activities = app.findall('activity')
+          for activity in activities:
+              activity.set(ns + 'screenOrientation', 'landscape')
           ET.register_namespace('android', 'http://schemas.android.com/apk/res/android')
           tree.write(p, encoding='utf-8', xml_declaration=True)
-          print('Launcher activity forced to landscape orientation')
+          print(f'Landscape orientation applied to {len(activities)} activity entries')
           PY
 
       - name: Build installable APK
