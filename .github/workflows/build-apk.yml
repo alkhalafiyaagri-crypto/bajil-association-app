@@ -817,13 +817,15 @@ jobs:
           css=r"""<style id="bajil-header-logo-and-clean-top">
           header{padding:8px 14px!important}
           header>div:first-child{gap:12px!important;align-items:center!important;flex-wrap:nowrap!important}
-          header img[alt="شعار الجمعية"]{width:78px!important;height:66px!important;min-width:78px!important;max-width:78px!important;flex:0 0 78px!important;object-fit:contain!important;padding:3px!important;background:rgba(255,255,255,.13)!important;border:1px solid rgba(255,255,255,.30)!important;border-radius:10px!important}
-          header h1{font-size:clamp(13px,2vw,18px)!important;line-height:1.35!important;margin:0!important}\n          header .association-branch{display:block!important;color:#FFF4D8!important;font-size:12px!important;font-weight:800!important;line-height:1.35!important;margin:2px 0 0!important;letter-spacing:.1px!important}
+          header img[alt="شعار الجمعية"]{box-sizing:border-box!important;width:78px!important;height:66px!important;min-width:78px!important;max-width:78px!important;flex:0 0 78px!important;object-fit:contain!important;padding:3px!important;background:#fff!important;border:2px solid #D8B66B!important;border-radius:10px!important;box-shadow:0 2px 8px rgba(0,0,0,.18)!important}
+          header h1{font-size:clamp(13px,2vw,18px)!important;line-height:1.35!important;margin:0!important}
+          header .association-branch{display:block!important;color:inherit!important;font-size:inherit!important;font-weight:800!important;line-height:1.35!important;margin:2px 0 0!important;letter-spacing:0!important}
           @media(max-width:560px){
             header{padding:6px 9px!important}
             header>div:first-child{gap:9px!important}
             header img[alt="شعار الجمعية"]{width:66px!important;height:58px!important;min-width:66px!important;max-width:66px!important;flex-basis:66px!important}
-            header h1{font-size:clamp(11px,3vw,14px)!important}\n            header .association-branch{font-size:10px!important;margin-top:2px!important}
+            header h1{font-size:clamp(11px,3vw,14px)!important}
+            header .association-branch{font-size:inherit!important;margin-top:2px!important}
           }
           </style>"""
           if 'id="bajil-header-logo-and-clean-top"' in s:
