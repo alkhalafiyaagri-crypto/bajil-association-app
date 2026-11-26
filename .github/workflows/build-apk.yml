@@ -742,6 +742,61 @@ jobs:
           print("Applied light agricultural green, red and brown palette with premium colored buttons.")
           PY
 
+      - name: Apply elegant gold background theme
+        shell: bash
+        run: |
+          set -e
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path("bajil_android_project/app/src/main/assets/index.html")
+          s=p.read_text(encoding="utf-8")
+          css=r"""<style id="bajil-elegant-gold-background">
+          :root{
+            --gold-bg:#F5E8C9;
+            --gold-light:#FFF8E9;
+            --gold-mid:#D8B66B;
+            --gold-deep:#9A7135;
+            --green:#286744;
+            --red:#B94B43;
+            --brown:#8A6042;
+            --ink:#3F3424;
+            --line:#E6D5AD;
+          }
+          html,body{background-color:var(--gold-bg)!important;color:var(--ink)!important}
+          body{background-image:linear-gradient(145deg,rgba(255,248,233,.96),rgba(238,219,174,.88)),url('./assets/logo-watermark.png')!important;background-position:center,center 175px!important;background-size:auto,min(60vw,520px) auto!important;background-repeat:repeat,no-repeat!important}
+          .wrap{background:transparent!important}
+          .top,.panel,.kpi,.formbox,.tablewrap,#modal .modalbox{background:linear-gradient(145deg,#FFFCF4,#F8EED8)!important;color:var(--ink)!important;border:1px solid var(--line)!important;box-shadow:0 5px 17px rgba(111,79,31,.10)!important}
+          .kpi{border-right:4px solid var(--gold-deep)!important}
+          .kpi strong,.panel h2{color:#765523!important}
+          .kpi small,label,.muted{color:#76664C!important}
+          .formbox{background:linear-gradient(145deg,#FFFCF5,#F2E4C4)!important;border-right:4px solid var(--gold-mid)!important}
+          header{background:linear-gradient(110deg,#24583B,#397A4C 58%,#6A8E55)!important;border-bottom:3px solid var(--gold-mid)!important}
+          input,select,textarea{background:#FFFEFA!important;color:var(--ink)!important;border:1px solid #DCC99D!important}
+          input:focus,select:focus,textarea:focus{border-color:var(--gold-deep)!important;box-shadow:0 0 0 3px rgba(184,145,69,.18)!important}
+          th{background:#39734B!important;color:#fff!important}
+          td{border-color:#E8DCC0!important}
+          tr:nth-child(even){background:#F7EEDB!important}
+          tr:nth-child(odd){background:#FFFCF5!important}
+          .tabs{border-bottom-color:var(--gold-deep)!important}
+          .tabs .tab{background:#FFF9EC!important;color:#5D4B2D!important;border:1px solid #E4D4B2!important}
+          .tabs .tab.active{background:linear-gradient(135deg,#D8B66B,#B88C45)!important;color:#302516!important;border-color:#A77D3D!important}
+          button.gold,.gold,.filebtn{background:linear-gradient(135deg,#D9B66C,#A77B3E)!important;color:#2E2518!important;border-color:#A77B3E!important}
+          .notice{background:#F4E7CA!important;color:#684B27!important;border-color:#E0C995!important}
+          ::-webkit-scrollbar-thumb{background:#B88C45!important;border-radius:8px}
+          ::selection{background:#D8B66B!important;color:#302516!important}
+          @media(max-width:700px){body{background-image:linear-gradient(rgba(255,248,233,.92),rgba(238,219,174,.90)),url('./assets/logo-watermark.png')!important;background-position:center,center 160px!important;background-size:auto,86vw auto!important}}
+          </style>"""
+          if 'id="bajil-elegant-gold-background"' in s:
+              s=re.sub(r'<style id="bajil-elegant-gold-background">.*?</style>',css,s,flags=re.S)
+          else:
+              s=s.replace("</head>",css+"\\n</head>",1)
+          if 'id="bajil-elegant-gold-background"' not in s:
+              raise SystemExit("تعذر إدراج الخلفية الذهبية")
+          p.write_text(s,encoding="utf-8")
+          print("Applied elegant warm gold background while retaining agricultural button colors.")
+          PY
+
       - name: Validate app HTML and JavaScript
         shell: bash
         run: |
