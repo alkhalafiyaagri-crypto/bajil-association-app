@@ -154,6 +154,9 @@ jobs:
       - name: Set administrator login to Naif and validate recovery
         run: python3 scripts/set-naif-admin-login.py
 
+      - name: Verify Naif login credentials and startup synchronization
+        run: python3 scripts/verify-naif-login.py
+
       - name: Validate bundled JavaScript syntax
         run: python3 scripts/validate-web-assets.py
 
