@@ -266,6 +266,30 @@ jobs:
            }catch(err){alert('تعذرت قراءة الملف المحدد: '+err.message)}
           };
           """
+          # Bilingual headers for all XLSX exports created from JSON rows.
+          bilingual_headers = """<script id="bajil-bilingual-excel-headers">
+          (function(){
+            function install(){
+              if(!window.XLSX||!XLSX.utils||XLSX.utils.__bajilBilingual)return false;
+              var original=XLSX.utils.json_to_sheet;
+              var labels={id:'الرقم التسلسلي | ID',serial:'الرقم التسلسلي | Serial',name:'الاسم | Name',farmername:'اسم المزارع | Farmer Name',fullname:'الاسم الكامل | Full Name',cardtype:'نوع البطاقة | Card Type',cardnumber:'رقم البطاقة | Card Number',nationalid:'رقم الهوية | National ID',village:'القرية | Village',area:'العزلة | Subdistrict',subdistrict:'العزلة | Subdistrict',district:'المديرية | District',governorate:'المحافظة | Governorate',phone:'رقم الهاتف | Phone',mobilenumber:'رقم الهاتف | Mobile Number',membership:'الانتساب | Membership',membershipdate:'تاريخ الانتساب | Membership Date',joindate:'تاريخ التسجيل | Registration Date',date:'التاريخ | Date',createdat:'تاريخ الإضافة | Created At',notes:'الملاحظات | Notes',note:'ملاحظة | Note',address:'العنوان | Address',gender:'النوع | Gender',age:'العمر | Age',job:'المهنة | Occupation',type:'النوع | Type',category:'التصنيف | Category',status:'الحالة | Status',amount:'المبلغ | Amount',total:'الإجمالي | Total',price:'السعر | Price',quantity:'الكمية | Quantity',unit:'الوحدة | Unit',description:'البيان | Description',details:'التفاصيل | Details',paymenttype:'نوع السند | Voucher Type',vouchertype:'نوع السند | Voucher Type',vouchernumber:'رقم السند | Voucher Number',receiptnumber:'رقم الإيصال | Receipt Number',invoice:'الفاتورة | Invoice',reference:'المرجع | Reference',account:'الحساب | Account',balance:'الرصيد | Balance',debit:'مدين | Debit',credit:'دائن | Credit',employee:'الموظف | Employee',user:'المستخدم | User',product:'الصنف | Product',crop:'المحصول | Crop',season:'الموسم | Season',hectares:'المساحة بالهكتار | Area (ha)',areahectares:'المساحة بالهكتار | Area (ha)',farmerid:'رقم المزارع | Farmer ID',group:'المجموعة | Group',attachment:'المرفق | Attachment',filename:'اسم الملف | File Name'};
+              function label(key){var raw=String(key==null?'':key),n=raw.toLowerCase().replace(/[\s_\-]/g,'');if(labels[n])return labels[n];if(/[\u0600-\u06FF]/.test(raw))return raw+' | '+raw;return 'البيانات | '+raw;}
+              XLSX.utils.json_to_sheet=function(rows,opts){
+                if(!Array.isArray(rows)||!rows.length)return original.call(this,rows,opts);
+                var keys=(opts&&Array.isArray(opts.header)&&opts.header.length)?opts.header:Object.keys(rows[0]||{});
+                var converted=rows.map(function(row){var out={};keys.forEach(function(k){out[label(k)]=row==null?undefined:row[k];});return out;});
+                var clean={};if(opts)Object.keys(opts).forEach(function(k){if(k!=="header")clean[k]=opts[k];});
+                return original.call(this,converted,clean);
+              };
+              XLSX.utils.__bajilBilingual=true;return true;
+            }
+            if(!install()){var tries=0,timer=setInterval(function(){tries++;if(install()||tries>40)clearInterval(timer);},100);}
+          })();
+          </script>"""
+          if 'id="bajil-bilingual-excel-headers"' not in s:
+              s=s.replace("</head>",bilingual_headers+"\n</head>",1)
+          if 'id="bajil-bilingual-excel-headers"' not in s: raise SystemExit("تعذر تثبيت عناوين Excel الثنائية اللغة")
+
           s=s.replace("load(); if($('reportYear'))",insert+"\nload(); if($('reportYear'))")
           # Landscape dashboard spacing and more usable wide-screen tables.
           s=s.replace("</style>\n<meta name=\"theme-color\"","@media (orientation:landscape) and (min-width:700px){.wrap{max-width:1800px;padding:0 22px}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.kpis{grid-template-columns:repeat(5,minmax(0,1fr))}.tabs{gap:9px}.panel{padding:22px}.tablewrap{max-height:62vh}.top{gap:18px}}\n</style>\n<meta name=\"theme-color\"")
