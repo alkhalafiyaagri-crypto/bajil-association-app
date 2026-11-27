@@ -897,20 +897,21 @@ jobs:
           p=Path("bajil_android_project/app/src/main/assets/index.html")
           s=p.read_text(encoding="utf-8")
           css=r"""<style id="bajil-compact-login-final">
-          #login{position:fixed!important;inset:0!important;width:100%!important;min-height:100dvh!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:8px!important;overflow-y:auto!important;overflow-x:hidden!important}
-          #login .loginbox{box-sizing:border-box!important;width:min(100%,390px)!important;max-width:390px!important;min-width:0!important;margin:auto!important;padding:12px 16px!important;border-radius:16px!important;text-align:center!important;box-shadow:0 10px 28px rgba(0,0,0,.20)!important}
-          #login .brand-logo{display:block!important;width:92px!important;height:auto!important;max-width:30vw!important;max-height:68px!important;object-fit:contain!important;margin:0 auto 5px!important}
-          #login .loginbox h2{font-size:clamp(14px,2.2vw,17px)!important;line-height:1.35!important;margin:4px 0!important}
-          #login .loginbox>p{font-size:11px!important;line-height:1.35!important;margin:4px 0!important}
-          #login .loginbox .field{text-align:right!important;margin:6px 0!important}
-          #login .loginbox label{display:block!important;font-size:12px!important;margin:0 0 3px!important}
-          #login .loginbox input{display:block!important;width:100%!important;min-height:40px!important;height:40px!important;padding:7px 10px!important;font-size:15px!important;border-radius:9px!important}
-          #login .loginbox button{width:100%!important;min-height:42px!important;height:42px!important;padding:7px 12px!important;margin-top:5px!important;font-size:15px!important;border-radius:9px!important}
-          #login .loginbox #loginError{font-size:11px!important;margin:4px 0!important}
-          #login .loginbox .muted{font-size:10px!important;margin:4px 0 0!important}
+          /* Visual-only login sizing: keep the original form, input IDs and submit handler untouched. */
+          #login{position:fixed!important;inset:0!important;width:100%!important;min-height:100dvh!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:10px!important;overflow-y:auto!important;overflow-x:hidden!important}
+          #login form.loginbox{box-sizing:border-box!important;display:block!important;width:min(100%,350px)!important;max-width:350px!important;min-width:0!important;margin:auto!important;padding:11px 15px!important;border-radius:16px!important;text-align:center!important;box-shadow:0 10px 28px rgba(0,0,0,.20)!important}
+          #login form.loginbox .brand-logo{display:block!important;width:86px!important;height:auto!important;max-width:28vw!important;max-height:64px!important;object-fit:contain!important;margin:0 auto 5px!important}
+          #login form.loginbox h2{font-size:clamp(14px,2.1vw,17px)!important;line-height:1.35!important;margin:4px 0!important}
+          #login form.loginbox>p{font-size:11px!important;line-height:1.35!important;margin:4px 0!important}
+          #login form.loginbox .field{text-align:right!important;margin:6px 0!important}
+          #login form.loginbox label{display:block!important;font-size:12px!important;margin:0 0 3px!important}
+          #login form.loginbox input{display:block!important;box-sizing:border-box!important;width:100%!important;min-height:38px!important;height:38px!important;padding:6px 10px!important;font-size:15px!important;border-radius:9px!important}
+          #login form.loginbox button{display:block!important;width:100%!important;min-height:40px!important;height:40px!important;padding:7px 12px!important;margin-top:5px!important;font-size:15px!important;border-radius:9px!important}
+          #login form.loginbox #loginError{font-size:11px!important;margin:4px 0!important}
+          #login form.loginbox .muted{font-size:10px!important;margin:4px 0 0!important}
           body:has(#login input[type=password]){min-height:100dvh!important;height:100dvh!important;overflow:hidden!important;padding:0!important;align-items:stretch!important}
-          @media(max-height:480px){#login{padding:4px!important}#login .loginbox{padding:7px 13px!important}#login .brand-logo{width:68px!important;max-height:48px!important;margin-bottom:2px!important}#login .loginbox h2{font-size:13px!important;margin:2px 0!important}#login .loginbox>p{font-size:10px!important;margin:2px 0!important}#login .loginbox .field{margin:4px 0!important}#login .loginbox input{height:35px!important;min-height:35px!important}#login .loginbox button{height:37px!important;min-height:37px!important;margin-top:3px!important}}
-          @media(max-width:360px){#login .loginbox{padding:10px 12px!important}#login .brand-logo{width:78px!important;max-height:58px!important}}
+          @media(max-height:480px){#login{padding:4px!important}#login form.loginbox{padding:7px 12px!important}#login form.loginbox .brand-logo{width:64px!important;max-height:44px!important;margin-bottom:2px!important}#login form.loginbox h2{font-size:13px!important;margin:2px 0!important}#login form.loginbox>p{font-size:10px!important;margin:2px 0!important}#login form.loginbox .field{margin:4px 0!important}#login form.loginbox input{height:34px!important;min-height:34px!important}#login form.loginbox button{height:36px!important;min-height:36px!important;margin-top:3px!important}}
+          @media(max-width:360px){#login form.loginbox{padding:9px 11px!important}#login form.loginbox .brand-logo{width:74px!important;max-height:54px!important}}
           </style>"""
           if 'id="bajil-compact-login-final"' in s:
               s=re.sub(r'<style id="bajil-compact-login-final">.*?</style>',css,s,flags=re.S)
