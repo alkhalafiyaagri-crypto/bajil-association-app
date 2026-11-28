@@ -966,7 +966,7 @@ jobs:
           marker="load(); if($('reportYear'))"
           if marker not in s: raise SystemExit("لم يتم العثور على موضع آمن لإضافة محرك الاستيراد الذكي")
           js=r"""
-          <script id="bajil-smart-import-and-crops-v2">
+          /* bajil-smart-import-and-crops-v2 */
           (function(){
             var extra={
               id:['رقم العضوية','العضوية','رقم المزارع','كود المزارع','معرف المزارع','member no','membership no','farmer id','farmerid','id'],
@@ -1143,13 +1143,13 @@ jobs:
               save();pendingImport=null;$('importPreview').innerHTML='';alert('اكتمل الاستيراد. السجلات المضافة: '+added+' | السجلات المتجاوزة أو المكررة: '+skipped);
             };
           })();
-          </script>
+          /* end bajil-smart-import-and-crops-v2 */
           """
           s=s.replace(marker,js+"\n"+marker,1)
           p.write_text(s,encoding="utf-8")
           print("Crop types and automatic multi-sheet Excel header detection/mapping installed.")
           PY
-          grep -q 'id="bajil-smart-import-and-crops-v2"' bajil_android_project/app/src/main/assets/index.html
+          grep -q 'bajil-smart-import-and-crops-v2' bajil_android_project/app/src/main/assets/index.html
 
       - name: Validate app HTML and JavaScript
         shell: bash
