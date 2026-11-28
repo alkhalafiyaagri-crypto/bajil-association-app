@@ -950,8 +950,8 @@ jobs:
               body=match.group(1)
               for name in crop_types:
                   if ">"+name+"<" not in body:
-                      body=body.replace("</select>",f"<option>{name}</option></select>")
-              return '<select name="type" required>'+body.split("</select>")[0]+"</select>"
+                      body += f"<option>{name}</option>"
+              return '<select name="type" required>'+body+"</select>"
           pattern=r'<select name="type" required>(.*?)</select>'
           s,n=re.subn(pattern,add_options,s,count=1,flags=re.S)
           if n!=1: raise SystemExit("لم يتم العثور على قائمة نوع المحصول")
