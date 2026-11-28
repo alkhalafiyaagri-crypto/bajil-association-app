@@ -1057,7 +1057,7 @@ jobs:
                 out.farmerId=String(out.farmerId==null?'':out.farmerId).trim();
                 if(!out.farmerId&&out.farmerName){var fn=clean(out.farmerName),farmer=db.farmers.find(function(f){return clean(f.name)===fn;});if(farmer)out.farmerId=String(farmer.id);}
                 out.type=String(out.type==null?'':out.type).trim();
-                var cropNames=['الدخن','السمسم الاحمر','الذره الحمراء','الدجري','الصويا','الذره الشاميه','السمسم الابيض','الذره الرفيعه'];
+                var cropNames=['الدخن','السمسم الأحمر','الذرة الحمراء','الدجرى','الصويا','الذرة الشامية','السمسم الأبيض','الذرة الرفيعة'];
                 var cv=clean(out.type);var known=cropNames.find(function(x){return clean(x)===cv;});if(known)out.type=known;
                 out.type=out.type||'محصول آخر';out.area=Number(String(out.area||0).replace(/,/g,''))||0;
                 out.seed=Number(String(out.seed||0).replace(/,/g,''))||0;out.yield=Number(String(out.yield||0).replace(/,/g,''))||0;
@@ -1120,7 +1120,7 @@ jobs:
                 if(!mapped.length)throw Error('تم التعرف على الأعمدة لكن لم توجد صفوف مكتملة. تأكد من رقم العضوية أو اسم المزارع');
                 var mm=mapHeaders(headers,target),mapping=Object.keys(mm.map).map(function(k){return '<tr><td>'+esc(k)+'</td><td>'+esc(mm.map[k])+'</td></tr>';}).join('');
                 pendingImport={target:target,rows:mapped};
-                $('importPreview').innerHTML='<p><span class="badge">القسم المكتشف: '+targetLabel(target)+'</span> '+(sheetName?' | ورقة العمل: '+esc(sheetName):'')+'</p><p>تم تحليل '+rows.length+' صفاً؛ السجلات الصالحة: <b>'+mapped.length+'</b></p><b>مطابقة الأعمدة التلقائية</b><div class="tablewrap"><table><thead><tr><th>حقل البرنامج</th><th>العمود في الملف</th></tr></thead><tbody>'+mapping+'</tbody></table></div><div class="tablewrap"><table><thead><tr>'+Object.keys(mapped[0]).map(function(k){return '<th>'+esc(k)+'</th>';}).join('')+'</tr></thead><tbody>'+mapped.slice(0,5).map(function(r){return '<tr>'+Object.values(r).map(function(v){return '<td>'+esc(v);+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table></div><button class="gold" onclick="commitImport()">اعتماد الاستيراد وحفظ البيانات</button>';
+                $('importPreview').innerHTML='<p><span class="badge">القسم المكتشف: '+targetLabel(target)+'</span> '+(sheetName?' | ورقة العمل: '+esc(sheetName):'')+'</p><p>تم تحليل '+rows.length+' صفاً؛ السجلات الصالحة: <b>'+mapped.length+'</b></p><b>مطابقة الأعمدة التلقائية</b><div class="tablewrap"><table><thead><tr><th>حقل البرنامج</th><th>العمود في الملف</th></tr></thead><tbody>'+mapping+'</tbody></table></div><div class="tablewrap"><table><thead><tr>'+Object.keys(mapped[0]).map(function(k){return '<th>'+esc(k)+'</th>';}).join('')+'</tr></thead><tbody>'+mapped.slice(0,5).map(function(r){return '<tr>'+Object.values(r).map(function(v){return '<td>'+esc(v)+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table></div><button class="gold" onclick="commitImport()">اعتماد الاستيراد وحفظ البيانات</button>';
               }catch(err){alert('تعذر تحليل الملف: '+err.message);}
             };
             window.commitImport=function(){
