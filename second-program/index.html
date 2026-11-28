@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>منظومة جمعية الخلفية الزراعية – الإصدار السادس الشامل</title>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+:root{--g:#14532d;--gd:#0b321c;--gold:#d97706;--bg:#f3f7f4;--line:#d5e0d8;--red:#b91c1c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#17251c;font-family:Tahoma,Arial,sans-serif;line-height:1.6}
+header{background:linear-gradient(120deg,var(--gd),var(--g));color:#fff;padding:17px 4%;border-bottom:4px solid #e9a321}header h1{font-size:19px;margin:0}header p{margin:4px 0 0;color:#d9f2df;font-size:12px}
+.wrap{max-width:1500px;margin:18px auto;padding:0 13px}.top,.actions,.tabs,.buttons{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.top{justify-content:space-between;margin-bottom:12px}
+button,.filebtn{border:0;border-radius:7px;padding:9px 12px;background:var(--g);color:#fff;font-weight:bold;cursor:pointer;font-size:13px}button:hover,.filebtn:hover{filter:brightness(1.08)}.gold{background:var(--gold)}.danger{background:var(--red)}.light{background:white;color:var(--gd);border:1px solid var(--line)}.small{padding:5px 8px;font-size:11px}
+input,select,textarea{width:100%;padding:9px;border:1px solid #cbd5ce;border-radius:7px;background:#fff;font:inherit;font-size:13px}label{font-size:12px;font-weight:bold;display:block;margin-bottom:4px}.field{min-width:0}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:11px}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:13px 0}.kpi{background:white;padding:12px;border:1px solid var(--line);border-right:4px solid var(--g);border-radius:9px}.kpi small{color:#65756b}.kpi strong{display:block;font-size:21px;color:var(--gd)}
+.tabs{border-bottom:3px solid var(--gold);padding-bottom:9px;margin:16px 0}.tab.active{background:var(--gd)}.panel{display:none;background:white;border:1px solid var(--line);border-radius:10px;padding:15px;margin-bottom:17px}.panel.active{display:block}.panel h2{font-size:17px;color:var(--gd);margin:0 0 12px}
+.formbox{background:#f8faf9;border:1px solid var(--line);border-right:4px solid var(--gold);padding:13px;border-radius:8px;margin-bottom:14px}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:8px;margin:10px 0}table{width:100%;border-collapse:collapse;min-width:700px;font-size:12px}th{background:var(--gd);color:white;text-align:right;padding:9px;white-space:nowrap}td{padding:8px;border-bottom:1px solid #e5ebe7}tr:nth-child(even){background:#f8faf9}.search{max-width:360px;margin:4px 0}.muted{color:#65756b;font-size:11px}.notice{padding:10px;background:#fff7e6;border:1px solid #f2d18d;border-radius:7px;margin:9px 0;font-size:12px}
+#login{position:fixed;inset:0;background:linear-gradient(135deg,#072213,#14532d);display:flex;align-items:center;justify-content:center;padding:15px;z-index:10}.loginbox{background:#fff;padding:25px;border-radius:13px;width:390px;max-width:100%;border-top:5px solid var(--gold);text-align:center}.loginbox h2{font-size:17px;color:var(--gd)}.loginbox .field{text-align:right;margin:11px 0}
+#modal{display:none;position:fixed;inset:0;background:#0009;z-index:8;align-items:center;justify-content:center;padding:14px}.modalbox{background:#fff;padding:18px;border-radius:10px;width:1000px;max-width:100%;max-height:92vh;overflow:auto}.modalhead{display:flex;justify-content:space-between;align-items:center}
+.badge{display:inline-block;padding:2px 7px;border-radius:20px;background:#e7f3e9;color:#14532d;font-size:11px}.hidden{display:none!important}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.kpis{grid-template-columns:repeat(3,1fr)}}@media(max-width:560px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}header h1{font-size:15px}.panel{padding:10px}.top{align-items:flex-start}}
+@media print{header,.top,.tabs,.formbox,.search,.noprint,#login{display:none!important}.panel{display:block!important;border:0}.wrap{margin:0;padding:0}.kpis{display:none}body{background:white}}
+</style>
+<meta name="theme-color" content="#14532d"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="application-name" content="جمعية الخلفية">
+<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png"><link rel="apple-touch-icon" href="./icons/icon-512.png">
+<style>
+body{background-image:url('./assets/logo-watermark.png');background-position:center 58%;background-repeat:no-repeat;background-size:min(78vw,760px) auto;background-attachment:fixed}
+#login{background:linear-gradient(135deg,rgba(7,34,19,.94),rgba(20,83,45,.92)),url('./assets/logo.png') center/ min(92vw,900px) auto no-repeat}
+.brand-logo{display:block;width:min(190px,52vw);max-height:116px;object-fit:contain;margin:0 auto 8px;border-radius:8px;background:#fff}
+.install-action{margin-top:9px;background:#d97706;color:#fff}
+@media(max-width:560px){body{background-size:94vw auto;background-position:center 62%}}
+</style>
+
+</head><body>
+<div id="login"><form class="loginbox" onsubmit="login(event)"><img class="brand-logo" src="./assets/logo.png" alt="شعار جمعية مديرية باجل التعاونية الزراعية"><h2>جمعية مديرية باجل التعاونية الزراعية متعددة الأغراض</h2><p>فرع عزلة الخلفية – الإصدار السادس <span id="networkStatus" style="font-weight:bold;margin-right:8px">● جارٍ فحص الاتصال</span></p><div class="field"><label>اسم المستخدم</label><input id="loginUser" value="الخلفية" required></div><div class="field"><label>كلمة المرور</label><input id="loginPass" type="password" value="1234" required></div><p id="loginError" style="display:none;color:#b91c1c">بيانات الدخول غير صحيحة أو الحساب موقوف</p><button style="width:100%">تسجيل الدخول</button><p class="muted">الدخول الافتراضي: الخلفية / 1234</p></form></div>
+<header><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><img src="./assets/logo.png" alt="شعار الجمعية" style="width:86px;height:58px;object-fit:contain;background:#fff;border-radius:6px;padding:2px"><div><h1>جمعية مديرية باجل التعاونية الزراعية متعددة الأغراض – فرع عزلة الخلفية</h1><p>منظومة إدارة المزارعين والمحاصيل والمخزون والسندات والحسابات والتقارير</p></div><button id="installAppBtn" class="install-action" type="button" style="display:none" onclick="installAssociationApp()">تثبيت التطبيق</button></div></header>
+<main class="wrap" id="app" style="display:none">
+<div class="top"><div><b id="welcome"></b><div class="muted">حفظ تلقائي محلي على هذا المتصفح والجهاز</div></div><div class="actions noprint"><button class="gold" onclick="backup()">نسخة احتياطية كاملة</button><label class="filebtn light">استعادة نسخة<input type="file" accept=".json,application/json" onchange="restore(event)" hidden></label><button class="light" onclick="document.getElementById('importFile').click()">استيراد Excel / CSV</button><input id="importFile" type="file" accept=".xlsx,.xls,.csv,.json" hidden onchange="startImport(event)"><button class="light" onclick="exportExcel()">تصدير Excel / CSV</button><button class="light" onclick="window.print()">طباعة</button><button class="danger" onclick="logout()">خروج</button></div></div>
+<div class="kpis"><div class="kpi"><small>المزارعون</small><strong id="kFarm">0</strong></div><div class="kpi"><small>المنتسبون للجمعية</small><strong id="kMember">0</strong></div><div class="kpi"><small>المساحات (هكتار)</small><strong id="kArea">0</strong></div><div class="kpi"><small>الإنتاج (كجم)</small><strong id="kYield">0</strong></div><div class="kpi"><small>صافي المديونية</small><strong id="kDebt">0</strong></div></div>
+<div class="kpis"><div class="kpi"><small>عقود الزراعة التعاقدية</small><strong id="kContracts">0</strong></div><div class="kpi"><small>رصيد القروض القائمة</small><strong id="kLoans">0</strong></div><div class="kpi"><small>الثروة الحيوانية والنحل</small><strong id="kLivestock">0</strong></div><div class="kpi"><small>المتابعات قيد التنفيذ</small><strong id="kFollowUp">0</strong></div><div class="kpi"><small>حوافز الهيئة والوحدات</small><strong id="kIncentives">0</strong></div></div>
+<nav class="tabs noprint" id="tabs">
+<button class="tab active" data-tab="farmers">المزارعون</button><button class="tab" data-tab="crops">المحاصيل والتقارير</button><button class="tab" data-tab="contracts">الزراعة التعاقدية</button><button class="tab" data-tab="loans">القروض والتمويل</button><button class="tab" data-tab="livestock">الثروة الحيوانية والنحل</button><button class="tab" data-tab="followup">قسم المتابعة</button><button class="tab" data-tab="adminUnits">الهيئة الإدارية والوحدات</button><button class="tab" data-tab="dashboard">لوحة المؤشرات والملخص</button><button class="tab" data-tab="alerts">التنبيهات والمتأخرات</button><button class="tab" data-tab="inventory">المخزون</button><button class="tab" data-tab="finance">حسابات المزارعين والسندات</button><button class="tab" data-tab="cash">الصندوق والإيرادات والمصروفات</button><button class="tab" data-tab="journal">اليومية والأستاذ العام</button><button class="tab" data-tab="reports">التقارير الشهرية والسنوية</button><button class="tab" data-tab="settings">إعدادات الحساب</button><button class="tab" data-tab="users" data-role="admin">المستخدمون والصلاحيات</button><button class="tab" data-tab="imports" data-role="admin">استيراد الملفات</button><button class="tab" data-tab="auditLog" data-role="admin">سجل الرقابة والعمليات</button>
+</nav>
+<section id="farmers" class="panel active"><h2>إدارة المزارعين</h2><div class="formbox"><form id="farmerForm"><input type="hidden" name="oldId"><div class="grid">
+<div class="field"><label>رقم العضوية *</label><input name="id" required></div><div class="field"><label>اسم المزارع *</label><input name="name" required></div><div class="field"><label>نوع البطاقة</label><select name="cardType"><option value="">بدون بطاقة</option><option>بطاقة شخصية</option><option>بطاقة عائلية</option><option>بطاقة انتخابية</option><option>جواز سفر</option><option>بطاقة أخرى</option></select></div><div class="field"><label>رقم البطاقة</label><input name="cardNumber" autocomplete="off" placeholder="أدخل رقم البطاقة"></div><div class="field"><label>القرية</label><input name="village"></div><div class="field"><label>العزلة</label><input name="isolation"></div><div class="field"><label>المديرية</label><input name="district" value="باجل"></div><div class="field"><label>المحافظة</label><input name="governorate" value="الحديدة"></div><div class="field"><label>الانتساب للجمعية</label><select name="membership"><option>منتسب للجمعية</option><option>غير منتسب للجمعية</option></select></div><div class="field"><label>رقم الهاتف</label><input name="phone" inputmode="tel"></div><div class="field"><label>ملاحظات</label><input name="notes"></div></div><div class="buttons"><button>حفظ المزارع</button><button type="button" class="light" onclick="resetForm('farmerForm')">تفريغ الحقول</button></div></form></div><input class="search" placeholder="بحث بالاسم أو العضوية أو البطاقة أو القرية أو العزلة أو الهاتف" oninput="renderFarmers(this.value)"><div class="tablewrap"><table><thead><tr><th>العضوية</th><th>اسم المزارع</th><th>نوع البطاقة</th><th>رقم البطاقة</th><th>القرية</th><th>العزلة</th><th>المديرية</th><th>المحافظة</th><th>الانتساب</th><th>رقم الهاتف</th><th>الملاحظات</th><th>الإجراءات</th></tr></thead><tbody id="farmerRows"></tbody></table></div></section>
+<section id="crops" class="panel"><h2>تسجيل المحاصيل الزراعية</h2><div class="formbox"><form id="cropForm"><input type="hidden" name="key"><div class="grid"><div class="field"><label>المزارع *</label><select name="farmerId" class="farmerOpts" required></select></div><div class="field"><label>نوع المحصول *</label><select name="type" required><option value="">اختر</option><option>الذرة الشامية</option><option>السمسم الأبيض</option><option>الذرة الرفيعة</option><option>محصول آخر</option></select></div><div class="field"><label>اسم المحصول الآخر (إن وجد)</label><input name="otherType"></div><div class="field"><label>المساحة (هكتار)</label><input name="area" type="number" min="0" step=".01" value="0"></div><div class="field"><label>كمية البذور (كجم)</label><input name="seed" type="number" min="0" step=".01" value="0"></div><div class="field"><label>الإنتاج (كجم)</label><input name="yield" type="number" min="0" step=".01" value="0"></div><div class="field"><label>الموسم الزراعي</label><input name="season" placeholder="مثال: 2026"></div><div class="field"><label>تاريخ التسجيل</label><input name="date" type="date" required></div></div><div class="buttons"><button>حفظ بيانات المحصول</button><button type="button" class="light" onclick="resetForm('cropForm')">تفريغ الحقول</button></div></form></div><div class="formbox"><b>تقرير إنتاج المحاصيل</b><div class="grid" style="margin-top:8px"><div class="field"><label>المحصول</label><select id="reportCrop"><option value="">كل المحاصيل</option><option>الذرة الشامية</option><option>السمسم الأبيض</option></select></div><div class="field"><label>الموسم</label><input id="reportSeason" placeholder="اتركه فارغاً للكل"></div></div><button onclick="cropReport()">عرض التقرير</button><button class="light" onclick="exportCropReport()">تصدير التقرير Excel</button><div id="cropReportOut"></div></div><input class="search" placeholder="بحث..." oninput="renderCrops(this.value)"><div class="tablewrap"><table><thead><tr><th>العضوية</th><th>المزارع</th><th>المحصول</th><th>المساحة</th><th>البذور</th><th>الإنتاج كجم</th><th>الموسم</th><th>التاريخ</th><th>إجراءات</th></tr></thead><tbody id="cropRows"></tbody></table></div></section>
+<section id="contracts" class="panel">
+<h2>الزراعة التعاقدية ومتابعة التوريد</h2>
+<div class="notice">إدارة عقود الزراعة التعاقدية مع المزارعين وحساب قيمة التوريد والمدفوع والمتبقي وترحيل الدفعات إلى الحسابات والصندوق واليومية.</div>
+<div class="formbox"><form id="contractForm"><input type="hidden" name="key"><div class="grid">
+<div class="field"><label>رقم العقد *</label><input name="contractNo" required placeholder="مثال: ع-2026-01"></div>
+<div class="field"><label>المزارع *</label><select name="farmerId" class="farmerOpts" required></select></div>
+<div class="field"><label>نوع المحصول المتعاقد عليه *</label><input name="cropType" required placeholder="الذرة الشامية، السمسم، فول الصويا..."></div>
+<div class="field"><label>المساحة المتعاقدة (هكتار)</label><input name="area" type="number" min="0" step=".01" value="0"></div>
+<div class="field"><label>الكمية المتوقعة / المتعاقدة (كجم)</label><input name="expectedQty" type="number" min="0" step=".01" value="0"></div>
+<div class="field"><label>الكمية الموردة فعلياً (كجم)</label><input name="deliveredQty" type="number" min="0" step=".01" value="0"></div>
+<div class="field"><label>سعر الوحدة المتفق عليه</label><input name="unitPrice" type="number" min="0" step=".01" value="0"></div>
+<div class="field"><label>المبلغ المدفوع / المسدد للمزارع</label><input name="paidAmount" type="number" min="0" step=".01" value="0"></div>
+<div class="field"><label>تاريخ العقد *</label><input name="date" type="date" required></div>
+<div class="field"><label>تاريخ التسليم / الانتهاء</label><input name="dueDate" type="date"></div>
+<div class="field"><label>حالة العقد</label><select name="status"><option>ساري</option><option>قيد التوريد</option><option>مكتمل</option><option>متأخر</option><option>ملغى</option></select></div>
+<div class="field"><label>ملاحظات العقد</label><input name="notes"></div>
+</div><div class="buttons">
+<button>حفظ العقد</button>
+<button type="button" class="light" onclick="resetForm('contractForm')">تفريغ الحقول</button>
+</div></form></div>
+<div class="kpis">
+<div class="kpi"><small>إجمالي قيمة التوريد المتعاقد</small><strong id="cTotalValue">0</strong></div>
+<div class="kpi"><small>إجمالي المدفوع للمزارعين</small><strong id="cPaidTotal">0</strong></div>
+<div class="kpi"><small>المتبقي للمزارعين</small><strong id="cRemainingTotal">0</strong></div>
+<div class="kpi"><small>إجمالي الكمية الموردة (كجم)</small><strong id="cDeliveredQty">0</strong></div>
+<div class="kpi"><small>العقود السارية</small><strong id="cActiveCount">0</strong></div>
+</div>
+<input class="search" placeholder="بحث برقم العقد أو المزارع أو المحصول أو الحالة..." oninput="renderContracts(this.value)">
+<div class="tablewrap"><table><thead><tr><th>رقم العقد</th><th>المزارع</th><th>المحصول</th><th>المساحة</th><th>المورد (كجم)</th><th>سعر الوحدة</th><th>قيمة التوريد</th><th>المدفوع</th><th>المتبقي</th><th>الحالة</th><th>الإجراءات</th></tr></thead><tbody id="contractRows"></tbody></table></div>
+</section>
+<section id="loans" class="panel">
+<h2>إدارة القروض والتمويل والسداد</h2>
+<div class="notice">تسجيل القروض وصرفها ومتابعة السداد والأقساط مع الترحيل الآلي لحساب المزارع والصندوق النقدي ودفتر اليومية.</div>
+<div class="formbox"><form id="loanForm"><input type="hidden" name="key"><div class="grid">
+<div class="field"><label>رقم القرض *</label><input name="loanNo" required placeholder="مثال: ق-2026-01"></div>
+<div class="field"><label>المزارع المستفيد *</label><select name="farmerId" class="farmerOpts" required></select></div>
+<div class="field"><label>نوع القرض / التمويل</label><select name="loanType"><option>قرض نقدي</option><option>تمويل زراعي / بذور وأسمدة</option><option>تمويل ثروة حيوانية ونحل</option><option>تمويل طارئ / تشغيلي</option></select></div>
+<div class="field"><label>مبلغ القرض *</label><input name="principal" type="number" min=".01" step=".01" required></div>
+<div class="field"><label>المسدد حتى الآن</label><input name="paid" type="number" min="0" step=".01" value="0"></div>
+<div class="field"><label>تاريخ الصرف *</label><input name="date" type="date" required></div>
+<div class="field"><label>تاريخ الاستحقاق النهائي</label><input name="dueDate" type="date"></div>
+<div class="field"><label>الضمان / الكفيل</label><input name="guarantee" placeholder="اسم الضامن أو نوع الضمان"></div>
+<div class="field"><label>طريقة الصرف</label><select name="method"><option>نقداً</option><option>تحويل</option><option>عيني</option></select></div>
+<div class="field"><label>حالة القرض</label><select name="status"><option>قائم</option><option>مسدد بالكامل</option><option>متأخر السداد</option></select></div>
+<div class="field"><label>ملاحظات</label><input name="notes"></div>
+</div><div class="buttons">
+<button>حفظ القرض وترحيله</button>
+<button type="button" class="light" onclick="resetForm('loanForm')">تفريغ الحقول</button>
+</div></form></div>
+
+<div class="formbox"><form id="loanPaymentForm"><b>تسجيل قسط / سداد قرض</b><div class="grid" style="margin-top:8px">
+<div class="field"><label>اختر القرض القائم *</label><select name="loanKey" id="loanSelect" required></select></div>
+<div class="field"><label>مبلغ السداد *</label><input name="amount" type="number" min=".01" step=".01" required></div>
+<div class="field"><label>تاريخ السداد *</label><input name="date" type="date" required></div>
+<div class="field"><label>طريقة السداد</label><select name="method"><option>نقداً</option><option>تحويل</option></select></div>
+<div class="field"><label>ملاحظة السداد</label><input name="note" placeholder="قسط شهري / سداد جزئي..."></div>
+</div><button>اعتماد سداد القسط</button></form></div>
+
+<div class="kpis">
+<div class="kpi"><small>إجمالي القروض المصروفة</small><strong id="lPrincipalTotal">0</strong></div>
+<div class="kpi"><small>إجمالي المبالغ المسددة</small><strong id="lPaidTotal">0</strong></div>
+<div class="kpi"><small>إجمالي المتبقي على المقترضين</small><strong id="lBalanceTotal">0</strong></div>
+<div class="kpi"><small>القروض القائمة</small><strong id="lActiveCount">0</strong></div>
+<div class="kpi"><small>القروض المتأخرة</small><strong id="lLateCount">0</strong></div>
+</div>
+<input class="search" placeholder="بحث برقم القرض أو المزارع أو النوع أو الحالة..." oninput="renderLoans(this.value)">
+<div class="tablewrap"><table><thead><tr><th>رقم القرض</th><th>المزارع</th><th>النوع</th><th>مبلغ القرض</th><th>المسدد</th><th>المتبقي</th><th>تاريخ الصرف</th><th>الاستحقاق</th><th>الحالة</th><th>الإجراءات</th></tr></thead><tbody id="loanRows"></tbody></table></div>
+</section>
+<section id="livestock" class="panel">
+<h2>الثروة الحيوانية والنحل (الأبقار – الماعز – الأغنام – النحل)</h2>
+<div class="notice">إدارة ومتابعة الأبقار والماعز والأغنام وخلايا النحل مع تتبع العدد والإنتاج والحالة الصحية والموقع.</div>
+<div class="formbox"><form id="livestockForm"><input type="hidden" name="key"><div class="grid">
+<div class="field"><label>الفئة *</label><select name="category" required><option value="أبقار">أبقار</option><option value="ماعز">ماعز</option><option value="أغنام">أغنام</option><option value="نحل">نحل</option></select></div>
+<div class="field"><label>المزارع / المربي *</label><select name="farmerId" class="farmerOpts" required></select></div>
+<div class="field"><label>السلالة / النوع التفصيلي</label><input name="breed" placeholder="مثال: تهامي، بلدي، خلايا تقليدية/حديثة..."></div>
+<div class="field"><label>العدد (رؤوس / خلايا) *</label><input name="count" type="number" min="0" step="1" value="1" required></div>
+<div class="field"><label>إناث / منتج (اختياري)</label><input name="productiveCount" type="number" min="0" step="1" value="0"></div>
+<div class="field"><label>معدل الإنتاج / الموسم</label><input name="production" placeholder="حليب (لتر)، عسل (كجم)، مواليد..."></div>
+<div class="field"><label>الحالة الصحية / البيطرية</label><select name="healthStatus"><option>سليم ومحصّن</option><option>يحتاج تحصين / علاج</option><option>تحت الملاحظة البيطرية</option></select></div>
+<div class="field"><label>الموقع / القرية / العزلة</label><input name="location" placeholder="مثال: عزلة الخلفية - قرية..."></div>
+<div class="field"><label>تاريخ التسجيل / الفحص *</label><input name="date" type="date" required></div>
+<div class="field"><label>ملاحظات الأعلاف أو الخلايا</label><input name="notes"></div>
+</div><div class="buttons">
+<button>حفظ سجل الثروة / النحل</button>
+<button type="button" class="light" onclick="resetForm('livestockForm')">تفريغ الحقول</button>
+</div></form></div>
+
+<div class="kpis">
+<div class="kpi"><small>الأبقار (رأس)</small><strong id="lsCow">0</strong></div>
+<div class="kpi"><small>الماعز (رأس)</small><strong id="lsGoat">0</strong></div>
+<div class="kpi"><small>الأغنام (رأس)</small><strong id="lsSheep">0</strong></div>
+<div class="kpi"><small>النحل (خلية)</small><strong id="lsBee">0</strong></div>
+<div class="kpi"><small>إجمالي السجلات</small><strong id="lsRecords">0</strong></div>
+</div>
+<div class="grid" style="margin-bottom:8px">
+<div class="field"><label>تصفية حسب الفئة</label><select id="livestockFilterCat" onchange="renderLivestock()"><option value="">كل الفئات</option><option value="أبقار">أبقار</option><option value="ماعز">ماعز</option><option value="أغنام">أغنام</option><option value="نحل">نحل</option></select></div>
+<div class="field"><label>بحث</label><input id="livestockSearch" placeholder="بحث بالمربي أو السلالة أو الموقع..." oninput="renderLivestock()"></div>
+</div>
+<div class="tablewrap"><table><thead><tr><th>الفئة</th><th>المزارع / المربي</th><th>السلالة / النوع</th><th>العدد</th><th>المنتج</th><th>الحالة الصحية</th><th>الموقع</th><th>التاريخ</th><th>الإجراءات</th></tr></thead><tbody id="livestockRows"></tbody></table></div>
+</section>
+<section id="followup" class="panel">
+<h2>قسم المتابعة الميدانية والتنفيذية</h2>
+<div class="notice">متابعة تنفيذ الخطط والزيارات الميدانية والأنشطة في أقسام الجمعية والعزلة.</div>
+<div class="formbox"><form id="followupForm"><input type="hidden" name="key"><div class="grid">
+<div class="field"><label>رقم / كود المتابعة</label><input name="code" placeholder="تلقائي عند تركه فارغاً"></div>
+<div class="field"><label>القسم المرتبط *</label><select name="department" required><option>المزارعون</option><option>المحاصيل</option><option>الزراعة التعاقدية</option><option>القروض والتمويل</option><option>الثروة الحيوانية والنحل</option><option>الهيئة الإدارية والوحدات</option><option>المخزون والمالية</option></select></div>
+<div class="field"><label>موضوع المتابعة / النشاط *</label><input name="subject" required placeholder="زيارة ميدانية، متابعة توريد، تحصيل أقساط..."></div>
+<div class="field"><label>المسؤول عن المتابعة *</label><input name="assignee" required placeholder="اسم العضو أو المسؤول"></div>
+<div class="field"><label>الموقع / العزلة / القرية</label><input name="site" placeholder="مثال: عزلة الخلفية"></div>
+<div class="field"><label>نسبة الإنجاز (%)</label><input name="progress" type="number" min="0" max="100" value="0"></div>
+<div class="field"><label>الحالة *</label><select name="status" required><option>قيد المتابعة</option><option>منجز</option><option>متأخر</option><option>معلق</option></select></div>
+<div class="field"><label>تاريخ المتابعة *</label><input name="date" type="date" required></div>
+<div class="field"><label>موعد المتابعة القادمة</label><input name="nextDate" type="date"></div>
+<div class="field"><label>التوصيات والإجراءات المطلوبة</label><input name="actions"></div>
+</div><div class="buttons">
+<button>حفظ سجل المتابعة</button>
+<button type="button" class="light" onclick="resetForm('followupForm')">تفريغ الحقول</button>
+</div></form></div>
+
+<div class="kpis">
+<div class="kpi"><small>إجمالي مهام المتابعة</small><strong id="fuTotal">0</strong></div>
+<div class="kpi"><small>قيد المتابعة</small><strong id="fuActive">0</strong></div>
+<div class="kpi"><small>منجزة</small><strong id="fuDone">0</strong></div>
+<div class="kpi"><small>متأخرة</small><strong id="fuLate">0</strong></div>
+<div class="kpi"><small>متوسط الإنجاز</small><strong id="fuAvg">0%</strong></div>
+</div>
+<input class="search" placeholder="بحث بالموضوع أو القسم أو المسؤول أو الموقع..." oninput="renderFollowup(this.value)">
+<div class="tablewrap"><table><thead><tr><th>الكود</th><th>القسم</th><th>الموضوع</th><th>المسؤول</th><th>الموقع</th><th>الإنجاز</th><th>الحالة</th><th>التاريخ</th><th>الإجراءات</th></tr></thead><tbody id="followupRows"></tbody></table></div>
+</section>
+<section id="adminUnits" class="panel">
+<h2>الهيئة الإدارية والوحدات – والجانب المالي (الحوافز اليومية والشهرية)</h2>
+<div class="notice">إدارة أعضاء الهيئة الإدارية والوحدات وصرف الحوافز اليومية والشهرية المرتبطة مباشرة بالصندوق النقدي ودفتر اليومية.</div>
+
+<div class="formbox"><form id="adminMemberForm"><input type="hidden" name="key"><b>إضافة / تعديل عضو هيئة إدارية أو وحدة</b><div class="grid" style="margin-top:8px">
+<div class="field"><label>الاسم الكامل *</label><input name="name" required></div>
+<div class="field"><label>الصفة / المنصب *</label><input name="roleTitle" required placeholder="رئيس، أمين عام، مسؤول وحدة، عضو..."></div>
+<div class="field"><label>الوحدة / اللجنة *</label><select name="unitName" required><option>الهيئة الإدارية</option><option>وحدة الإرشاد والزراعة التعاقدية</option><option>وحدة القروض والتمويل</option><option>وحدة الثروة الحيوانية والنحل</option><option>وحدة المتابعة والتقييم</option><option>الوحدة المالية والمحاسبية</option><option>وحدة المخزون والإمداد</option></select></div>
+<div class="field"><label>الحافز الشهري المقرر (اختياري)</label><input name="monthlyAllowance" type="number" min="0" step=".01" value="0"></div>
+<div class="field"><label>رقم الهاتف</label><input name="phone" inputmode="tel"></div>
+<div class="field"><label>تاريخ المباشرة</label><input name="joinDate" type="date"></div>
+<div class="field"><label>الحالة</label><select name="status"><option>نشط</option><option>مكلف بمهمة</option><option>إجازة / متوقف</option></select></div>
+<div class="field"><label>ملاحظات</label><input name="notes"></div>
+</div><div class="buttons">
+<button>حفظ العضو / الوحدة</button>
+<button type="button" class="light" onclick="resetForm('adminMemberForm')">تفريغ الحقول</button>
+</div></form></div>
+
+<div class="formbox"><form id="incentiveForm"><b>صرف / تسجيل حافز (يومي أو شهري) للهيئة الإدارية أو الوحدات</b><div class="grid" style="margin-top:8px">
+<div class="field"><label>العضو / المستفيد *</label><select name="memberKey" id="incentiveMemberSelect" required></select></div>
+<div class="field"><label>نوع الحافز *</label><select name="frequency" required><option value="يومي">حافز يومي</option><option value="شهري">حافز شهري</option></select></div>
+<div class="field"><label>المبلغ *</label><input name="amount" type="number" min=".01" step=".01" required></div>
+<div class="field"><label>تاريخ الاستحقاق / الصرف *</label><input name="date" type="date" required></div>
+<div class="field"><label>الفترة / الشهر (للحافز الشهري)</label><input name="period" placeholder="مثال: نوفمبر 2026 أو 2026-11"></div>
+<div class="field"><label>طريقة الصرف</label><select name="method"><option>نقداً</option><option>تحويل</option></select></div>
+<div class="field"><label>البيان / سبب الحافز *</label><input name="reason" required placeholder="حافز ميداني يومي، حافز شهري للأداء..."></div>
+<div class="field"><label>ملاحظات</label><input name="notes"></div>
+</div><button>اعتماد الحافز وترحيله مالياً</button></form></div>
+
+<div class="kpis">
+<div class="kpi"><small>أعضاء الهيئة والوحدات</small><strong id="auMembersCount">0</strong></div>
+<div class="kpi"><small>إجمالي الحوافز اليومية</small><strong id="auDailyTotal">0</strong></div>
+<div class="kpi"><small>إجمالي الحوافز الشهرية</small><strong id="auMonthlyTotal">0</strong></div>
+<div class="kpi"><small>إجمالي الحوافز المصروفة</small><strong id="auAllIncentives">0</strong></div>
+<div class="kpi"><small>عدد عمليات الحوافز</small><strong id="auIncentivesCount">0</strong></div>
+</div>
+
+<h3>سجل الهيئة الإدارية والوحدات</h3>
+<input class="search" placeholder="بحث بالاسم أو المنصب أو الوحدة..." oninput="renderAdminMembers(this.value)">
+<div class="tablewrap"><table><thead><tr><th>الاسم</th><th>المنصب</th><th>الوحدة</th><th>الحافز الشهري المقرر</th><th>الهاتف</th><th>الحالة</th><th>الإجراءات</th></tr></thead><tbody id="adminMemberRows"></tbody></table></div>
+
+<h3>سجل الحوافز اليومية والشهرية</h3>
+<div class="grid" style="margin-bottom:8px">
+<div class="field"><label>تصفية حسب نوع الحافز</label><select id="incentiveFilterType" onchange="renderIncentives()"><option value="">الكل (يومي وشهري)</option><option value="يومي">حوافز يومية فقط</option><option value="شهري">حوافز شهرية فقط</option></select></div>
+<div class="field"><label>بحث في الحوافز</label><input id="incentiveSearch" placeholder="بحث باسم المستفيد أو الوحدة أو البيان..." oninput="renderIncentives()"></div>
+</div>
+<div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>النوع</th><th>العضو</th><th>الوحدة</th><th>الفترة</th><th>البيان</th><th>المبلغ</th><th>طريقة الصرف</th><th>إجراء</th></tr></thead><tbody id="incentiveRows"></tbody></table></div>
+</section>
+<section id="dashboard" class="panel">
+<h2>لوحة المؤشرات والملخص التنفيذي الشامل</h2>
+<div class="notice">ملخص شامل لجميع أقسام المنظومة (المزارعون، المحاصيل، الزراعة التعاقدية، القروض، الثروة الحيوانية والنحل، المتابعة، الهيئة الإدارية والحوافز، المخزون، والصندوق).</div>
+<div class="actions noprint" style="margin-bottom:12px">
+<button type="button" onclick="renderExecutiveDashboard()">تحديث الملخص</button>
+<button type="button" class="light" onclick="window.print()">طباعة الملخص</button>
+</div>
+<div id="executiveDashboardOut"></div>
+</section>
+<section id="alerts" class="panel">
+<h2>مركز التنبيهات الذكية والمتأخرات والمخاطر</h2>
+<div class="notice">رصد تلقائي للقروض والعقود المتأخرة، انخفاض أو نفاد أرصدة المخزون، مهام المتابعة المتأخرة، وحالات الثروة الحيوانية التي تحتاج متابعة بيطرية.</div>
+<div class="formbox"><div class="grid">
+<div class="field"><label>حد التنبيه لانخفاض رصيد المخزون</label><input id="lowStockThreshold" type="number" min="0" step="1" value="10" onchange="renderAlerts()"></div>
+<div class="field"><label>تصفية حسب النوع</label><select id="alertFilterType" onchange="renderAlerts()"><option value="">كل التنبيهات</option><option value="قروض">القروض والتمويل</option><option value="عقود">الزراعة التعاقدية</option><option value="مخزون">المخزون</option><option value="متابعة">المتابعة</option><option value="ثروة">الثروة الحيوانية والنحل</option></select></div>
+</div></div>
+<div id="alertsOut"></div>
+</section>
+<section id="auditLog" class="panel">
+<h2>سجل العمليات والرقابة الإدارية</h2>
+<div class="notice">توثيق العمليات الحساسة محلياً (دخول النظام، صرف القروض، صرف الحوافز اليومية والشهرية، وغيرها) مع اسم المستخدم والوقت.</div>
+<div class="actions noprint" style="margin-bottom:10px">
+<button type="button" class="danger small" onclick="clearAuditLog()">مسح سجل الرقابة</button>
+</div>
+<input class="search" placeholder="بحث في سجل العمليات..." oninput="renderAuditLog(this.value)">
+<div class="tablewrap"><table><thead><tr><th>التاريخ والوقت</th><th>المستخدم</th><th>الصلاحية</th><th>نوع العملية</th><th>التفاصيل</th></tr></thead><tbody id="auditRows"></tbody></table></div>
+</section>
+<section id="inventory" class="panel"><h2>المخزون</h2><div class="formbox"><form id="stockForm"><input type="hidden" name="oldCode"><div class="grid"><div class="field"><label>كود الصنف *</label><input name="code" required></div><div class="field"><label>اسم الصنف *</label><input name="name" required></div><div class="field"><label>الكمية الافتتاحية</label><input name="qty" type="number" min="0" step=".01" value="0"></div><div class="field"><label>الوحدة</label><select name="unit"><option>كيس</option><option>كيلوجرام</option><option>طن</option><option>لتر</option><option>عبوة</option><option>حبة</option></select></div></div><button>حفظ الصنف</button></form></div><div class="formbox"><form id="moveForm"><b>حركة إضافة أو صرف</b><div class="grid" style="margin-top:8px"><div class="field"><label>الصنف</label><select name="code" id="stockSelect" required></select></div><div class="field"><label>نوع الحركة</label><select name="kind"><option value="in">إضافة</option><option value="out">صرف</option></select></div><div class="field"><label>الكمية</label><input name="qty" type="number" min=".01" step=".01" required></div><div class="field"><label>التاريخ</label><input name="date" type="date" required></div><div class="field"><label>البيان</label><input name="desc"></div></div><button>تسجيل الحركة</button></form></div><div class="tablewrap"><table><thead><tr><th>الكود</th><th>الصنف</th><th>الرصيد</th><th>الوحدة</th><th>إجراءات</th></tr></thead><tbody id="stockRows"></tbody></table></div><h3>سجل الحركات</h3><div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>الصنف</th><th>الحركة</th><th>الكمية</th><th>البيان</th></tr></thead><tbody id="moveRows"></tbody></table></div></section>
+<section id="finance" class="panel"><h2>الحسابات وسندات القبض والصرف</h2><div class="formbox"><form id="financeForm"><div class="grid"><div class="field"><label>المزارع *</label><select name="farmerId" class="farmerOpts" required></select></div><div class="field"><label>نوع السند</label><select name="kind"><option value="receipt">سند قبض (سداد/توريد)</option><option value="payment">سند صرف (قرض/مستحق)</option></select></div><div class="field"><label>المبلغ *</label><input name="amount" type="number" min=".01" step=".01" required></div><div class="field"><label>التاريخ</label><input name="date" type="date" required></div><div class="field"><label>البيان *</label><input name="desc" required></div><div class="field"><label>طريقة الدفع</label><select name="method"><option>نقداً</option><option>تحويل</option><option>أخرى</option></select></div><div class="field"><label>صورة المستند / الفاتورة (اختياري)</label><input name="attachment" type="file" accept="image/*"></div></div><button>إصدار السند وتسجيل الحركة</button></form></div><div class="notice">سند القبض يُسجل دائنًا ويخفض المديونية، وسند الصرف يُسجل مدينًا ويزيد المستحقات. أرقام السندات تتولد تلقائياً ومتسلسلة.</div><input class="search" placeholder="بحث..." oninput="renderFinance(this.value)"><div class="tablewrap"><table><thead><tr><th>رقم السند</th><th>التاريخ</th><th>المزارع</th><th>النوع</th><th>البيان</th><th>مدين</th><th>دائن</th><th>الرصيد</th><th>إجراء</th></tr></thead><tbody id="financeRows"></tbody></table></div><div class="formbox"><b>كشف حساب تفصيلي</b><div class="grid" style="margin-top:8px"><div class="field"><label>اختر المزارع</label><select id="statementFarmer" class="farmerOpts"></select></div><div class="field"><label>من تاريخ</label><input id="fromDate" type="date"></div><div class="field"><label>إلى تاريخ</label><input id="toDate" type="date"></div></div><button onclick="showStatement()">عرض كشف الحساب</button><button class="light" onclick="printStatement()">طباعة الكشف</button><div id="statementOut"></div></div></section>
+<section id="cash" class="panel"><h2>الصندوق النقدي والإيرادات والمصروفات</h2>
+<div class="kpis"><div class="kpi"><small>رصيد الصندوق</small><strong id="cashBalance">0</strong></div><div class="kpi"><small>إجمالي الإيرادات</small><strong id="cashIncome">0</strong></div><div class="kpi"><small>إجمالي المصروفات</small><strong id="cashExpense">0</strong></div></div>
+<div class="formbox"><form id="cashForm"><div class="grid"><div class="field"><label>نوع الحركة</label><select name="kind"><option value="income">إيراد</option><option value="expense">مصروف</option></select></div><div class="field"><label>المبلغ *</label><input name="amount" type="number" min=".01" step=".01" required></div><div class="field"><label>التاريخ *</label><input name="date" type="date" required></div><div class="field"><label>بند الحركة *</label><input name="category" placeholder="رسوم، دعم، أجور، نقل..." required></div><div class="field"><label>البيان *</label><input name="desc" required></div><div class="field"><label>رقم المرجع</label><input name="ref"></div><div class="field"><label>صورة فاتورة / مستند</label><input name="attachment" type="file" accept="image/*"></div></div><button>حفظ حركة الصندوق</button></form></div>
+<div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>النوع</th><th>البند</th><th>البيان</th><th>المبلغ</th><th>المرجع</th><th>المرفق</th><th>إجراء</th></tr></thead><tbody id="cashRows"></tbody></table></div></section>
+<section id="journal" class="panel"><h2>دفتر اليومية والأستاذ العام</h2>
+<div class="notice">كل قيد يومية يُسجل طرفاً مديناً وطرفاً دائناً بالقيمة نفسها. سندات المزارعين وحركات الصندوق النقدية تُنشئ قيوداً آلية في اليومية.</div>
+<div class="formbox"><form id="journalForm"><div class="grid"><div class="field"><label>التاريخ *</label><input name="date" type="date" required></div><div class="field"><label>رقم القيد</label><input name="number" placeholder="تلقائي عند تركه فارغاً"></div><div class="field"><label>الحساب المدين *</label><input name="debitAccount" placeholder="مثال: الصندوق" required></div><div class="field"><label>الحساب الدائن *</label><input name="creditAccount" placeholder="مثال: الإيرادات" required></div><div class="field"><label>المبلغ *</label><input name="amount" type="number" min=".01" step=".01" required></div><div class="field"><label>البيان *</label><input name="desc" required></div><div class="field"><label>مرفق صورة (اختياري)</label><input name="attachment" type="file" accept="image/*"></div></div><button>ترحيل القيد</button></form></div>
+<div class="grid"><div class="field"><label>تصفية الأستاذ حسب الحساب</label><input id="ledgerAccount" placeholder="اكتب اسم الحساب"></div></div>
+<div class="tablewrap"><table><thead><tr><th>رقم القيد</th><th>التاريخ</th><th>الحساب المدين</th><th>الحساب الدائن</th><th>البيان</th><th>مدين</th><th>دائن</th><th>مرفق</th></tr></thead><tbody id="journalRows"></tbody></table></div>
+<div class="formbox"><b>الأستاذ العام – حركة ورصيد الحساب</b><button class="light" onclick="renderLedger()">عرض الأستاذ</button><div id="ledgerOut"></div></div></section>
+<section id="reports" class="panel"><h2>التقارير المالية الشهرية والسنوية</h2><div class="formbox"><div class="grid"><div class="field"><label>السنة</label><input id="reportYear" type="number" min="2000" max="2100"></div><div class="field"><label>الشهر (اختياري)</label><select id="reportMonth"><option value="">السنة كاملة</option><option value="01">يناير</option><option value="02">فبراير</option><option value="03">مارس</option><option value="04">أبريل</option><option value="05">مايو</option><option value="06">يونيو</option><option value="07">يوليو</option><option value="08">أغسطس</option><option value="09">سبتمبر</option><option value="10">أكتوبر</option><option value="11">نوفمبر</option><option value="12">ديسمبر</option></select></div></div><button onclick="runFinancialReport()">إنشاء التقرير</button><button class="light" onclick="window.print()">طباعة التقرير</button><div id="financialReportOut"></div></div></section>
+<section id="settings" class="panel"><h2>إعدادات الحساب وتغيير بيانات الدخول</h2><div class="formbox"><form id="credentialsForm"><div class="grid"><div class="field"><label>اسم المستخدم الجديد</label><input name="username" required></div><div class="field"><label>كلمة المرور الحالية للتحقق</label><input name="oldPassword" type="password" required></div><div class="field"><label>كلمة المرور الجديدة</label><input name="newPassword" type="password" minlength="4" required></div><div class="field"><label>تأكيد كلمة المرور الجديدة</label><input name="confirmPassword" type="password" minlength="4" required></div></div><button>حفظ بيانات الدخول الجديدة</button></form></div>
+
+<div class="formbox" id="drivePanel">
+<h3>النسخ الاحتياطي والربط مع Google Drive</h3>
+<p>اربط حساب Google لحفظ نسخة احتياطية من قاعدة بيانات الجمعية في مجلد ظاهر باسم «نسخ احتياطي جمعية الخلفية» داخل Google Drive.</p>
+<div class="notice">يتطلب الربط إعداد Google OAuth Client ID وتفعيل Google Drive API لموقع HTTPS. لا تدخل كلمة مرور Google داخل هذا البرنامج؛ ستظهر نافذة Google الرسمية للموافقة.</div>
+<div class="grid">
+<div class="field"><label>Google OAuth Client ID</label><input id="googleClientId" placeholder="xxxx.apps.googleusercontent.com" autocomplete="off"></div>
+<div class="field"><label>حالة الربط</label><input id="driveStatus" value="غير مرتبط" readonly></div>
+</div>
+<div class="buttons">
+<button type="button" class="gold" onclick="saveDriveClientId()">حفظ إعداد الربط</button>
+<button type="button" onclick="requestDriveConnection()">طلب ربط Google Drive</button>
+<button type="button" class="light" onclick="uploadDriveBackup()">حفظ نسخة احتياطية في Drive</button>
+<button type="button" class="light" onclick="restoreDriveBackup()">استعادة آخر نسخة من Drive</button>
+</div>
+<div id="driveMessage" class="notice" aria-live="polite">لم يتم ربط حساب Google بعد.</div>
+</div>
+<div class="notice">تغيير بيانات الدخول يخص حسابك الحالي. لا تشارك كلمة المرور. الحماية الحالية محلية داخل المتصفح وليست بديلاً عن خادم آمن متعدد المستخدمين.</div></section>
+<section id="users" class="panel"><h2>إدارة المستخدمين والصلاحيات</h2><div class="notice">المسؤول يستطيع إدارة المستخدمين. الموظف يستطيع إدخال وتعديل البيانات دون إدارة المستخدمين. المشاهد يستطيع الاطلاع والطباعة فقط.</div><div class="formbox"><form id="userForm"><input type="hidden" name="oldUsername"><div class="grid"><div class="field"><label>اسم المستخدم *</label><input name="username" required></div><div class="field"><label>كلمة المرور *</label><input name="password" required></div><div class="field"><label>الصلاحية</label><select name="role"><option value="admin">مدير النظام</option><option value="staff">موظف إدخال</option><option value="viewer">مشاهد فقط</option></select></div><div class="field"><label>الحالة</label><select name="active"><option value="true">مفعّل</option><option value="false">موقوف</option></select></div></div><button>حفظ المستخدم</button></form></div><div class="tablewrap"><table><thead><tr><th>المستخدم</th><th>الصلاحية</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="userRows"></tbody></table></div></section>
+<section id="imports" class="panel"><h2>استيراد ملفات الهاتف إلى قاعدة بيانات البرنامج</h2><div class="notice">اختر ملف Excel أو CSV أو JSON من ذاكرة الهاتف. سيقرأ البرنامج الملف محلياً، ويتعرف على عناوين الأعمدة العربية والإنجليزية، ويعرض معاينة قبل الحفظ. لا تُرفع الملفات إلى الإنترنت.</div><div class="formbox"><label>اختيار ملف من ذاكرة الهاتف</label><input id="smartFile" type="file" accept=".xlsx,.xls,.csv,.json"><div class="grid" style="margin-top:10px"><div class="field"><label>نوع البيانات المستهدف</label><select id="importTarget"><option value="auto">اكتشاف تلقائي</option><option value="farmers">المزارعون</option><option value="crops">المحاصيل</option><option value="inventory">المخزون</option><option value="finance">الحسابات</option></select></div><div class="field"><label>طريقة الاستيراد</label><select id="importMode"><option value="append">إضافة إلى البيانات الحالية</option><option value="replace">استبدال بيانات القسم المحدد</option></select></div></div><button onclick="previewImport()">تحليل الملف ومعاينته</button><div id="importPreview"></div></div><div class="muted">قوالب الأعمدة المقترحة: المزارعون (رقم العضوية، اسم المزارع، القرية، الهاتف، الانتساب)؛ المحاصيل (رقم العضوية، المحصول، المساحة، البذور، الإنتاج، الموسم، التاريخ)؛ المخزون (الكود، الصنف، الكمية، الوحدة)؛ الحسابات (رقم العضوية، البيان، مدين، دائن، التاريخ).</div></section>
+<p class="muted">تنبيه مهم: البيانات محفوظة محلياً في هذا الهاتف/المتصفح. الإدخال والتعديل والتقارير والنسخ الاحتياطي JSON واستيراد CSV/JSON تعمل دون إنترنت. استيراد وتصدير Excel يتطلبان تحميل مكتبة Excel عند توفر الإنترنت أول مرة. تعدد الأجهزة ومزامنة البيانات بينها يتطلبان خادماً آمناً غير مفعّل في هذه النسخة. احتفظ بنسخة JSON احتياطية دورياً.</p>
+</main>
+<div id="modal"><div class="modalbox"><div class="modalhead"><h2 id="modalTitle">تفاصيل</h2><button class="danger" onclick="closeModal()">إغلاق</button></div><div id="modalBody"></div></div></div>
+<script>
+const DBKEY='bajil_khalfiyah_v6';const OLDKEY='bajil_khalfiyah_v3';const OLDERKEY='bajil_khalfiyah_v2';let db={farmers:[],crops:[],inventory:[],finance:[],movements:[],users:[],counters:{receipt:0,payment:0,followup:0,incentive:0},journal:[],cashOps:[],contracts:[],loans:[],livestock:[],followup:[],adminMembers:[],incentives:[],auditLog:[]};let currentUser=null,pendingImport=null,lastStatement='';
+const $=x=>document.getElementById(x),today=()=>new Date().toISOString().slice(0,10),uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function load(){try{let raw=localStorage.getItem(DBKEY)||localStorage.getItem(OLDKEY)||localStorage.getItem(OLDERKEY);let d=raw?JSON.parse(raw):null;if(d)db={...db,...d,counters:{receipt:0,payment:0,followup:0,incentive:0,...(d.counters||{})},journal:d.journal||[],cashOps:d.cashOps||[],contracts:d.contracts||[],loans:d.loans||[],livestock:d.livestock||[],followup:d.followup||[],adminMembers:d.adminMembers||[],incentives:d.incentives||[],auditLog:d.auditLog||[]};}catch(e){alert('تعذرت قراءة قاعدة البيانات المحلية')};db.farmers=db.farmers.map(f=>({...f,cardType:f.cardType||'',cardNumber:f.cardNumber||''}));if(!db.users.length)db.users=[{username:'الخلفية',password:'1234',role:'admin',active:true}]}
+function save(){try{localStorage.setItem(DBKEY,JSON.stringify(db));renderAll()}catch(e){alert('مساحة التخزين غير كافية. نزّل نسخة احتياطية واحذف الملفات/البيانات غير اللازمة.')}} 
+function login(e){e.preventDefault();load();let u=$('loginUser').value.trim(),p=$('loginPass').value,user=db.users.find(x=>x.username===u&&x.password===p&&x.active);if(!user){$('loginError').style.display='block';return}currentUser=user;$('login').style.display='none';$('app').style.display='block';$('welcome').textContent='المستخدم: '+u+' – '+roleName(user.role);applyPermissions();renderAll()}
+function logout(){$('app').style.display='none';$('login').style.display='flex';$('loginPass').value='';currentUser=null}
+function roleName(r){return r==='admin'?'مدير النظام':r==='staff'?'موظف إدخال':'مشاهد فقط'}
+function applyPermissions(){document.querySelectorAll('[data-role=admin]').forEach(x=>x.classList.toggle('hidden',currentUser.role!=='admin'));if(currentUser.role==='viewer')document.querySelectorAll('form').forEach(f=>f.classList.add('hidden'));else document.querySelectorAll('form').forEach(f=>f.classList.remove('hidden'))}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{if(b.dataset.role==='admin'&&currentUser.role!=='admin')return;document.querySelectorAll('.tab,.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.tab).classList.add('active')});
+function resetForm(id){$(id).reset();$(id).querySelectorAll('input[type=hidden]').forEach(x=>x.value='');if($(id).elements.date)$(id).elements.date.value=today()}
+function nameOf(id){return db.farmers.find(x=>x.id===id)?.name||'—'}
+function refreshSelects(){document.querySelectorAll('.farmerOpts').forEach(s=>{let v=s.value;s.innerHTML='<option value="">اختر المزارع</option>'+db.farmers.map(f=>`<option value="${esc(f.id)}">${esc(f.id)} - ${esc(f.name)}</option>`).join('');s.value=v});$('stockSelect').innerHTML=db.inventory.map(x=>`<option value="${esc(x.code)}">${esc(x.code)} - ${esc(x.name)}</option>`).join('')}
+function renderAll(){refreshSelects();renderFarmers();renderCrops();renderStock();renderFinance();renderUsers();renderCash();renderJournal();$('cashBalance').textContent=cashBalance().toLocaleString('en-US');$('cashIncome').textContent=cashTotals().income.toLocaleString('en-US');$('cashExpense').textContent=cashTotals().expense.toLocaleString('en-US');$('kFarm').textContent=db.farmers.length;$('kMember').textContent=db.farmers.filter(x=>x.membership==='منتسب للجمعية').length;$('kArea').textContent=db.crops.reduce((s,x)=>s+(+x.area||0),0).toFixed(2);$('kYield').textContent=db.crops.reduce((s,x)=>s+(+x.yield||0),0).toLocaleString('en-US');$('kDebt').textContent=db.finance.reduce((s,x)=>s+(+x.debit||0)-(+x.credit||0),0).toLocaleString('en-US')}
+function renderFarmers(q=''){$('farmerRows').innerHTML=db.farmers.filter(x=>(x.id+' '+x.name+' '+x.village+' '+x.isolation+' '+x.district+' '+x.governorate+' '+x.phone+' '+(x.cardType||'')+' '+(x.cardNumber||'')+' '+(x.notes||'')).includes(q)).map(x=>`<tr><td>${esc(x.id)}</td><td>${esc(x.name)}</td><td>${esc(x.cardType||'')}</td><td>${esc(x.cardNumber||'')}</td><td>${esc(x.village||'')}</td><td>${esc(x.isolation||'')}</td><td>${esc(x.district||'')}</td><td>${esc(x.governorate||'')}</td><td>${esc(x.membership||'')}</td><td>${esc(x.phone||'')}</td><td>${esc(x.notes||'')}</td><td><button class="small" onclick="editFarmer('${esc(x.id)}')">تعديل</button> <button class="small light" onclick="farmerStatement('${esc(x.id)}')">كشف</button> <button class="small danger" onclick="del('farmers','${esc(x.id)}','id')">حذف</button></td></tr>`).join('')}
+function renderCrops(q=''){$('cropRows').innerHTML=db.crops.filter(x=>(x.farmerId+' '+nameOf(x.farmerId)+' '+x.type).includes(q)).map(x=>`<tr><td>${esc(x.farmerId)}</td><td>${esc(nameOf(x.farmerId))}</td><td>${esc(x.type==='محصول آخر'?x.otherType||x.type:x.type)}</td><td>${x.area}</td><td>${x.seed}</td><td>${x.yield}</td><td>${esc(x.season)}</td><td>${esc(x.date)}</td><td><button class="small gold" onclick="editCrop('${x.key}')">تعديل</button> <button class="small danger" onclick="del('crops','${x.key}','key')">حذف</button></td></tr>`).join('')}
+function renderStock(){$('stockRows').innerHTML=db.inventory.map(x=>`<tr><td>${esc(x.code)}</td><td>${esc(x.name)}</td><td>${x.qty}</td><td>${esc(x.unit)}</td><td><button class="small gold" onclick="editStock('${esc(x.code)}')">تعديل</button> <button class="small danger" onclick="del('inventory','${esc(x.code)}','code')">حذف</button></td></tr>`).join('');$('moveRows').innerHTML=db.movements.slice().reverse().map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.name)}</td><td>${x.kind==='in'?'إضافة':'صرف'}</td><td>${x.qty}</td><td>${esc(x.desc)}</td></tr>`).join('')}
+function renderFinance(q=''){$('financeRows').innerHTML=db.finance.filter(x=>(x.farmerId+' '+nameOf(x.farmerId)+' '+x.desc+' '+x.voucher).includes(q)).slice().sort((a,b)=>a.date.localeCompare(b.date)).map(x=>`<tr><td>${esc(x.voucher)}</td><td>${esc(x.date)}</td><td>${esc(nameOf(x.farmerId))}</td><td>${x.kind==='receipt'?'قبض':'صرف'}</td><td>${esc(x.desc)}</td><td>${x.debit}</td><td>${x.credit}</td><td>${x.debit-x.credit}</td><td><button class="small light" onclick="printVoucher('${x.key}')">طباعة</button> <button class="small danger" onclick="del('finance','${x.key}','key')">حذف</button></td></tr>`).join('')}
+$('farmerForm').onsubmit=e=>{e.preventDefault();if(currentUser.role==='viewer')return;let x=Object.fromEntries(new FormData(e.target)),old=x.oldId;if(db.farmers.some(f=>f.id===x.id&&f.id!==old))return alert('رقم العضوية مستخدم');if(old){let f=db.farmers.find(f=>f.id===old);Object.assign(f,x);if(old!==x.id){db.crops.forEach(c=>{if(c.farmerId===old)c.farmerId=x.id});db.finance.forEach(c=>{if(c.farmerId===old)c.farmerId=x.id})}}else db.farmers.push(x);resetForm('farmerForm');save()};
+function editFarmer(id){let x=db.farmers.find(f=>f.id===id),f=$('farmerForm');Object.keys(x).forEach(k=>{if(f.elements[k])f.elements[k].value=x[k]});f.elements.oldId.value=id;document.querySelector('[data-tab=farmers]').click()}
+$('cropForm').elements.date.value=today();$('cropForm').onsubmit=e=>{e.preventDefault();let x=Object.fromEntries(new FormData(e.target));['area','seed','yield'].forEach(k=>x[k]=+x[k]||0);if(x.key){db.crops[db.crops.findIndex(z=>z.key===x.key)]=x}else{x.key=uid();db.crops.push(x)}resetForm('cropForm');$('cropForm').elements.date.value=today();save()};
+function editCrop(k){let x=db.crops.find(c=>c.key===k),f=$('cropForm');Object.keys(x).forEach(a=>{if(f.elements[a])f.elements[a].value=x[a]});document.querySelector('[data-tab=crops]').click()}
+$('stockForm').onsubmit=e=>{e.preventDefault();let x=Object.fromEntries(new FormData(e.target));x.qty=+x.qty;if(x.oldCode){let i=db.inventory.findIndex(z=>z.code===x.oldCode);db.inventory[i]=x}else{if(db.inventory.some(z=>z.code===x.code))return alert('كود الصنف موجود');db.inventory.push(x)}resetForm('stockForm');save()};
+function editStock(code){let x=db.inventory.find(i=>i.code===code),f=$('stockForm');Object.keys(x).forEach(a=>{if(f.elements[a])f.elements[a].value=x[a]});f.elements.oldCode.value=code}
+$('moveForm').elements.date.value=today();$('moveForm').onsubmit=e=>{e.preventDefault();let x=Object.fromEntries(new FormData(e.target)),i=db.inventory.find(z=>z.code===x.code);x.qty=+x.qty;if(!i)return alert('اختر صنفاً');if(x.kind==='out'&&i.qty<x.qty)return alert('الرصيد غير كافٍ');i.qty+=x.kind==='in'?x.qty:-x.qty;x.name=i.name;db.movements.push(x);e.target.reset();e.target.elements.date.value=today();save()};
+$('financeForm').elements.date.value=today();$('financeForm').onsubmit=async e=>{e.preventDefault();let fd=new FormData(e.target),x=Object.fromEntries(fd);x.attachment=await fileToData(fd.get('attachment'));x.amount=+x.amount;let kind=x.kind;db.counters[kind]=(db.counters[kind]||0)+1;x.voucher=(kind==='receipt'?'قبض-':'صرف-')+String(db.counters[kind]).padStart(5,'0');x.debit=kind==='payment'?x.amount:0;x.credit=kind==='receipt'?x.amount:0;x.key=uid();db.finance.push(x);if(x.method==='نقداً'){db.cashOps.push({key:uid(),date:x.date,kind:kind==='receipt'?'income':'expense',amount:x.amount,category:'حركة مزارع',desc:x.desc,ref:x.voucher,source:'farmer',attachment:x.attachment||''})}db.journal.push({key:uid(),number:'آلي-'+x.voucher,date:x.date,debitAccount:kind==='receipt'?'الصندوق':'حساب المزارع - '+nameOf(x.farmerId),creditAccount:kind==='receipt'?'حساب المزارع - '+nameOf(x.farmerId):'الصندوق',amount:x.amount,desc:x.desc,source:x.voucher,attachment:x.attachment||''});e.target.reset();e.target.elements.date.value=today();save();alert('تم إصدار السند رقم '+x.voucher)};
+function del(t,v,k){if(currentUser.role==='viewer')return;if(!confirm(t==='finance'?'سيتم حذف السند والقيد المرتبط به وحركة الصندوق النقدية إن وجدت. هل تريد المتابعة؟':'تأكيد الحذف؟'))return;if(t==='farmers'&&(db.crops.some(x=>x.farmerId===v)||db.finance.some(x=>x.farmerId===v)))return alert('لا يمكن حذف مزارع مرتبط بحركات أو محاصيل');if(t==='inventory'&&db.movements.some(x=>x.code===v))return alert('الصنف مرتبط بحركات مخزون');if(t==='finance'){let z=db.finance.find(x=>x[k]===v);if(z){db.cashOps=db.cashOps.filter(x=>x.ref!==z.voucher);db.journal=db.journal.filter(x=>x.source!==z.voucher)}}db[t]=db[t].filter(x=>x[k]!==v);save()}
+function showStatement(){let id=$('statementFarmer').value;if(!id)return alert('اختر المزارع');let from=$('fromDate').value,to=$('toDate').value,all=db.finance.filter(x=>x.farmerId===id).sort((a,b)=>a.date.localeCompare(b.date)),opening=all.filter(x=>(!from||x.date<from)).reduce((s,x)=>s+x.debit-x.credit,0),list=all.filter(x=>(!from||x.date>=from)&&(!to||x.date<=to));let bal=opening,rows=list.map(x=>{bal+=x.debit-x.credit;return `<tr><td>${esc(x.date)}</td><td>${esc(x.voucher)}</td><td>${esc(x.desc)}</td><td>${x.debit}</td><td>${x.credit}</td><td>${bal.toLocaleString('en-US')}</td></tr>`}).join('');lastStatement=`<h3>كشف حساب ${esc(nameOf(id))} – رقم العضوية ${esc(id)}</h3><p>الرصيد السابق: ${opening.toLocaleString('en-US')}</p><div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>السند</th><th>البيان</th><th>مدين</th><th>دائن</th><th>الرصيد</th></tr></thead><tbody>${rows||'<tr><td colspan="6">لا توجد حركات في الفترة</td></tr>'}</tbody></table></div><b>الرصيد الختامي: ${bal.toLocaleString('en-US')}</b>`;$('statementOut').innerHTML=lastStatement}
+function farmerStatement(id){$('statementFarmer').value=id;document.querySelector('[data-tab=finance]').click();showStatement()}
+function printStatement(){if(!lastStatement)return alert('اعرض كشف الحساب أولاً');printHtml(lastStatement,'كشف حساب')}
+function printVoucher(k){let x=db.finance.find(z=>z.key===k),html=`<h2>جمعية مديرية باجل التعاونية الزراعية – فرع عزلة الخلفية</h2><h3>${x.kind==='receipt'?'سند قبض':'سند صرف'} رقم ${esc(x.voucher)}</h3><p>استلمنا من / صرفنا إلى: ${esc(nameOf(x.farmerId))}</p><p>المبلغ: ${x.amount}</p><p>البيان: ${esc(x.desc)}</p><p>التاريخ: ${esc(x.date)} – طريقة الدفع: ${esc(x.method)}</p>${x.attachment?'<img src=\''+x.attachment+'\' style=\'max-width:260px;max-height:180px\'>':''}<br><p>توقيع المستلم: .................... &nbsp;&nbsp; توقيع أمين الصندوق: ....................</p>`;printHtml(html,'سند')}
+function printHtml(html,title){let w=window.open('','_blank');if(!w)return alert('اسمح بالنوافذ المنبثقة للطباعة');w.document.write('<html dir="rtl"><meta charset="utf-8"><title>'+title+'</title><body style="font-family:Tahoma;padding:25px">'+html+'</body></html>');w.document.close();w.print()}
+ 
+async function fileToData(file){if(!file||!file.name)return '';if(!file.type.startsWith('image/'))throw Error('المرفق يجب أن يكون صورة');if(file.size>8*1024*1024)throw Error('حجم الصورة أكبر من 8 ميجابايت');return await new Promise((resolve,reject)=>{let r=new FileReader();r.onload=()=>{let im=new Image();im.onload=()=>{let scale=Math.min(1,1400/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*scale);c.height=Math.round(im.height*scale);c.getContext('2d').drawImage(im,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',.72))};im.onerror=()=>reject(Error('تعذر قراءة الصورة'));im.src=r.result};r.onerror=()=>reject(Error('تعذر تحميل الملف'));r.readAsDataURL(file)})}
+function cashTotals(){return db.cashOps.reduce((o,x)=>{o[x.kind==='income'?'income':'expense']+=+x.amount||0;return o},{income:0,expense:0})}
+function cashBalance(){let t=cashTotals();return t.income-t.expense}
+function renderCash(){if(!$('cashRows'))return;$('cashRows').innerHTML=db.cashOps.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(x=>`<tr><td>${esc(x.date)}</td><td>${x.kind==='income'?'إيراد':'مصروف'}</td><td>${esc(x.category)}</td><td>${esc(x.desc)}</td><td>${(+x.amount).toLocaleString('en-US')}</td><td>${esc(x.ref)}</td><td>${x.attachment?'<button class="small light" onclick="viewAttachment(\''+x.key+'\',\'cash\')">عرض</button>':'—'}</td><td><button class="small danger" onclick="deleteCash(\''+x.key+'\')">حذف</button></td></tr>`).join('')}
+$('cashForm').elements.date.value=today();$('cashForm').onsubmit=async e=>{e.preventDefault();let fd=new FormData(e.target),x=Object.fromEntries(fd);try{x.attachment=await fileToData(fd.get('attachment'))}catch(err){return alert(err.message)}x.amount=+x.amount;x.key=uid();db.cashOps.push(x);db.journal.push({key:uid(),number:'صندوق-'+String(db.cashOps.length).padStart(5,'0'),date:x.date,debitAccount:x.kind==='expense'?x.category:'الصندوق',creditAccount:x.kind==='income'?x.category:'الصندوق',amount:x.amount,desc:x.desc,source:x.ref||'حركة صندوق',attachment:x.attachment});e.target.reset();e.target.elements.date.value=today();save()};
+function deleteCash(k){if(currentUser.role==='viewer')return;if(!confirm('حذف حركة الصندوق؟'))return;let x=db.cashOps.find(z=>z.key===k);db.cashOps=db.cashOps.filter(z=>z.key!==k);if(x?.source!=='farmer')db.journal=db.journal.filter(z=>z.source!==(x.ref||'حركة صندوق'));save()}
+function viewAttachment(k,t){let x=db[t==='cash'?'cashOps':t==='journal'?'journal':'finance'].find(z=>z.key===k);if(!x?.attachment)return;let w=window.open();if(w)w.document.write('<img src="'+x.attachment+'" style="max-width:100%;height:auto">');else alert('اسمح بالنوافذ المنبثقة لعرض الصورة')}
+function renderJournal(){if(!$('journalRows'))return;$('journalRows').innerHTML=db.journal.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(x=>`<tr><td>${esc(x.number)}</td><td>${esc(x.date)}</td><td>${esc(x.debitAccount)}</td><td>${esc(x.creditAccount)}</td><td>${esc(x.desc)}</td><td>${(+x.amount).toLocaleString('en-US')}</td><td>${(+x.amount).toLocaleString('en-US')}</td><td>${x.attachment?'<button class="small light" onclick="viewAttachment(\''+x.key+'\',\'journal\')">عرض</button>':'—'}</td></tr>`).join('')}
+$('journalForm').elements.date.value=today();$('journalForm').onsubmit=async e=>{e.preventDefault();let fd=new FormData(e.target),x=Object.fromEntries(fd);try{x.attachment=await fileToData(fd.get('attachment'))}catch(err){return alert(err.message)}x.amount=+x.amount;if(x.debitAccount.trim()===x.creditAccount.trim())return alert('يجب أن يكون الحساب المدين مختلفاً عن الحساب الدائن');x.key=uid();x.number=x.number||'قيد-'+String(db.journal.length+1).padStart(5,'0');db.journal.push(x);e.target.reset();e.target.elements.date.value=today();save()};
+function renderLedger(){let a=$('ledgerAccount').value.trim(),lines=[];db.journal.forEach(x=>{if(!a||x.debitAccount.includes(a))lines.push({date:x.date,no:x.number,desc:x.desc,debit:+x.amount,credit:0,account:x.debitAccount});if(!a||x.creditAccount.includes(a))lines.push({date:x.date,no:x.number,desc:x.desc,debit:0,credit:+x.amount,account:x.creditAccount})});lines.sort((x,y)=>x.date.localeCompare(y.date));let bal=0,rows=lines.map(x=>{bal+=x.debit-x.credit;return `<tr><td>${esc(x.date)}</td><td>${esc(x.no)}</td><td>${esc(x.account)}</td><td>${esc(x.desc)}</td><td>${x.debit}</td><td>${x.credit}</td><td>${bal}</td></tr>`}).join('');$('ledgerOut').innerHTML=`<div class="tablewrap"><table><thead><tr><th>التاريخ</th><th>القيد</th><th>الحساب</th><th>البيان</th><th>مدين</th><th>دائن</th><th>الرصيد التراكمي</th></tr></thead><tbody>${rows||'<tr><td colspan="7">لا توجد قيود</td></tr>'}</tbody></table></div>`}
+function runFinancialReport(){let y=$('reportYear').value||String(new Date().getFullYear()),m=$('reportMonth').value,match=d=>d&&d.startsWith(y+(m?'-'+m:'')),cash=db.cashOps.filter(x=>match(x.date)),income=cash.filter(x=>x.kind==='income').reduce((s,x)=>s+(+x.amount||0),0),expense=cash.filter(x=>x.kind==='expense').reduce((s,x)=>s+(+x.amount||0),0),farmer=db.finance.filter(x=>match(x.date)),receipts=farmer.filter(x=>x.kind==='receipt').reduce((s,x)=>s+(+x.amount||0),0),payments=farmer.filter(x=>x.kind==='payment').reduce((s,x)=>s+(+x.amount||0),0);$('financialReportOut').innerHTML=`<h3>التقرير ${m?'لشهر '+m:'السنوي'} – ${esc(y)}</h3><p>إيرادات الصندوق: <b>${income.toLocaleString('en-US')}</b> | مصروفات الصندوق: <b>${expense.toLocaleString('en-US')}</b> | صافي الحركة النقدية: <b>${(income-expense).toLocaleString('en-US')}</b></p><p>سندات قبض المزارعين: <b>${receipts.toLocaleString('en-US')}</b> | سندات صرف المزارعين: <b>${payments.toLocaleString('en-US')}</b> | عدد قيود اليومية: <b>${db.journal.filter(x=>match(x.date)).length}</b></p><p>عدد حركات الصندوق: <b>${cash.length}</b> | عدد سندات المزارعين: <b>${farmer.length}</b></p>`}
+$('credentialsForm').onsubmit=e=>{e.preventDefault();let f=Object.fromEntries(new FormData(e.target)),u=db.users.find(x=>x.username===currentUser.username);if(!u||u.password!==f.oldPassword)return alert('كلمة المرور الحالية غير صحيحة');if(f.newPassword!==f.confirmPassword)return alert('تأكيد كلمة المرور غير مطابق');if(f.username.trim()!==u.username&&db.users.some(x=>x.username===f.username.trim()))return alert('اسم المستخدم الجديد مستخدم');u.username=f.username.trim();u.password=f.newPassword;currentUser=u;$('welcome').textContent='المستخدم: '+u.username+' – '+roleName(u.role);$('loginUser').value=u.username;e.target.reset();save();alert('تم تحديث اسم المستخدم وكلمة المرور')};
+
+function renderUsers(){$('userRows').innerHTML=db.users.map(x=>`<tr><td>${esc(x.username)}</td><td>${roleName(x.role)}</td><td>${x.active?'مفعّل':'موقوف'}</td><td><button class="small gold" onclick="editUser('${esc(x.username)}')">تعديل</button> <button class="small danger" onclick="deleteUser('${esc(x.username)}')">حذف</button></td></tr>`).join('')}
+$('userForm').onsubmit=e=>{e.preventDefault();if(currentUser.role!=='admin')return;let x=Object.fromEntries(new FormData(e.target));x.active=x.active==='true';let old=x.oldUsername;if(old){let i=db.users.findIndex(z=>z.username===old);if(x.username!==old&&db.users.some(z=>z.username===x.username))return alert('اسم المستخدم مستخدم');db.users[i]=x}else{if(db.users.some(z=>z.username===x.username))return alert('اسم المستخدم موجود');db.users.push(x)}resetForm('userForm');save()};
+function editUser(u){let x=db.users.find(z=>z.username===u),f=$('userForm');Object.keys(x).forEach(k=>{if(f.elements[k])f.elements[k].value=String(x[k])});f.elements.oldUsername.value=u}
+function deleteUser(u){if(u===currentUser.username)return alert('لا يمكن حذف المستخدم الحالي');if(!confirm('حذف المستخدم؟'))return;db.users=db.users.filter(x=>x.username!==u);save()}
+function cropReport(){let type=$('reportCrop').value,season=$('reportSeason').value,a=db.crops.filter(x=>(!type||x.type===type)&&(!season||x.season===season));let area=a.reduce((s,x)=>s+(+x.area||0),0),seed=a.reduce((s,x)=>s+(+x.seed||0),0),yieldKg=a.reduce((s,x)=>s+(+x.yield||0),0);$('cropReportOut').innerHTML=`<p>عدد سجلات الزراعة: <b>${a.length}</b> | إجمالي المساحة: <b>${area.toFixed(2)} هكتار</b> | إجمالي البذور: <b>${seed.toLocaleString('en-US')} كجم</b> | إجمالي الإنتاج: <b>${yieldKg.toLocaleString('en-US')} كجم</b></p>`;window.reportRows=a}
+function downloadCSV(rows,name){
+ if(!rows||!rows.length)return alert('لا توجد بيانات للتصدير');
+ const keys=[...new Set(rows.flatMap(x=>Object.keys(x)))];
+ const cell=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+ const csv='\\uFEFF'+[keys.map(cell).join(','),...rows.map(r=>keys.map(k=>cell(r[k])).join(','))].join('\\r\\n');
+ const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name+'_'+today()+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function exportCropReport(){cropReport();const rows=window.reportRows||[];if(window.XLSX)exportRowsXLSX(rows,'تقرير المحاصيل');else downloadCSV(rows,'تقرير المحاصيل')}
+function backup(){let a=document.createElement('a'),blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});a.href=URL.createObjectURL(blob);a.download='نسخة_جمعية_الخلفية_'+today()+'.json';a.click();URL.revokeObjectURL(a.href)}
+function restore(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!Array.isArray(x.farmers)||!Array.isArray(x.finance))throw 0;if(!confirm('سيتم استبدال بيانات البرنامج الحالية. هل تريد المتابعة؟'))return;db={...db,...x};save();alert('تمت الاستعادة')}catch(_){alert('ملف النسخة الاحتياطية غير صالح')}e.target.value=''};r.readAsText(f)}
+function exportRowsXLSX(rows,name){if(!window.XLSX)return alert('مكتبة Excel غير متاحة. تحقق من الاتصال بالإنترنت');let ws=XLSX.utils.json_to_sheet(rows),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,name.slice(0,31));XLSX.writeFile(wb,name+'_'+today()+'.xlsx')}
+function exportExcel(){if(!window.XLSX){downloadCSV(db.farmers,'بيانات_المزارعين');alert('تم تصدير بيانات المزارعين بصيغة CSV. للحصول على جميع الأقسام دفعة واحدة استخدم النسخة الاحتياطية JSON.');return}let wb=XLSX.utils.book_new();[['المزارعون',db.farmers],['المحاصيل',db.crops],['الزراعة التعاقدية',db.contracts],['القروض والتمويل',db.loans],['الثروة الحيوانية والنحل',db.livestock],['المتابعة',db.followup],['الهيئة والوحدات',db.adminMembers],['الحوافز',db.incentives],['المخزون',db.inventory],['الحسابات',db.finance],['حركات المخزون',db.movements],['دفتر اليومية',db.journal.map(({attachment,...x})=>x)],['الصندوق',db.cashOps.map(({attachment,...x})=>x)],['سجل الرقابة',db.auditLog||[]],['المستخدمون',db.users.map(({password,...x})=>x)]].forEach(([n,a])=>XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(a),n));XLSX.writeFile(wb,'بيانات_جمعية_الخلفية_'+today()+'.xlsx')}
+const aliases={id:['رقم العضوية','العضوية','كود المزارع','farmerid','id','member id'],name:['اسم المزارع','المزارع','الاسم','name','farmer name'],village:['القرية','المحل','village'],isolation:['العزلة','isolation'],district:['المديرية','district'],governorate:['المحافظة','governorate'],phone:['الهاتف','رقم الهاتف','الجوال','phone'],cardType:['نوع البطاقة','نوع الوثيقة','card type','cardtype'],cardNumber:['رقم البطاقة','رقم الوثيقة','رقم الهوية','card number','cardnumber','national id'],membership:['الانتساب','الحالة','عضوية الجمعية','membership'],farmerId:['رقم العضوية','العضوية','كود المزارع','farmerid','id'],type:['المحصول','نوع المحصول','crop','crop type'],otherType:['محصول آخر','اسم المحصول'],area:['المساحة','المساحة هكتار','area'],seed:['البذور','كمية البذور','seed'],yield:['الإنتاج','الانتاج','الإنتاج كجم','yield'],season:['الموسم','الموسم الزراعي','season'],date:['التاريخ','تاريخ التسجيل','date'],code:['الكود','كود الصنف','code'],qty:['الكمية','الرصيد','qty','quantity'],unit:['الوحدة','unit'],desc:['البيان','الوصف','التفاصيل','description'],debit:['مدين','مديونية','قرض','debit'],credit:['دائن','سداد','credit'],amount:['المبلغ','amount'],status:['الحالة','status']};
+function norm(s){return String(s??'').trim().toLowerCase().replace(/[ًٌٍَُِّْـ]/g,'').replace(/[\s_\-\/]/g,'')}
+function guessTarget(headers){let h=headers.map(norm);if(h.some(x=>aliases.type.some(a=>norm(a)===x))&&h.some(x=>aliases.area.some(a=>norm(a)===x)))return'crops';if(h.some(x=>aliases.code.some(a=>norm(a)===x))&&h.some(x=>aliases.qty.some(a=>norm(a)===x)))return'inventory';if(h.some(x=>aliases.id.some(a=>norm(a)===x))&&h.some(x=>aliases.name.some(a=>norm(a)===x)))return'farmers';if(h.some(x=>aliases.debit.some(a=>norm(a)===x))||h.some(x=>aliases.credit.some(a=>norm(a)===x)))return'finance';return''}
+function mapRow(row,target){let out={};for(let field of Object.keys(aliases)){if(target==='farmers'&&!['id','name','village','phone','cardType','cardNumber','membership','status'].includes(field))continue;if(target==='crops'&&!['farmerId','type','otherType','area','seed','yield','season','date'].includes(field))continue;if(target==='inventory'&&!['code','name','qty','unit'].includes(field))continue;if(target==='finance'&&!['farmerId','desc','debit','credit','amount','date'].includes(field))continue;let key=Object.keys(row).find(k=>aliases[field].some(a=>norm(a)===norm(k)));if(key!==undefined)out[field]=row[key]}
+if(target==='farmers'){out.id=String(out.id??'').trim();out.name=String(out.name??'').trim();out.cardType=String(out.cardType??'').trim();out.cardNumber=String(out.cardNumber??'').trim();out.membership=String(out.membership||'').includes('غير')?'غير منتسب للجمعية':'منتسب للجمعية'}
+if(target==='crops'){out.farmerId=String(out.farmerId??'').trim();out.type=String(out.type??'').trim()||'محصول آخر';out.area=+out.area||0;out.seed=+out.seed||0;out.yield=+out.yield||0;out.date=excelDate(out.date)||today();out.key=uid()}
+if(target==='inventory'){out.code=String(out.code??'').trim();out.name=String(out.name??'').trim();out.qty=+out.qty||0;out.unit=out.unit||'كيس'}
+if(target==='finance'){out.farmerId=String(out.farmerId??'').trim();out.desc=String(out.desc??'').trim()||'قيد مستورد';out.debit=+out.debit||0;out.credit=+out.credit||0;out.date=excelDate(out.date)||today();out.key=uid();out.voucher='مستورد-'+uid().slice(-5);out.amount=out.debit+out.credit}
+return out}
+function excelDate(v){if(!v)return'';if(typeof v==='number'&&window.XLSX){let d=XLSX.SSF.parse_date_code(v);if(d)return `${d.y}-${String(d.m).padStart(2,'0')}-${String(d.d).padStart(2,'0')}`}let s=String(v);if(/^\d{4}-\d\d-\d\d/.test(s))return s.slice(0,10);return s}
+function startImport(e){let f=e.target.files[0];if(!f)return;document.querySelector('[data-tab=imports]').click();previewImport(f);e.target.value=''}
+async function previewImport(fileOverride=null){let f=fileOverride||$('smartFile').files[0];if(!f)return alert('اختر ملفاً أولاً');try{let rows;if(f.name.toLowerCase().endsWith('.json')){let x=JSON.parse(await f.text());let target=$('importTarget').value;if(target==='auto')target=['farmers','crops','inventory','finance'].find(k=>Array.isArray(x[k]))||'';if(!target||!Array.isArray(x[target]))throw Error('لم يتم تحديد جدول بيانات معروف');rows=x[target]}else{let data=await f.arrayBuffer();let wb;if(window.XLSX){wb=XLSX.read(data,{type:'array',cellDates:true});let sheet=wb.Sheets[wb.SheetNames[0]];rows=XLSX.utils.sheet_to_json(sheet,{defval:''})}else if(f.name.toLowerCase().endsWith('.csv')){let t=await f.text();rows=parseCSV(t)}else throw Error('مكتبة قراءة Excel غير متاحة. اتصل بالإنترنت أو استخدم CSV')}
+if(!rows.length)throw Error('الملف لا يحتوي على صفوف بيانات');let target=$('importTarget').value==='auto'?guessTarget(Object.keys(rows[0])):$('importTarget').value;if(!target)throw Error('تعذر التعرف على نوع البيانات؛ اختر القسم يدوياً');let mapped=rows.map(r=>mapRow(r,target)).filter(r=>target==='farmers'?r.id&&r.name:target==='inventory'?r.code&&r.name:target==='crops'?r.farmerId&&r.type: r.farmerId&&(r.debit||r.credit));pendingImport={target,rows:mapped};$('importPreview').innerHTML=`<p><span class="badge">تم التعرف على: ${targetLabel(target)}</span> عدد السجلات القابلة للاستيراد: <b>${mapped.length}</b> من ${rows.length}</p><div class="tablewrap"><table><thead><tr>${Object.keys(mapped[0]||{}).map(k=>'<th>'+esc(k)+'</th>').join('')}</tr></thead><tbody>${mapped.slice(0,5).map(r=>'<tr>'+Object.values(r).map(v=>'<td>'+esc(v)+'</td>').join('')+'</tr>').join('')}</tbody></table></div><button class="gold" onclick="commitImport()">اعتماد الاستيراد وحفظ البيانات</button>`;if(!mapped.length)throw Error('لم يتم العثور على سجلات صالحة أو عناوين أعمدة معروفة')}catch(err){alert('تعذر تحليل الملف: '+err.message)}}
+function targetLabel(t){return{farmers:'المزارعون',crops:'المحاصيل',inventory:'المخزون',finance:'الحسابات'}[t]}
+function parseCSV(t){let lines=t.replace(/^\uFEFF/,'').split(/\r?\n/).filter(Boolean);let parse=s=>{let a=[],v='',q=false;for(let i=0;i<s.length;i++){if(s[i]==='"'&&s[i+1]==='"'&&q){v+='"';i++}else if(s[i]==='"')q=!q;else if(s[i]===','&&!q){a.push(v);v=''}else v+=s[i]}a.push(v);return a};let h=parse(lines.shift());return lines.map(l=>Object.fromEntries(parse(l).map((v,i)=>[h[i],v])))}
+function commitImport(){if(!pendingImport)return;let {target,rows}=pendingImport;if($('importMode').value==='replace'&&!confirm('سيتم استبدال بيانات قسم '+targetLabel(target)+'. متابعة؟'))return;if($('importMode').value==='replace')db[target]=[];let added=0;rows.forEach(x=>{if(target==='farmers'){if(!db.farmers.some(z=>z.id===x.id)){db.farmers.push(x);added++}}else if(target==='inventory'){if(!db.inventory.some(z=>z.code===x.code)){db.inventory.push(x);added++}}else if(target==='crops'){if(db.farmers.some(z=>z.id===x.farmerId)){db.crops.push(x);added++}}else{if(db.farmers.some(z=>z.id===x.farmerId)){if(!x.voucher)x.voucher='مستورد-'+uid().slice(-5);db.finance.push(x);added++}}});save();pendingImport=null;$('importPreview').innerHTML='';alert('اكتمل الاستيراد. السجلات المضافة: '+added)}
+
+// === الأقسام المتكاملة وإضافات الخبير (الإصدار السادس الشامل) ===
+const fmt=n=>(+n||0).toLocaleString('en-US',{maximumFractionDigits:2});
+function nextVoucher(prefix,counterKey){
+ db.counters[counterKey]=(db.counters[counterKey]||0)+1;
+ return prefix+'-'+String(db.counters[counterKey]).padStart(5,'0');
+}
+function logAudit(actionType, details){
+ if(!Array.isArray(db.auditLog))db.auditLog=[];
+ const now=new Date();
+ const stamp=now.toISOString().slice(0,10)+' '+now.toTimeString().slice(0,8);
+ db.auditLog.unshift({
+  key:uid(),time:stamp,
+  user:currentUser?.username||'النظام',
+  role:currentUser?.role?roleName(currentUser.role):'نظام',
+  actionType,details:String(details||'')
+ });
+ if(db.auditLog.length>1500)db.auditLog=db.auditLog.slice(0,1500);
+}
+function postToFinanceAndJournal({farmerId,kind,amount,date,desc,method='نقداً',category='حركة نظام',ref='',debitAcc,creditAcc}){
+ amount=+amount||0;
+ if(amount<=0)return;
+ const v=nextVoucher(kind==='receipt'?'قبض':'صرف',kind);
+ db.finance.push({
+  key:uid(),voucher:v,farmerId:farmerId||'',kind,amount,date:date||today(),
+  desc,method,debit:kind==='payment'?amount:0,credit:kind==='receipt'?amount:0,
+  refTag:ref,attachment:''
+ });
+ if(method==='نقداً'){
+  db.cashOps.push({
+   key:uid(),date:date||today(),kind:kind==='receipt'?'income':'expense',
+   amount,category,desc,ref:ref||v,source:'system',attachment:''
+  });
+ }
+ db.journal.push({
+  key:uid(),number:'آلي-'+v,date:date||today(),
+  debitAccount:debitAcc,creditAccount:creditAcc,
+  amount,desc,source:ref||v,attachment:''
+ });
+}
+
+// 1) الزراعة التعاقدية
+$('contractForm').elements.date.value=today();
+$('contractForm').onsubmit=e=>{
+ e.preventDefault();if(currentUser?.role==='viewer')return;
+ const x=Object.fromEntries(new FormData(e.target));
+ ['area','expectedQty','deliveredQty','unitPrice','paidAmount'].forEach(k=>x[k]=+x[k]||0);
+ const totalVal=+(x.deliveredQty*x.unitPrice).toFixed(2);
+ x.totalValue=totalVal;x.remainingAmount=Math.max(0,+(totalVal-x.paidAmount).toFixed(2));
+ if(x.key){
+  const idx=db.contracts.findIndex(c=>c.key===x.key);
+  if(idx>-1)db.contracts[idx]=x;
+  logAudit('تعديل عقد زراعي','رقم العقد '+x.contractNo+' ('+x.cropType+')');
+ }else{
+  x.key=uid();db.contracts.push(x);
+  if(x.paidAmount>0){
+   postToFinanceAndJournal({
+    farmerId:x.farmerId,kind:'payment',amount:x.paidAmount,date:x.date,
+    desc:'دفعة عقد زراعة تعاقدية رقم '+x.contractNo+' ('+x.cropType+')',
+    method:'نقداً',category:'الزراعة التعاقدية',ref:'عقد-'+x.key,
+    debitAcc:'الزراعة التعاقدية - '+nameOf(x.farmerId),creditAcc:'الصندوق'
+   });
+  }
+  logAudit('إضافة عقد زراعي','رقم العقد '+x.contractNo+' للمزارع '+nameOf(x.farmerId));
+ }
+ resetForm('contractForm');$('contractForm').elements.date.value=today();save();
+};
+function editContract(k){
+ const x=db.contracts.find(c=>c.key===k);if(!x)return;
+ const f=$('contractForm');Object.keys(x).forEach(a=>{if(f.elements[a])f.elements[a].value=x[a]});
+ document.querySelector('[data-tab=contracts]').click();
+}
+function deleteContract(k){
+ if(currentUser?.role==='viewer')return;if(!confirm('حذف عقد الزراعة التعاقدية؟'))return;
+ const c=db.contracts.find(z=>z.key===k);
+ db.cashOps=db.cashOps.filter(z=>z.ref!==('عقد-'+k));
+ db.journal=db.journal.filter(z=>z.source!==('عقد-'+k));
+ db.finance=db.finance.filter(z=>z.refTag!==('عقد-'+k));
+ db.contracts=db.contracts.filter(z=>z.key!==k);
+ logAudit('حذف عقد زراعي','رقم العقد '+(c?.contractNo||k));save();
+}
+function renderContracts(q=''){
+ const s=(q||'').trim().toLowerCase();
+ const list=db.contracts.filter(c=>(c.contractNo+' '+c.farmerId+' '+nameOf(c.farmerId)+' '+c.cropType+' '+c.status+' '+(c.notes||'')).toLowerCase().includes(s));
+ $('contractRows').innerHTML=list.map(c=>{
+  const tv=+(c.totalValue??((+c.deliveredQty||0)*(+c.unitPrice||0)));
+  const paid=+c.paidAmount||0;const rem=Math.max(0,tv-paid);
+  return `<tr><td>${esc(c.contractNo)}</td><td>${esc(nameOf(c.farmerId))}</td><td>${esc(c.cropType)}</td><td>${fmt(c.area)}</td><td>${fmt(c.deliveredQty)}</td><td>${fmt(c.unitPrice)}</td><td>${fmt(tv)}</td><td>${fmt(paid)}</td><td>${fmt(rem)}</td><td><span class="badge">${esc(c.status)}</span></td><td><button class="small gold" onclick="editContract('${c.key}')">تعديل</button> <button class="small danger" onclick="deleteContract('${c.key}')">حذف</button></td></tr>`;
+ }).join('');
+ const allTv=db.contracts.reduce((a,c)=>a+(+(c.totalValue??((+c.deliveredQty||0)*(+c.unitPrice||0)))),0);
+ const allPaid=db.contracts.reduce((a,c)=>a+(+c.paidAmount||0),0);
+ const allDel=db.contracts.reduce((a,c)=>a+(+c.deliveredQty||0),0);
+ $('cTotalValue').textContent=fmt(allTv);$('cPaidTotal').textContent=fmt(allPaid);
+ $('cRemainingTotal').textContent=fmt(Math.max(0,allTv-allPaid));$('cDeliveredQty').textContent=fmt(allDel);
+ $('cActiveCount').textContent=db.contracts.filter(c=>c.status==='ساري'||c.status==='قيد التوريد').length;
+ $('kContracts').textContent=db.contracts.length;
+}
+
+// 2) القروض والتمويل
+$('loanForm').elements.date.value=today();
+$('loanPaymentForm').elements.date.value=today();
+$('loanForm').onsubmit=e=>{
+ e.preventDefault();if(currentUser?.role==='viewer')return;
+ const x=Object.fromEntries(new FormData(e.target));
+ x.principal=+x.principal||0;x.paid=+x.paid||0;
+ if(x.paid>x.principal)return alert('المبلغ المسدد لا يمكن أن يتجاوز مبلغ القرض');
+ if(x.paid>=x.principal&&x.principal>0)x.status='مسدد بالكامل';
+ if(x.key){
+  const idx=db.loans.findIndex(l=>l.key===x.key);
+  if(idx>-1)db.loans[idx]=x;
+  logAudit('تعديل قرض','رقم القرض '+x.loanNo);
+ }else{
+  x.key=uid();db.loans.push(x);
+  postToFinanceAndJournal({
+   farmerId:x.farmerId,kind:'payment',amount:x.principal,date:x.date,
+   desc:'صرف قرض رقم '+x.loanNo+' ('+x.loanType+')',
+   method:x.method||'نقداً',category:'القروض والتمويل',ref:'قرض-'+x.key,
+   debitAcc:'حساب القروض - '+nameOf(x.farmerId),creditAcc:x.method==='نقداً'?'الصندوق':'حساب التمويل'
+  });
+  if(x.paid>0){
+   postToFinanceAndJournal({
+    farmerId:x.farmerId,kind:'receipt',amount:x.paid,date:x.date,
+    desc:'سداد مقدم على قرض رقم '+x.loanNo,
+    method:x.method||'نقداً',category:'سداد قروض',ref:'قرض-'+x.key,
+    debitAcc:x.method==='نقداً'?'الصندوق':'حساب التمويل',creditAcc:'حساب القروض - '+nameOf(x.farmerId)
+   });
+  }
+  logAudit('صرف قرض','رقم القرض '+x.loanNo+' للمزارع '+nameOf(x.farmerId)+' بمبلغ '+fmt(x.principal));
+ }
+ resetForm('loanForm');$('loanForm').elements.date.value=today();save();
+};
+$('loanPaymentForm').onsubmit=e=>{
+ e.preventDefault();if(currentUser?.role==='viewer')return;
+ const p=Object.fromEntries(new FormData(e.target));
+ const loan=db.loans.find(l=>l.key===p.loanKey);
+ if(!loan)return alert('اختر قرضاً صحيحاً');
+ const amt=+p.amount||0;const rem=Math.max(0,(+loan.principal||0)-(+loan.paid||0));
+ if(amt<=0||amt>rem+0.0001)return alert('مبلغ السداد يتجاوز المتبقي ('+fmt(rem)+')');
+ loan.paid=+(+loan.paid+amt).toFixed(2);
+ if(loan.paid>=loan.principal-0.0001){loan.paid=loan.principal;loan.status='مسدد بالكامل';}
+ postToFinanceAndJournal({
+  farmerId:loan.farmerId,kind:'receipt',amount:amt,date:p.date||today(),
+  desc:'سداد قسط قرض رقم '+loan.loanNo+(p.note?' - '+p.note:''),
+  method:p.method||'نقداً',category:'سداد قروض',ref:'قرض-'+loan.key,
+  debitAcc:p.method==='نقداً'?'الصندوق':'حساب التمويل',creditAcc:'حساب القروض - '+nameOf(loan.farmerId)
+ });
+ logAudit('سداد قسط قرض','رقم القرض '+loan.loanNo+' بمبلغ '+fmt(amt));
+ e.target.reset();$('loanPaymentForm').elements.date.value=today();save();
+};
+function editLoan(k){
+ const x=db.loans.find(l=>l.key===k);if(!x)return;
+ const f=$('loanForm');Object.keys(x).forEach(a=>{if(f.elements[a])f.elements[a].value=x[a]});
+ document.querySelector('[data-tab=loans]').click();
+}
+function deleteLoan(k){
+ if(currentUser?.role==='viewer')return;if(!confirm('حذف سجل القرض والقيود المرتبطة به؟'))return;
+ const l=db.loans.find(z=>z.key===k);
+ db.cashOps=db.cashOps.filter(z=>z.ref!==('قرض-'+k));
+ db.journal=db.journal.filter(z=>z.source!==('قرض-'+k));
+ db.finance=db.finance.filter(z=>z.refTag!==('قرض-'+k));
+ db.loans=db.loans.filter(z=>z.key!==k);
+ logAudit('حذف قرض','رقم القرض '+(l?.loanNo||k));save();
+}
+function refreshLoanSelect(){
+ const sel=$('loanSelect');if(!sel)return;
+ const cur=sel.value;
+ const openLoans=db.loans.filter(l=>((+l.principal||0)-(+l.paid||0))>0);
+ sel.innerHTML='<option value="">اختر القرض</option>'+openLoans.map(l=>{
+  const rem=Math.max(0,(+l.principal||0)-(+l.paid||0));
+  return `<option value="${esc(l.key)}">${esc(l.loanNo)} - ${esc(nameOf(l.farmerId))} (متبقي: ${fmt(rem)})</option>`;
+ }).join('');
+ sel.value=cur;
+}
+function renderLoans(q=''){
+ refreshLoanSelect();
+ const s=(q||'').trim().toLowerCase();
+ const list=db.loans.filter(l=>(l.loanNo+' '+nameOf(l.farmerId)+' '+l.loanType+' '+l.status+' '+(l.notes||'')).toLowerCase().includes(s));
+ $('loanRows').innerHTML=list.map(l=>{
+  const prin=+l.principal||0,paid=+l.paid||0,rem=Math.max(0,prin-paid);
+  return `<tr><td>${esc(l.loanNo)}</td><td>${esc(nameOf(l.farmerId))}</td><td>${esc(l.loanType)}</td><td>${fmt(prin)}</td><td>${fmt(paid)}</td><td>${fmt(rem)}</td><td>${esc(l.date)}</td><td>${esc(l.dueDate||'—')}</td><td><span class="badge">${esc(l.status)}</span></td><td><button class="small gold" onclick="editLoan('${l.key}')">تعديل</button> <button class="small danger" onclick="deleteLoan('${l.key}')">حذف</button></td></tr>`;
+ }).join('');
+ const pTot=db.loans.reduce((a,l)=>a+(+l.principal||0),0);
+ const dTot=db.loans.reduce((a,l)=>a+(+l.paid||0),0);
+ const bTot=Math.max(0,pTot-dTot);
+ $('lPrincipalTotal').textContent=fmt(pTot);$('lPaidTotal').textContent=fmt(dTot);
+ $('lBalanceTotal').textContent=fmt(bTot);
+ $('lActiveCount').textContent=db.loans.filter(l=>l.status==='قائم').length;
+ $('lLateCount').textContent=db.loans.filter(l=>l.status==='متأخر السداد').length;
+ $('kLoans').textContent=fmt(bTot);
+}
+
+// 3) الثروة الحيوانية والنحل
+$('livestockForm').elements.date.value=today();
+$('livestockForm').onsubmit=e=>{
+ e.preventDefault();if(currentUser?.role==='viewer')return;
+ const x=Object.fromEntries(new FormData(e.target));
+ x.count=+x.count||0;x.productiveCount=+x.productiveCount||0;
+ if(x.key){
+  const idx=db.livestock.findIndex(z=>z.key===x.key);
+  if(idx>-1)db.livestock[idx]=x;
+  logAudit('تعديل ثروة/نحل',x.category+' للمربي '+nameOf(x.farmerId));
+ }else{
+  x.key=uid();db.livestock.push(x);
+  logAudit('إضافة ثروة/نحل',x.category+' ('+x.count+') للمربي '+nameOf(x.farmerId));
+ }
+ resetForm('livestockForm');$('livestockForm').elements.date.value=today();save();
+};
+function editLivestock(k){
+ const x=db.livestock.find(z=>z.key===k);if(!x)return;
+ const f=$('livestockForm');Object.keys(x).forEach(a=>{if(f.elements[a])f.elements[a].value=x[a]});
+ document.querySelector('[data-tab=livestock]').click();
+}
+function deleteLivestock(k){
+ if(currentUser?.role==='viewer')return;if(!confirm('حذف سجل الثروة الحيوانية / النحل؟'))return;
+ db.livestock=db.livestock.filter(z=>z.key!==k);save();
+}
+function renderLivestock(){
+ const cat=$('livestockFilterCat')?.value||'';
+ const q=($('livestockSearch')?.value||'').trim().toLowerCase();
+ const list=db.livestock.filter(x=>(!cat||x.category===cat)&&(!q||(x.category+' '+nameOf(x.farmerId)+' '+(x.breed||'')+' '+(x.location||'')+' '+(x.notes||'')).toLowerCase().includes(q)));
+ $('livestockRows').innerHTML=list.map(x=>`<tr><td><span class="badge">${esc(x.category)}</span></td><td>${esc(nameOf(x.farmerId))}</td><td>${esc(x.breed||'—')}</td><td>${fmt(x.count)}</td><td>${fmt(x.productiveCount)}</td><td>${esc(x.healthStatus)}</td><td>${esc(x.location||'—')}</td><td>${esc(x.date)}</td><td><button class="small gold" onclick="editLivestock('${x.key}')">تعديل</button> <button class="small danger" onclick="deleteLivestock('${x.key}')">حذف</button></td></tr>`).join('');
+ const cow=db.livestock.filter(x=>x.category==='أبقار').reduce((s,x)=>s+(+x.count||0),0);
+ const goat=db.livestock.filter(x=>x.category==='ماعز').reduce((s,x)=>s+(+x.count||0),0);
+ const sheep=db.livestock.filter(x=>x.category==='أغنام').reduce((s,x)=>s+(+x.count||0),0);
+ const bee=db.livestock.filter(x=>x.category==='نحل').reduce((s,x)=>s+(+x.count||0),0);
+ $('lsCow').textContent=fmt(cow);$('lsGoat').textContent=fmt(goat);
+ $('lsSheep').textContent=fmt(sheep);$('lsBee').textContent=fmt(bee);
+ $('lsRecords').textContent=db.livestock.length;
+ $('kLivestock').textContent=fmt(cow+goat+sheep+bee);
+}
+
+// 4) قسم المتابعة
+$('followupForm').elements.date.value=today();
+$('followupForm').onsubmit=e=>{
+ e.preventDefault();if(currentUser?.role==='viewer')return;
+ const x=Object.fromEntries(new FormData(e.target));
+ x.progress=Math.min(100,Math.max(0,+x.progress||0));
+ if(!x.code)x.code=nextVoucher('متابعة','followup');
+ if(x.key){
+  const idx=db.followup.findIndex(z=>z.key===x.key);
+  if(idx>-1)db.followup[idx]=x;
+ }else{
+  x.key=uid();db.followup.push(x);
+ }
+ logAudit('حفظ متابعة',x.code+' – '+x.subject+' ('+x.status+')');
+ resetForm('followupForm');$('followupForm').elements.date.value=today();save();
+};
+function editFollowup(k){
+ const x=db.followup.find(z=>z.key===k);if(!x)return;
+ const f=$('followupForm');Object.keys(x).forEach(a=>{if(f.elements[a])f.elements[a].value=x[a]});
+ document.querySelector('[data-tab=followup]').click();
+}
+function deleteFollowup(k){
+ if(currentUser?.role==='viewer')return;if(!confirm('حذف سجل المتابعة؟'))return;
+ db.followup=db.followup.filter(z=>z.key!==k);save();
+}
+function renderFollowup(q=''){
+ const s=(q||'').trim().toLowerCase();
+ const list=db.followup.filter(x=>(x.code+' '+x.department+' '+x.subject+' '+x.assignee+' '+(x.site||'')+' '+x.status).toLowerCase().includes(s));
+ $('followupRows').innerHTML=list.map(x=>`<tr><td>${esc(x.code)}</td><td>${esc(x.department)}</td><td>${esc(x.subject)}</td><td>${esc(x.assignee)}</td><td>${esc(x.site||'—')}</td><td>${x.progress}%</td><td><span class="badge">${esc(x.status)}</span></td><td>${esc(x.date)}</td><td><button class="small gold" onclick="editFollowup('${x.key}')">تعديل</button> <button class="small danger" onclick="deleteFollowup('${x.key}')">حذف</button></td></tr>`).join('');
+ const active=db.followup.filter(x=>x.status==='قيد المتابعة').length;
+ const done=db.followup.filter(x=>x.status==='منجز').length;
+ const late=db.followup.filter(x=>x.status==='متأخر').length;
+ const avg=db.followup.length?Math.round(db.followup.reduce((s,x)=>s+(+x.progress||0),0)/db.followup.length):0;
+ $('fuTotal').textContent=db.followup.length;$('fuActive').textContent=active;
+ $('fuDone').textContent=done;$('fuLate').textContent=late;$('fuAvg').textContent=avg+'%';
+ $('kFollowUp').textContent=active;
+}
+
+// 5) الهيئة الإدارية والوحدات والحوافز اليومية والشهرية
+$('incentiveForm').elements.date.value=today();
+$('adminMemberForm').onsubmit=e=>{
+ e.preventDefault();if(currentUser?.role==='viewer')return;
+ const x=Object.fromEntries(new FormData(e.target));
+ x.monthlyAllowance=+x.monthlyAllowance||0;
+ if(x.key){
+  const idx=db.adminMembers.findIndex(z=>z.key===x.key);
+  if(idx>-1)db.adminMembers[idx]=x;
+ }else{
+  x.key=uid();db.adminMembers.push(x);
+ }
+ logAudit('حفظ عضو هيئة/وحدة',x.name+' – '+x.roleTitle+' ('+x.unitName+')');
+ resetForm('adminMemberForm');save();
+};
+function editAdminMember(k){
+ const x=db.adminMembers.find(z=>z.key===k);if(!x)return;
+ const f=$('adminMemberForm');Object.keys(x).forEach(a=>{if(f.elements[a])f.elements[a].value=x[a]});
+ document.querySelector('[data-tab=adminUnits]').click();
+}
+function deleteAdminMember(k){
+ if(currentUser?.role==='viewer')return;if(!confirm('حذف العضو من الهيئة الإدارية والوحدات؟'))return;
+ db.adminMembers=db.adminMembers.filter(z=>z.key!==k);save();
+}
+function refreshIncentiveMembers(){
+ const sel=$('incentiveMemberSelect');if(!sel)return;
+ const cur=sel.value;
+ sel.innerHTML='<option value="">اختر العضو / المستفيد</option>'+db.adminMembers.map(m=>`<option value="${esc(m.key)}">${esc(m.name)} – ${esc(m.roleTitle)} (${esc(m.unitName)})</option>`).join('');
+ sel.value=cur;
+}
+$('incentiveForm').onsubmit=e=>{
+ e.preventDefault();if(currentUser?.role==='viewer')return;
+ const x=Object.fromEntries(new FormData(e.target));
+ const mem=db.adminMembers.find(m=>m.key===x.memberKey);
+ if(!mem)return alert('اختر عضواً من الهيئة الإدارية أو الوحدات أولاً');
+ x.amount=+x.amount||0;
+ if(x.amount<=0)return alert('أدخل مبلغاً صحيحاً');
+ x.key=uid();
+ x.code=nextVoucher(x.frequency==='يومي'?'حافز-ي':'حافز-ش','incentive');
+ x.memberName=mem.name;x.unitName=mem.unitName;x.roleTitle=mem.roleTitle;
+ db.incentives.push(x);
+ const catLabel='حوافز '+x.frequency+' ('+mem.unitName+')';
+ const fullDesc='حافز '+x.frequency+' ['+x.code+'] - '+mem.name+' ('+mem.unitName+'): '+x.reason;
+ if((x.method||'نقداً')==='نقداً'){
+  db.cashOps.push({
+   key:uid(),date:x.date||today(),kind:'expense',
+   amount:x.amount,category:catLabel,desc:fullDesc,
+   ref:x.code,source:'incentive',attachment:''
+  });
+ }
+ db.journal.push({
+  key:uid(),number:'آلي-'+x.code,date:x.date||today(),
+  debitAccount:'حوافز الهيئة والوحدات - '+x.frequency,
+  creditAccount:(x.method||'نقداً')==='نقداً'?'الصندوق':'حساب الحوافز المستحقة',
+  amount:x.amount,desc:fullDesc,source:x.code,attachment:''
+ });
+ logAudit('صرف حافز '+x.frequency,mem.name+' ('+mem.unitName+') بمبلغ '+fmt(x.amount)+' – '+x.reason);
+ e.target.reset();$('incentiveForm').elements.date.value=today();save();
+};
+function deleteIncentive(k){
+ if(currentUser?.role==='viewer')return;if(!confirm('حذف الحافز وترحيلاته المالية المرتبطة؟'))return;
+ const inc=db.incentives.find(z=>z.key===k);
+ if(inc){
+  db.cashOps=db.cashOps.filter(z=>z.ref!==inc.code);
+  db.journal=db.journal.filter(z=>z.source!==inc.code);
+  logAudit('حذف حافز',inc.code+' – '+inc.memberName+' بمبلغ '+fmt(inc.amount));
+ }
+ db.incentives=db.incentives.filter(z=>z.key!==k);save();
+}
+function renderAdminMembers(q=''){
+ refreshIncentiveMembers();
+ const s=(q||'').trim().toLowerCase();
+ const list=db.adminMembers.filter(m=>(m.name+' '+m.roleTitle+' '+m.unitName+' '+(m.phone||'')+' '+m.status).toLowerCase().includes(s));
+ $('adminMemberRows').innerHTML=list.map(m=>`<tr><td>${esc(m.name)}</td><td>${esc(m.roleTitle)}</td><td><span class="badge">${esc(m.unitName)}</span></td><td>${fmt(m.monthlyAllowance)}</td><td>${esc(m.phone||'—')}</td><td>${esc(m.status)}</td><td><button class="small gold" onclick="editAdminMember('${m.key}')">تعديل</button> <button class="small danger" onclick="deleteAdminMember('${m.key}')">حذف</button></td></tr>`).join('');
+ $('auMembersCount').textContent=db.adminMembers.length;
+}
+function renderIncentives(){
+ const ft=$('incentiveFilterType')?.value||'';
+ const q=($('incentiveSearch')?.value||'').trim().toLowerCase();
+ const list=db.incentives.filter(x=>(!ft||x.frequency===ft)&&(!q||((x.memberName||'')+' '+(x.unitName||'')+' '+(x.reason||'')+' '+(x.period||'')+' '+(x.code||'')).toLowerCase().includes(q)));
+ $('incentiveRows').innerHTML=list.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(x=>`<tr><td>${esc(x.date)}</td><td><span class="badge">${esc(x.frequency)}</span></td><td>${esc(x.memberName||'')}</td><td>${esc(x.unitName||'')}</td><td>${esc(x.period||'—')}</td><td>${esc(x.reason)}</td><td>${fmt(x.amount)}</td><td>${esc(x.method||'نقداً')}</td><td><button class="small danger" onclick="deleteIncentive('${x.key}')">حذف</button></td></tr>`).join('');
+ const daily=db.incentives.filter(x=>x.frequency==='يومي').reduce((s,x)=>s+(+x.amount||0),0);
+ const monthly=db.incentives.filter(x=>x.frequency==='شهري').reduce((s,x)=>s+(+x.amount||0),0);
+ $('auDailyTotal').textContent=fmt(daily);$('auMonthlyTotal').textContent=fmt(monthly);
+ $('auAllIncentives').textContent=fmt(daily+monthly);$('auIncentivesCount').textContent=db.incentives.length;
+ $('kIncentives').textContent=fmt(daily+monthly);
+}
+
+// 6) لوحة المؤشرات والملخص التنفيذي
+function renderExecutiveDashboard(){
+ if(!$('executiveDashboardOut'))return;
+ const farmersCount=db.farmers.length;
+ const membersCount=db.farmers.filter(x=>x.membership==='منتسب للجمعية').length;
+ const totalArea=db.crops.reduce((s,x)=>s+(+x.area||0),0);
+ const totalYield=db.crops.reduce((s,x)=>s+(+x.yield||0),0);
+ const contractVal=db.contracts.reduce((s,c)=>s+(+(c.totalValue??((+c.deliveredQty||0)*(+c.unitPrice||0)))),0);
+ const contractPaid=db.contracts.reduce((s,c)=>s+(+c.paidAmount||0),0);
+ const contractRem=Math.max(0,contractVal-contractPaid);
+ const loansPrincipal=db.loans.reduce((s,l)=>s+(+l.principal||0),0);
+ const loansPaid=db.loans.reduce((s,l)=>s+(+l.paid||0),0);
+ const loansRem=Math.max(0,loansPrincipal-loansPaid);
+ const cow=db.livestock.filter(x=>x.category==='أبقار').reduce((s,x)=>s+(+x.count||0),0);
+ const goat=db.livestock.filter(x=>x.category==='ماعز').reduce((s,x)=>s+(+x.count||0),0);
+ const sheep=db.livestock.filter(x=>x.category==='أغنام').reduce((s,x)=>s+(+x.count||0),0);
+ const bee=db.livestock.filter(x=>x.category==='نحل').reduce((s,x)=>s+(+x.count||0),0);
+ const fuTotal=db.followup.length;
+ const fuDone=db.followup.filter(x=>x.status==='منجز').length;
+ const fuRate=fuTotal?Math.round((fuDone/fuTotal)*100):0;
+ const dailyInc=db.incentives.filter(x=>x.frequency==='يومي').reduce((s,x)=>s+(+x.amount||0),0);
+ const monthlyInc=db.incentives.filter(x=>x.frequency==='شهري').reduce((s,x)=>s+(+x.amount||0),0);
+ const totalInc=dailyInc+monthlyInc;
+ const cashInc=cashTotals().income,cashExp=cashTotals().expense,cashBal=cashInc-cashExp;
+ const stockItems=db.inventory.length,stockTotalQty=db.inventory.reduce((s,x)=>s+(+x.qty||0),0);
+
+ $('executiveDashboardOut').innerHTML=`
+ <div class="kpis">
+  <div class="kpi"><small>رصيد الصندوق النقدي</small><strong>${fmt(cashBal)}</strong></div>
+  <div class="kpi"><small>إجمالي الإيرادات</small><strong>${fmt(cashInc)}</strong></div>
+  <div class="kpi"><small>إجمالي المصروفات</small><strong>${fmt(cashExp)}</strong></div>
+  <div class="kpi"><small>إجمالي الحوافز (يومي + شهري)</small><strong>${fmt(totalInc)}</strong></div>
+  <div class="kpi"><small>نسبة إنجاز المتابعة</small><strong>${fuRate}%</strong></div>
+ </div>
+ <div class="tablewrap"><table>
+  <thead><tr><th>المحور / القسم</th><th>المؤشر الرئيسي</th><th>القيمة / الإجمالي</th><th>ملاحظات تحليلية</th></tr></thead>
+  <tbody>
+   <tr><td><b>المزارعون والانتساب</b></td><td>إجمالي المزارعين / المنتسبين</td><td>${farmersCount} / ${membersCount}</td><td>نسبة الانتساب: ${farmersCount?Math.round((membersCount/farmersCount)*100):0}%</td></tr>
+   <tr><td><b>المحاصيل الزراعية</b></td><td>المساحة الكلية / الإنتاج الكلي</td><td>${fmt(totalArea)} هكتار / ${fmt(totalYield)} كجم</td><td>عدد السجلات الزراعية: ${db.crops.length}</td></tr>
+   <tr><td><b>الزراعة التعاقدية</b></td><td>قيمة التوريد / المدفوع / المتبقي</td><td>${fmt(contractVal)} / ${fmt(contractPaid)} / ${fmt(contractRem)}</td><td>عدد العقود المسجلة: ${db.contracts.length}</td></tr>
+   <tr><td><b>القروض والتمويل</b></td><td>إجمالي القروض / المسدد / المتبقي</td><td>${fmt(loansPrincipal)} / ${fmt(loansPaid)} / ${fmt(loansRem)}</td><td>عدد القروض: ${db.loans.length}</td></tr>
+   <tr><td><b>الثروة الحيوانية والنحل</b></td><td>أبقار: ${fmt(cow)} | ماعز: ${fmt(goat)} | أغنام: ${fmt(sheep)} | نحل: ${fmt(bee)}</td><td>${fmt(cow+goat+sheep+bee)} رأس/خلية</td><td>عدد السجلات: ${db.livestock.length}</td></tr>
+   <tr><td><b>المتابعة الميدانية</b></td><td>المنجز من إجمالي المهام</td><td>${fuDone} من ${fuTotal} (${fuRate}%)</td><td>قيد المتابعة: ${db.followup.filter(x=>x.status==='قيد المتابعة').length} | متأخر: ${db.followup.filter(x=>x.status==='متأخر').length}</td></tr>
+   <tr><td><b>الهيئة الإدارية والوحدات</b></td><td>الحوافز اليومية / الشهرية</td><td>${fmt(dailyInc)} / ${fmt(monthlyInc)}</td><td>عدد الأعضاء: ${db.adminMembers.length} | عمليات الحوافز: ${db.incentives.length}</td></tr>
+   <tr><td><b>المخزون</b></td><td>عدد الأصناف / إجمالي الأرصدة</td><td>${stockItems} صنف / ${fmt(stockTotalQty)}</td><td>عدد حركات المخزون: ${db.movements.length}</td></tr>
+  </tbody>
+ </table></div>`;
+}
+
+// 7) مركز التنبيهات الذكية
+function renderAlerts(){
+ if(!$('alertsOut'))return;
+ const lowTh=Math.max(0,+($('lowStockThreshold')?.value||10));
+ const filterType=$('alertFilterType')?.value||'';
+ const todayStr=today();
+ const alerts=[];
+ db.loans.forEach(l=>{
+  const rem=Math.max(0,(+l.principal||0)-(+l.paid||0));
+  if(rem>0&&(l.status==='متأخر السداد'||(l.dueDate&&l.dueDate<todayStr))){
+   alerts.push({type:'قروض',level:'عاجل',title:'قرض متأخر السداد رقم '+l.loanNo,detail:'المستفيد: '+nameOf(l.farmerId)+' | المتبقي: '+fmt(rem)+(l.dueDate?' | الاستحقاق: '+l.dueDate:'')});
+  }
+ });
+ db.contracts.forEach(c=>{
+  const tv=+(c.totalValue??((+c.deliveredQty||0)*(+c.unitPrice||0)));
+  const rem=Math.max(0,tv-(+c.paidAmount||0));
+  if(c.status==='متأخر'||(c.dueDate&&c.dueDate<todayStr&&c.status!=='مكتمل')){
+   alerts.push({type:'عقود',level:'تنبيه',title:'عقد زراعة تعاقدية متأخر رقم '+c.contractNo,detail:'المزارع: '+nameOf(c.farmerId)+' | المحصول: '+c.cropType+' | المتبقي: '+fmt(rem)});
+  }
+ });
+ db.inventory.forEach(item=>{
+  const q=+item.qty||0;
+  if(q<=lowTh){
+   alerts.push({type:'مخزون',level:q===0?'حرج':'تنبيه',title:(q===0?'نفاد رصيد الصنف: ':'انخفاض رصيد الصنف: ')+item.name+' ('+item.code+')',detail:'الرصيد الحالي: '+fmt(q)+' '+item.unit+' (الحد: '+lowTh+')'});
+  }
+ });
+ db.followup.forEach(f=>{
+  if(f.status==='متأخر'||(f.nextDate&&f.nextDate<todayStr&&f.status!=='منجز')){
+   alerts.push({type:'متابعة',level:'تنبيه',title:'مهمة متابعة متأخرة: '+f.subject,detail:'القسم: '+f.department+' | المسؤول: '+f.assignee+' | الموعد: '+(f.nextDate||f.date)});
+  }
+ });
+ db.livestock.forEach(ls=>{
+  if(ls.healthStatus&&ls.healthStatus!=='سليم ومحصّن'){
+   alerts.push({type:'ثروة',level:'بيطري',title:ls.category+' بحاجة لمتابعة صحية ('+nameOf(ls.farmerId)+')',detail:'الحالة: '+ls.healthStatus+' | العدد: '+fmt(ls.count)+' | الموقع: '+(ls.location||'—')});
+  }
+ });
+ const shown=alerts.filter(a=>!filterType||a.type===filterType);
+ $('alertsOut').innerHTML=shown.length
+  ?`<div class="tablewrap"><table><thead><tr><th>القسم</th><th>الأولوية</th><th>التنبيه</th><th>التفاصيل</th></tr></thead><tbody>${shown.map(a=>`<tr><td><span class="badge">${esc(a.type)}</span></td><td><b>${esc(a.level)}</b></td><td>${esc(a.title)}</td><td>${esc(a.detail)}</td></tr>`).join('')}</tbody></table></div>`
+  :'<div class="notice">لا توجد تنبيهات أو متأخرات مطابقة للفلتر الحالي. الوضع التشغيلي مستقر.</div>';
+}
+
+// 8) سجل العمليات والرقابة
+function renderAuditLog(q=''){
+ if(!$('auditRows'))return;
+ if(!Array.isArray(db.auditLog))db.auditLog=[];
+ const s=(q||'').trim().toLowerCase();
+ const list=db.auditLog.filter(x=>(x.time+' '+x.user+' '+x.role+' '+x.actionType+' '+x.details).toLowerCase().includes(s));
+ $('auditRows').innerHTML=list.length?list.map(x=>`<tr><td>${esc(x.time)}</td><td>${esc(x.user)}</td><td><span class="badge">${esc(x.role)}</span></td><td><b>${esc(x.actionType)}</b></td><td>${esc(x.details)}</td></tr>`).join(''):'<tr><td colspan="5">لا توجد سجلات رقابية بعد</td></tr>';
+}
+function clearAuditLog(){
+ if(currentUser?.role!=='admin')return alert('هذه الصلاحية لمدير النظام فقط');
+ if(!confirm('هل تريد مسح سجل العمليات والرقابة بالكامل؟'))return;
+ db.auditLog=[];logAudit('تصفير سجل الرقابة','تم مسح سجل العمليات السابق بواسطة المدير');save();renderAuditLog();
+}
+
+const _origRenderAll=window.renderAll;
+window.renderAll=function(){
+ if(typeof _origRenderAll==='function')_origRenderAll();
+ renderContracts($('contracts .search')?.value||'');
+ renderLoans($('loans .search')?.value||'');
+ renderLivestock();
+ renderFollowup($('followup .search')?.value||'');
+ renderAdminMembers($('adminUnits .search')?.value||'');
+ renderIncentives();
+ renderExecutiveDashboard();
+ renderAlerts();
+ renderAuditLog($('auditLog .search')?.value||'');
+};
+
+load(); if($('reportYear'))$('reportYear').value=new Date().getFullYear(); // تجهيز قاعدة البيانات المحلية قبل تسجيل الدخول
+function updateNetworkStatus(){const el=$('networkStatus');if(el){el.textContent=navigator.onLine?'● متصل بالإنترنت':'● يعمل دون إنترنت';el.style.color=navigator.onLine?'#b7f7c7':'#ffd38a';}}
+window.addEventListener('online',updateNetworkStatus);window.addEventListener('offline',updateNetworkStatus);updateNetworkStatus();
+</script>
+<script>
+let associationInstallPrompt=null;
+window.addEventListener('beforeinstallprompt',function(event){event.preventDefault();associationInstallPrompt=event;const b=document.getElementById('installAppBtn');if(b)b.style.display='inline-block';});
+window.addEventListener('appinstalled',function(){const b=document.getElementById('installAppBtn');if(b){b.textContent='تم تثبيت التطبيق';b.disabled=true;}associationInstallPrompt=null;});
+async function installAssociationApp(){if(!associationInstallPrompt){alert('إذا لم يظهر طلب التثبيت: افتح قائمة Chrome (⋮) ثم اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية». يجب فتح البرنامج من رابط HTTPS وليس من ملف ZIP أو مدير الملفات.');return;}associationInstallPrompt.prompt();const choice=await associationInstallPrompt.userChoice;if(choice&&choice.outcome==='accepted'){const b=document.getElementById('installAppBtn');if(b)b.textContent='جارٍ التثبيت';}associationInstallPrompt=null;}
+if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(e=>console.error('Service worker registration failed',e)));}
+
+// Google Drive backup integration (OAuth 2.0 via Google Identity Services)
+const DRIVE_CLIENT_KEY='bajil_drive_oauth_client_id';
+let driveTokenClient=null, driveAccessToken=null, driveFolderId=null;
+const DRIVE_FOLDER_NAME='نسخ احتياطي جمعية الخلفية';
+const DRIVE_FILE_NAME='bajil_khalfiyah_latest_backup.json';
+function driveMsg(msg,bad=false){const el=$('driveMessage');if(el){el.textContent=msg;el.style.borderColor=bad?'#b91c1c':'#d5e0d8';el.style.color=bad?'#991b1b':'inherit';}}
+function saveDriveClientId(){
+ const id=$('googleClientId')?.value.trim();
+ if(!id||!id.endsWith('.apps.googleusercontent.com'))return alert('أدخل Google OAuth Client ID الصحيح المنتهي بـ apps.googleusercontent.com');
+ localStorage.setItem(DRIVE_CLIENT_KEY,id);driveMsg('تم حفظ Client ID. اضغط «طلب ربط Google Drive» للمتابعة.');
+}
+function driveClientId(){return localStorage.getItem(DRIVE_CLIENT_KEY)||$('googleClientId')?.value.trim()||''}
+function requestDriveConnection(){
+ const id=driveClientId();
+ if(!id){driveMsg('يلزم إدخال Google OAuth Client ID أولاً.',true);$('googleClientId')?.focus();return}
+ if(!window.google?.accounts?.oauth2){driveMsg('تعذر تحميل خدمة تسجيل الدخول من Google. تحقق من الإنترنت ثم أعد المحاولة.',true);return}
+ try{
+  driveTokenClient=google.accounts.oauth2.initTokenClient({
+   client_id:id,scope:'https://www.googleapis.com/auth/drive.file',
+   callback:async(resp)=>{
+    if(resp.error){driveAccessToken=null;driveMsg('فشل تفويض Google: '+resp.error,true);return}
+    driveAccessToken=resp.access_token;
+    $('driveStatus').value='مرتبط مؤقتاً بهذه الجلسة';
+    driveMsg('تم تفويض الوصول إلى Google Drive. يمكنك الآن حفظ نسخة احتياطية.');
+    try{driveFolderId=await findOrCreateDriveFolder();driveMsg('تم الربط والعثور على مجلد النسخ الاحتياطي في Drive.');}
+    catch(e){driveMsg('تم تسجيل الدخول لكن تعذر تجهيز مجلد Drive: '+e.message,true)}
+   },
+   error_callback:(e)=>driveMsg('تعذر فتح نافذة تفويض Google: '+(e.message||e.type||'خطأ غير معروف'),true)
+  });
+  driveTokenClient.requestAccessToken({prompt:'consent'});
+ }catch(e){driveMsg('تعذر بدء الربط: '+e.message,true)}
+}
+async function driveApi(url,options={}){
+ if(!driveAccessToken)throw Error('انتهت جلسة الربط. اضغط «طلب ربط Google Drive» مرة أخرى.');
+ const headers={...(options.headers||{}),Authorization:'Bearer '+driveAccessToken};
+ const res=await fetch(url,{...options,headers});
+ if(!res.ok){let detail='';try{detail=(await res.json()).error?.message||''}catch(_){};throw Error('Google Drive ('+res.status+'): '+(detail||res.statusText))}
+ if(res.status===204)return null;
+ return res.json();
+}
+async function findOrCreateDriveFolder(){
+ const q=encodeURIComponent("name='"+DRIVE_FOLDER_NAME+"' and mimeType='application/vnd.google-apps.folder' and trashed=false");
+ const list=await driveApi('https://www.googleapis.com/drive/v3/files?q='+q+'&fields=files(id,name)&pageSize=10');
+ if(list.files?.length)return list.files[0].id;
+ const folder=await driveApi('https://www.googleapis.com/drive/v3/files?fields=id,name',{
+  method:'POST',headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({name:DRIVE_FOLDER_NAME,mimeType:'application/vnd.google-apps.folder'})
+ });
+ return folder.id;
+}
+async function uploadDriveBackup(){
+ try{
+  if(!driveAccessToken){requestDriveConnection();driveMsg('أكمل الموافقة في نافذة Google، ثم اضغط حفظ النسخة مرة أخرى.');return}
+  driveMsg('جارٍ تجهيز النسخة الاحتياطية ورفعها إلى Drive...');
+  driveFolderId=driveFolderId||await findOrCreateDriveFolder();
+  const q=encodeURIComponent("name='"+DRIVE_FILE_NAME+"' and '"+driveFolderId+"' in parents and trashed=false");
+  const list=await driveApi('https://www.googleapis.com/drive/v3/files?q='+q+'&fields=files(id,name)&pageSize=10');
+  const metadata={name:DRIVE_FILE_NAME,mimeType:'application/json',parents:[driveFolderId]};
+  const boundary='-------bajilDriveBoundary'+Date.now();
+  const payload=JSON.stringify(db,null,2);
+  const body='--'+boundary+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n'+JSON.stringify(metadata)+'\r\n--'+boundary+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n'+payload+'\r\n--'+boundary+'--';
+  const url=list.files?.length
+   ?'https://www.googleapis.com/upload/drive/v3/files/'+list.files[0].id+'?uploadType=multipart&fields=id,name,modifiedTime'
+   :'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,modifiedTime';
+  const result=await driveApi(url,{method:list.files?.length?'PATCH':'POST',headers:{'Content-Type':'multipart/related; boundary='+boundary},body});
+  driveMsg('نجح حفظ النسخة الاحتياطية في Google Drive بتاريخ '+(result.modifiedTime||new Date().toISOString())+'.');
+ }catch(e){driveMsg('تعذر رفع النسخة: '+e.message,true)}
+}
+async function restoreDriveBackup(){
+ try{
+  if(!driveAccessToken){requestDriveConnection();driveMsg('أكمل الموافقة في نافذة Google، ثم اضغط الاستعادة مرة أخرى.');return}
+  driveFolderId=driveFolderId||await findOrCreateDriveFolder();
+  const q=encodeURIComponent("name='"+DRIVE_FILE_NAME+"' and '"+driveFolderId+"' in parents and trashed=false");
+  const list=await driveApi('https://www.googleapis.com/drive/v3/files?q='+q+'&fields=files(id,name,modifiedTime)&orderBy=modifiedTime desc&pageSize=1');
+  if(!list.files?.length){driveMsg('لا توجد نسخة احتياطية في مجلد الجمعية على Drive.',true);return}
+  if(!confirm('سيتم استبدال بيانات البرنامج الحالية بآخر نسخة محفوظة في Drive. هل تريد المتابعة؟'))return;
+  const file=await driveApi('https://www.googleapis.com/drive/v3/files/'+list.files[0].id+'?alt=media');
+  if(!Array.isArray(file.farmers)||!Array.isArray(file.finance))throw Error('محتوى النسخة غير صالح أو غير مكتمل');
+  db={...db,...file,counters:{receipt:0,payment:0,...file.counters},journal:file.journal||[],cashOps:file.cashOps||[]};
+  save();driveMsg('تمت استعادة النسخة بنجاح من Drive.');alert('تمت استعادة بيانات الجمعية بنجاح.');
+ }catch(e){driveMsg('تعذرت الاستعادة: '+e.message,true)}
+}
+window.addEventListener('load',()=>{
+ const input=$('googleClientId');if(input)input.value=localStorage.getItem(DRIVE_CLIENT_KEY)||'';
+});
+
+</script>
+
+</body></html>
