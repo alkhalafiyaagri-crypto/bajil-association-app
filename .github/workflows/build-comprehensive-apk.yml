@@ -79,23 +79,12 @@ jobs:
               raise SystemExit("Gradle app configuration not found")
           p=next((x for x in candidates if x.name=="build.gradle"),candidates[0])
           s=p.read_text(encoding="utf-8")
-          if "applicationIdSuffix" not in s:
-              if p.suffix==".kts":
-                  s,n=re.subn(r'(defaultConfig\s*\{)',r'\1\n        applicationIdSuffix = ".comprehensive"',s,count=1)
-              else:
-                  s,n=re.subn(r'(defaultConfig\s*\{)',r'\1\n        applicationIdSuffix ".comprehensive"',s,count=1)
-              if n!=1: raise SystemExit("Could not isolate defaultConfig to give this app a separate install identity")
-              p.write_text(s,encoding="utf-8")
+          s=re.sub(r"(applicationId\\s+['\\\"])([^'\\\"]+)(['\\\"])",lambda m:m.group(1)+m.group(2)+".comprehensive"+m.group(3),s,count=1)
+          if ".comprehensive" not in s:
+              raise SystemExit("Could not assign a unique applicationId")
+          p.write_text(s,encoding="utf-8")
           print("Separate Android package identity configured for the comprehensive app.")
           PY
-
-      - name: Inspect Android Gradle configuration
-        shell: bash
-        run: |
-          echo "---- app/build.gradle ----"
-          if [ -f bajil_android_project/app/build.gradle ]; then nl -ba bajil_android_project/app/build.gradle; fi
-          echo "---- app/build.gradle.kts ----"
-          if [ -f bajil_android_project/app/build.gradle.kts ]; then nl -ba bajil_android_project/app/build.gradle.kts; fi
 
       - name: Set association logo as Android launcher icon
         shell: bash
