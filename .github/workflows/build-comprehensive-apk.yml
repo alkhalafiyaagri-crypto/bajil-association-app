@@ -79,7 +79,20 @@ jobs:
               raise SystemExit("Gradle app configuration not found")
           p=next((x for x in candidates if x.name=="build.gradle"),candidates[0])
           s=p.read_text(encoding="utf-8")
-          s=re.sub(r"(applicationId\\s+['\\\"])([^'\\\"]+)(['\\\"])",lambda m:m.group(1)+m.group(2)+".comprehensive"+m.group(3),s,count=1)
+          if "applicationId" not in s:
+              raise SystemExit("No applicationId property in Gradle configuration")
+          prefix,rest=s.split("applicationId",1)
+          rest=rest.lstrip()
+          quote=rest[0]
+          if quote not in ("'", '"'):
+              raise SystemExit("Unexpected applicationId syntax")
+          end=rest.find(quote,1)
+          if end<0:
+              raise SystemExit("Malformed applicationId value")
+          current_id=rest[1:end]
+          if not current_id.endswith(".comprehensive"):
+              current_id += ".comprehensive"
+          s=prefix+"applicationId "+quote+current_id+quote+rest[end+1:]
           if ".comprehensive" not in s:
               raise SystemExit("Could not assign a unique applicationId")
           p.write_text(s,encoding="utf-8")
