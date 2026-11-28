@@ -242,7 +242,7 @@ jobs:
           else:
               s=login_css+"\\n"+s
           s=s.replace('<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>','<script src="./xlsx.full.min.js"></script>')
-          s=s.replace('<script src="https://accounts.google.com/gsi/client" async defer></script>','')
+          # Keep Google Identity Services available when the phone has internet, preserving optional Drive backup.
           s=s.replace('function downloadCSV(rows,name){',"""function savePhoneFile(blob,name,mime){
            if(window.AndroidBridge&&window.AndroidBridge.saveBase64){
             const reader=new FileReader();reader.onload=()=>{const b64=String(reader.result).split(',')[1]||'';window.AndroidBridge.saveBase64(name,mime,b64)};reader.readAsDataURL(blob);return true;
