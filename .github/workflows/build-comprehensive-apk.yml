@@ -81,9 +81,9 @@ jobs:
           s=p.read_text(encoding="utf-8")
           if "applicationIdSuffix" not in s:
               if p.suffix==".kts":
-                  s,n=re.subn(r'(defaultConfig\\s*\\{)',r'\\1\\n        applicationIdSuffix = ".comprehensive"',s,count=1)
+                  s,n=re.subn(r'(defaultConfig\s*\{)',r'\1\n        applicationIdSuffix = ".comprehensive"',s,count=1)
               else:
-                  s,n=re.subn(r'(defaultConfig\\s*\\{)',r'\\1\\n        applicationIdSuffix ".comprehensive"',s,count=1)
+                  s,n=re.subn(r'(defaultConfig\s*\{)',r'\1\n        applicationIdSuffix ".comprehensive"',s,count=1)
               if n!=1: raise SystemExit("Could not isolate defaultConfig to give this app a separate install identity")
               p.write_text(s,encoding="utf-8")
           print("Separate Android package identity configured for the comprehensive app.")
