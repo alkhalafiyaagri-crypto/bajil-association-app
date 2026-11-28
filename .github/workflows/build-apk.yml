@@ -936,6 +936,221 @@ jobs:
           PY
           grep -q 'id="bajil-compact-login-final"' bajil_android_project/app/src/main/assets/index.html
 
+      - name: Expand crop types and add intelligent Excel column recognition
+        shell: bash
+        run: |
+          set -e
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path("bajil_android_project/app/src/main/assets/index.html")
+          s=p.read_text(encoding="utf-8")
+          crop_types=["الدخن","السمسم الأحمر","الذرة الحمراء","الدجرى","الصويا"]
+          def add_options(match):
+              body=match.group(1)
+              for name in crop_types:
+                  if ">"+name+"<" not in body:
+                      body=body.replace("</select>",f"<option>{name}</option></select>")
+              return '<select name="type" required>'+body.split("</select>")[0]+"</select>"
+          pattern=r'<select name="type" required>(.*?)</select>'
+          s,n=re.subn(pattern,add_options,s,count=1,flags=re.S)
+          if n!=1: raise SystemExit("لم يتم العثور على قائمة نوع المحصول")
+          report='<select id="reportCrop"><option value="">كل المحاصيل</option><option>الذرة الشامية</option><option>السمسم الأبيض</option></select>'
+          report_new='<select id="reportCrop"><option value="">كل المحاصيل</option><option>الذرة الشامية</option><option>السمسم الأبيض</option>'+''.join('<option>'+x+'</option>' for x in crop_types)+'</select>'
+          if report in s: s=s.replace(report,report_new,1)
+          else:
+              for x in crop_types:
+                  if '<option>'+x+'</option>' not in s[s.find('id="reportCrop"'):s.find('</select>',s.find('id="reportCrop"'))]:
+                      pos=s.find('</select>',s.find('id="reportCrop"'))
+                      if pos>0:s=s[:pos]+'<option>'+x+'</option>'+s[pos:]
+          marker="load(); if($('reportYear'))"
+          if marker not in s: raise SystemExit("لم يتم العثور على موضع آمن لإضافة محرك الاستيراد الذكي")
+          js=r"""
+          <script id="bajil-smart-import-and-crops-v2">
+          (function(){
+            var extra={
+              id:['رقم العضوية','العضوية','رقم المزارع','كود المزارع','معرف المزارع','member no','membership no','farmer id','farmerid','id'],
+              name:['اسم المزارع','اسم العضو','المزارع','الاسم','اسم صاحب الحيازة','farmer name','member name','name'],
+              village:['القرية','المحل','المنطقة','village','locality'],
+              isolation:['العزلة','العزل','isolation'],
+              district:['المديرية','district'],
+              governorate:['المحافظة','governorate'],
+              phone:['الهاتف','رقم الهاتف','رقم الجوال','الجوال','موبايل','phone','mobile','telephone'],
+              cardType:['نوع البطاقة','نوع الوثيقة','card type','document type'],
+              cardNumber:['رقم البطاقة','رقم الوثيقة','رقم الهوية','رقم البطاقة الشخصية','card number','national id','identity number'],
+              membership:['الانتساب','حالة العضوية','عضوية الجمعية','membership','member status'],
+              farmerId:['رقم العضوية','العضوية','رقم المزارع','كود المزارع','معرف المزارع','farmer id','farmerid','member id','membership no','id'],
+              farmerName:['اسم المزارع','اسم العضو','المزارع','farmer name','member name'],
+              type:['المحصول','نوع المحصول','اسم المحصول','المحصول الزراعي','crop','crop type','crop name','نوع الزراعة'],
+              otherType:['محصول آخر','اسم المحصول الآخر','other crop'],
+              area:['المساحة','المساحة هكتار','المساحة بالهكتار','المساحة المزروعة','المساحة (هكتار)','area','hectares','ha'],
+              seed:['البذور','كمية البذور','كمية التقاوي','التقاوي','البذور كجم','seed','seed quantity'],
+              yield:['الإنتاج','الانتاج','كمية الإنتاج','الإنتاج كجم','الانتاج كجم','كمية المحصول','yield','production','production kg'],
+              season:['الموسم','الموسم الزراعي','السنة الزراعية','season','agricultural season'],
+              date:['التاريخ','تاريخ التسجيل','تاريخ الزراعة','date','record date'],
+              code:['الكود','كود الصنف','رمز الصنف','رقم الصنف','code','item code','sku'],
+              qty:['الكمية','الرصيد','الكمية المتاحة','العدد','qty','quantity','stock'],
+              unit:['الوحدة','وحدة القياس','unit'],
+              desc:['البيان','الوصف','التفاصيل','الشرح','description','details','narration'],
+              debit:['مدين','المديونية','قرض','المستحق','debit','debt'],
+              credit:['دائن','السداد','المسدد','المدفوع','credit','paid'],
+              amount:['المبلغ','القيمة','amount','value'],
+              status:['الحالة','status']
+            };
+            function clean(v){
+              return String(v==null?'':v).toLowerCase().trim()
+                .replace(/[ًٌٍَُِّْـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي')
+                .replace(/[ة]/g,'ه').replace(/[\s_\-\/\\()[\].:]+/g,'');
+            }
+            function similarity(a,b){
+              if(!a||!b)return 0;if(a===b)return 1;
+              if(a.length>3&&b.length>3&&(a.indexOf(b)>=0||b.indexOf(a)>=0))return Math.min(a.length,b.length)/Math.max(a.length,b.length)*0.94;
+              var prev=Array.from({length:b.length+1},function(_,i){return i;});
+              for(var i=1;i<=a.length;i++){var cur=[i];for(var j=1;j<=b.length;j++)cur[j]=Math.min(cur[j-1]+1,prev[j]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));prev=cur;}
+              return 1-prev[b.length]/Math.max(a.length,b.length);
+            }
+            var fields={
+              farmers:['id','name','village','isolation','district','governorate','phone','cardType','cardNumber','membership'],
+              crops:['farmerId','farmerName','type','otherType','area','seed','yield','season','date'],
+              inventory:['code','name','qty','unit'],
+              finance:['farmerId','farmerName','desc','debit','credit','amount','date']
+            };
+            function aliasesFor(k){return (extra[k]||[]).concat((window.aliases&&aliases[k])||[]);}
+            function matchHeader(headers,field,used){
+              var best=null,score=0;
+              headers.forEach(function(h){
+                if(used&&used[h])return;
+                var hn=clean(h);
+                aliasesFor(field).forEach(function(a){var z=similarity(hn,clean(a));if(z>score){score=z;best=h;}});
+              });
+              return score>=0.72?{header:best,score:score}:null;
+            }
+            function mapHeaders(headers,target){
+              var used={},map={},total=0;
+              (fields[target]||[]).forEach(function(k){
+                var m=matchHeader(headers,k,used);
+                if(m){map[k]=m.header;used[m.header]=true;total+=m.score;}
+              });
+              return {map:map,score:total,matched:Object.keys(map).length};
+            }
+            window.guessTarget=function(headers){
+              var best='',bestScore=0;
+              Object.keys(fields).forEach(function(t){
+                var m=mapHeaders(headers,t),score=m.matched*2+m.score;
+                if(t==='farmers'&&m.map.id&&m.map.name)score+=4;
+                if(t==='crops'&&m.map.type&&(m.map.area||m.map.farmerId||m.map.farmerName))score+=4;
+                if(t==='inventory'&&m.map.code&&m.map.qty)score+=4;
+                if(t==='finance'&&(m.map.debit||m.map.credit)&& (m.map.farmerId||m.map.farmerName))score+=4;
+                if(score>bestScore){bestScore=score;best=t;}
+              });
+              return bestScore>=6?best:'';
+            };
+            window.mapRow=function(row,target){
+              var headers=Object.keys(row),m=mapHeaders(headers,target),out={};
+              Object.keys(m.map).forEach(function(k){out[k]=row[m.map[k]];});
+              if(target==='farmers'){
+                out.id=String(out.id==null?'':out.id).trim();out.name=String(out.name==null?'':out.name).trim();
+                ['village','isolation','district','governorate','phone','cardType','cardNumber'].forEach(function(k){out[k]=String(out[k]==null?'':out[k]).trim();});
+                out.membership=String(out.membership||'').includes('غير')?'غير منتسب للجمعية':'منتسب للجمعية';
+              }
+              if(target==='crops'){
+                out.farmerId=String(out.farmerId==null?'':out.farmerId).trim();
+                if(!out.farmerId&&out.farmerName){var fn=clean(out.farmerName),farmer=db.farmers.find(function(f){return clean(f.name)===fn;});if(farmer)out.farmerId=String(farmer.id);}
+                out.type=String(out.type==null?'':out.type).trim();
+                var cropNames=['الدخن','السمسم الاحمر','الذره الحمراء','الدجري','الصويا','الذره الشاميه','السمسم الابيض','الذره الرفيعه'];
+                var cv=clean(out.type);var known=cropNames.find(function(x){return clean(x)===cv;});if(known)out.type=known;
+                out.type=out.type||'محصول آخر';out.area=Number(String(out.area||0).replace(/,/g,''))||0;
+                out.seed=Number(String(out.seed||0).replace(/,/g,''))||0;out.yield=Number(String(out.yield||0).replace(/,/g,''))||0;
+                out.date=excelDate(out.date)||today();out.season=String(out.season||'');out.key=uid();
+              }
+              if(target==='inventory'){out.code=String(out.code||'').trim();out.name=String(out.name||'').trim();out.qty=Number(out.qty)||0;out.unit=out.unit||'كيس';}
+              if(target==='finance'){out.farmerId=String(out.farmerId||'').trim();if(!out.farmerId&&out.farmerName){var ff=db.farmers.find(function(f){return clean(f.name)===clean(out.farmerName);});if(ff)out.farmerId=String(ff.id);}
+                out.desc=String(out.desc||'قيد مستورد');out.debit=Number(String(out.debit||0).replace(/,/g,''))||0;out.credit=Number(String(out.credit||0).replace(/,/g,''))||0;
+                out.date=excelDate(out.date)||today();out.key=uid();out.voucher='مستورد-'+uid().slice(-5);out.amount=Number(out.amount)||out.debit+out.credit;}
+              return out;
+            };
+            function sheetRows(sheet){
+              var grid=XLSX.utils.sheet_to_json(sheet,{header:1,defval:'',blankrows:false});
+              var best={score:0,rows:[],headers:[]};
+              for(var i=0;i<Math.min(grid.length,15);i++){
+                var hs=(grid[i]||[]).map(function(x){return String(x==null?'':x).trim();});
+                var nonempty=hs.filter(Boolean).length;if(nonempty<2)continue;
+                var t=window.guessTarget(hs),m=t?mapHeaders(hs,t):{matched:0,score:0};
+                var score=m.matched*3+m.score;
+                if(score>best.score)best={score:score,headers:hs,target:t,rowIndex:i};
+              }
+              if(!best.headers||best.score<6)return {rows:[],score:0,target:''};
+              var rows=[];
+              grid.slice(best.rowIndex+1).forEach(function(line){
+                if(!line||!line.some(function(v){return String(v==null?'':v).trim()!=='';}))return;
+                var o={};best.headers.forEach(function(h,i){if(h)o[h]=line[i]==null?'':line[i];});rows.push(o);
+              });
+              return {rows:rows,score:best.score,target:best.target,headers:best.headers,sheet:sheet};
+            }
+            window.previewImport=async function(fileOverride){
+              var f=fileOverride||$('smartFile').files[0];if(!f)return alert('اختر ملفاً أولاً');
+              try{
+                var rows=[],target='',headers=[],sheetName='';
+                if(f.name.toLowerCase().endsWith('.json')){
+                  var obj=JSON.parse(await f.text());target=$('importTarget').value;
+                  if(target==='auto')target=['farmers','crops','inventory','finance'].find(function(k){return Array.isArray(obj[k]);})||'';
+                  if(!target||!Array.isArray(obj[target]))throw Error('لم يتم التعرف على بنية ملف JSON');
+                  rows=obj[target];headers=Object.keys(rows[0]||{});
+                }else{
+                  var wb;
+                  if(window.XLSX){var data=await f.arrayBuffer();wb=XLSX.read(data,{type:'array',cellDates:true,raw:true});}
+                  else if(f.name.toLowerCase().endsWith('.csv')){rows=parseCSV(await f.text());headers=Object.keys(rows[0]||{});}
+                  else throw Error('مكتبة Excel غير متاحة داخل التطبيق');
+                  if(wb){
+                    var candidates=wb.SheetNames.map(function(n){var x=sheetRows(wb.Sheets[n]);x.sheetName=n;return x;}).sort(function(a,b){return b.score-a.score;});
+                    var chosen=candidates[0];if(!chosen||!chosen.rows.length)throw Error('لم أجد ورقة تحتوي عناوين أعمدة يمكن التعرف عليها');
+                    rows=chosen.rows;headers=chosen.headers;sheetName=chosen.sheetName;target=chosen.target;
+                  }
+                }
+                if(!rows.length)throw Error('الملف لا يحتوي على صفوف بيانات');
+                if($('importTarget').value!=='auto')target=$('importTarget').value;
+                else if(!target)target=window.guessTarget(headers.length?headers:Object.keys(rows[0]));
+                if(!target)throw Error('تعذر تحديد القسم من عناوين الملف. اختر القسم يدوياً من القائمة');
+                var mapped=rows.map(function(r){return window.mapRow(r,target);}).filter(function(r){
+                  if(target==='farmers')return r.id&&r.name;
+                  if(target==='inventory')return r.code&&r.name;
+                  if(target==='crops')return r.type&&r.farmerId;
+                  return r.farmerId&&(r.debit||r.credit||r.amount);
+                });
+                if(!mapped.length)throw Error('تم التعرف على الأعمدة لكن لم توجد صفوف مكتملة. تأكد من رقم العضوية أو اسم المزارع');
+                var mm=mapHeaders(headers,target),mapping=Object.keys(mm.map).map(function(k){return '<tr><td>'+esc(k)+'</td><td>'+esc(mm.map[k])+'</td></tr>';}).join('');
+                pendingImport={target:target,rows:mapped};
+                $('importPreview').innerHTML='<p><span class="badge">القسم المكتشف: '+targetLabel(target)+'</span> '+(sheetName?' | ورقة العمل: '+esc(sheetName):'')+'</p><p>تم تحليل '+rows.length+' صفاً؛ السجلات الصالحة: <b>'+mapped.length+'</b></p><b>مطابقة الأعمدة التلقائية</b><div class="tablewrap"><table><thead><tr><th>حقل البرنامج</th><th>العمود في الملف</th></tr></thead><tbody>'+mapping+'</tbody></table></div><div class="tablewrap"><table><thead><tr>'+Object.keys(mapped[0]).map(function(k){return '<th>'+esc(k)+'</th>';}).join('')+'</tr></thead><tbody>'+mapped.slice(0,5).map(function(r){return '<tr>'+Object.values(r).map(function(v){return '<td>'+esc(v);+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table></div><button class="gold" onclick="commitImport()">اعتماد الاستيراد وحفظ البيانات</button>';
+              }catch(err){alert('تعذر تحليل الملف: '+err.message);}
+            };
+            window.commitImport=function(){
+              if(!pendingImport)return;var target=pendingImport.target,rows=pendingImport.rows;
+              if($('importMode').value==='replace'&&!confirm('سيتم استبدال بيانات قسم '+targetLabel(target)+'. متابعة؟'))return;
+              if($('importMode').value==='replace')db[target]=[];
+              var added=0,skipped=0;
+              rows.forEach(function(x){
+                if(target==='farmers'){if(!db.farmers.some(function(z){return String(z.id)===String(x.id); })){db.farmers.push(x);added++;}else skipped++;}
+                else if(target==='inventory'){if(!db.inventory.some(function(z){return String(z.code)===String(x.code); })){db.inventory.push(x);added++;}else skipped++;}
+                else if(target==='crops'){
+                  if(!db.farmers.some(function(z){return String(z.id)===String(x.farmerId); })){skipped++;return;}
+                  var sig=[x.farmerId,x.type,x.season,x.date,x.area,x.seed,x.yield].join('|');
+                  if(!db.crops.some(function(z){return [z.farmerId,z.type,z.season,z.date,z.area,z.seed,z.yield].join('|')===sig;})){db.crops.push(x);added++;}else skipped++;
+                }else{
+                  if(!db.farmers.some(function(z){return String(z.id)===String(x.farmerId); })){skipped++;return;}
+                  db.finance.push(x);added++;
+                }
+              });
+              save();pendingImport=null;$('importPreview').innerHTML='';alert('اكتمل الاستيراد. السجلات المضافة: '+added+' | السجلات المتجاوزة أو المكررة: '+skipped);
+            };
+          })();
+          </script>
+          """
+          s=s.replace(marker,js+"\n"+marker,1)
+          p.write_text(s,encoding="utf-8")
+          print("Crop types and automatic multi-sheet Excel header detection/mapping installed.")
+          PY
+          grep -q 'id="bajil-smart-import-and-crops-v2"' bajil_android_project/app/src/main/assets/index.html
+
       - name: Validate app HTML and JavaScript
         shell: bash
         run: |
